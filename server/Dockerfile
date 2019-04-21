@@ -2,7 +2,6 @@ FROM python:latest
 
 RUN apt update
 RUN apt install -y bind9
-RUN /etc/init.d/bind9 start
 
 WORKDIR /app
 
@@ -18,5 +17,5 @@ WORKDIR /app
 
 EXPOSE 8000/tcp
 
-ENTRYPOINT [ "uvicorn" ]
-CMD [ "--workers", "8", "blenheim:app" ]
+ENTRYPOINT [ "./docker.sh" ]
+CMD [ "--host", "0.0.0.0", "--workers", "8", "blenheim:app" ]
