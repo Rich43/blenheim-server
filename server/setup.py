@@ -7,20 +7,20 @@ def read(file_name):
 
 
 setup(
-    name="blenheim",
-    version="0.1",
-    author="Richard Ward",
-    author_email="richies@gmail.com",
-    description="A dns server managed through a simple web interface",
-    license="BSD",
-    keywords="dns server",
-    url="http://pynguins.com",
+    name='blenheim',
+    version='0.1',
+    author='Richard Ward',
+    author_email='richies@gmail.com',
+    description='A dns server managed through a simple web interface',
+    license='BSD',
+    keywords='dns server',
+    url='http://pynguins.com',
     packages=find_packages(),
     install_requires=['starlette', 'uvicorn', 'jinja2'],
     long_description=read('README'),
     classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Topic :: Utilities",
-        "License :: OSI Approved :: BSD License",
+        'Development Status :: 3 - Alpha',
+        'Topic :: Utilities',
+        'License :: OSI Approved :: BSD License',
     ],
 )
