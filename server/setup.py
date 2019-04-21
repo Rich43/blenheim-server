@@ -17,7 +17,7 @@ setup(
     url='http://pynguins.com',
     packages=find_packages(),
     install_requires=['starlette', 'uvicorn', 'jinja2'],
-    long_description=read('README.rst'),
+    long_description=read('README.md'),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Topic :: Utilities',
