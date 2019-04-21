@@ -1,9 +1,38 @@
 from starlette.applications import Starlette
-from starlette.responses import JSONResponse
+from starlette.graphql import GraphQLApp
+import graphene
 
-app = Starlette(debug=True)
+users = {
+    "admin": {
+        "name": "admin",
+        "password": "Password1",
+        "email": "foo@bar.com",
+        "first_name": "foo",
+        "last_name": "bar"
+    }
+}
 
 
-@app.route('/')
-async def homepage(request):
-    return JSONResponse({'hello': 'world'})
+class UserInput(graphene.InputObjectType):
+    name = graphene.String(required=True)
+    password = graphene.String()
+
+
+class UserType(graphene.ObjectType):
+    name = graphene.String()
+    email = graphene.String()
+    first_name = graphene.String()
+    last_name = graphene.String()
+
+
+class Query(graphene.ObjectType):
+    user = graphene.Field(UserType, details=UserInput(required=True))
+
+    def resolve_user(self, info, details: UserInput):
+        user = users.get(str(details.name))
+        if user:
+            return UserType(**user)
+
+
+app = Starlette()
+app.add_route('/', GraphQLApp(schema=graphene.Schema(query=Query)))

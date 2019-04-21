@@ -16,7 +16,7 @@ setup(
     keywords='dns server',
     url='http://pynguins.com',
     packages=find_packages(),
-    install_requires=['starlette', 'uvicorn', 'jinja2'],
+    install_requires=['starlette', 'uvicorn', 'jinja2', 'graphene'],
     long_description=read('README.md'),
     classifiers=[
         'Development Status :: 3 - Alpha',
