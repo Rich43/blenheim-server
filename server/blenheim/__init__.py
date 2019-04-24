@@ -31,7 +31,9 @@ class Query(graphene.ObjectType):
     def resolve_user(self, info, details: UserInput):
         user = users.get(str(details.name))
         if user:
-            return UserType(**user)
+            user_without_password = dict(user)
+            del user_without_password['password']
+            return UserType(**user_without_password)
 
 
 app = Starlette()
