@@ -1,7 +1,7 @@
 import graphene
 from graphql import ResolveInfo
 
-from blenheim import users
+from blenheim.config import Config
 
 
 class UserInput(graphene.InputObjectType):
@@ -11,9 +11,6 @@ class UserInput(graphene.InputObjectType):
 
 class UserType(graphene.ObjectType):
     name = graphene.String()
-    email = graphene.String()
-    first_name = graphene.String()
-    last_name = graphene.String()
 
 
 class Query(graphene.ObjectType):
@@ -21,7 +18,7 @@ class Query(graphene.ObjectType):
 
     # noinspection PyMethodMayBeStatic,PyUnusedLocal
     async def resolve_user(self, info: ResolveInfo, details: UserInput):
-        user = users.get(str(details.name))
+        user = Config()["users"].get(str(details.name))
         if user and user.get('password') == details.password:
             user_without_password = dict(user)
             del user_without_password['password']
