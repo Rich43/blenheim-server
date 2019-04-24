@@ -30,7 +30,7 @@ class Query(graphene.ObjectType):
     user = graphene.Field(UserType, details=UserInput(required=True))
 
     # noinspection PyMethodMayBeStatic,PyUnusedLocal
-    def resolve_user(self, info: ResolveInfo, details: UserInput):
+    async def resolve_user(self, info: ResolveInfo, details: UserInput):
         user = users.get(str(details.name))
         if user and user.get('password') == details.password:
             user_without_password = dict(user)
