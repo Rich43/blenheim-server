@@ -1,3 +1,4 @@
+from graphql import ResolveInfo
 from starlette.applications import Starlette
 from starlette.graphql import GraphQLApp
 import graphene
@@ -28,7 +29,8 @@ class UserType(graphene.ObjectType):
 class Query(graphene.ObjectType):
     user = graphene.Field(UserType, details=UserInput(required=True))
 
-    def resolve_user(self, info, details: UserInput):
+    # noinspection PyMethodMayBeStatic,PyUnusedLocal
+    def resolve_user(self, info: ResolveInfo, details: UserInput):
         user = users.get(str(details.name))
         if user and user.get('password') == details.password:
             user_without_password = dict(user)
@@ -37,4 +39,5 @@ class Query(graphene.ObjectType):
 
 
 app = Starlette()
+# noinspection PyTypeChecker
 app.add_route('/', GraphQLApp(schema=graphene.Schema(query=Query)))
