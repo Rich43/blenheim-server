@@ -30,7 +30,7 @@ class Query(graphene.ObjectType):
 
     def resolve_user(self, info, details: UserInput):
         user = users.get(str(details.name))
-        if user:
+        if user and user.get('password') == details.password:
             user_without_password = dict(user)
             del user_without_password['password']
             return UserType(**user_without_password)
