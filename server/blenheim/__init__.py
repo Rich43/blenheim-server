@@ -1,8 +1,9 @@
-from graphql import ResolveInfo
+import graphene
 from graphql.execution.executors.asyncio import AsyncioExecutor
 from starlette.applications import Starlette
 from starlette.graphql import GraphQLApp
-import graphene
+
+from blenheim.schema import Query
 
 users = {
     "admin": {
@@ -13,31 +14,6 @@ users = {
         "last_name": "bar"
     }
 }
-
-
-class UserInput(graphene.InputObjectType):
-    name = graphene.String(required=True)
-    password = graphene.String()
-
-
-class UserType(graphene.ObjectType):
-    name = graphene.String()
-    email = graphene.String()
-    first_name = graphene.String()
-    last_name = graphene.String()
-
-
-class Query(graphene.ObjectType):
-    user = graphene.Field(UserType, details=UserInput(required=True))
-
-    # noinspection PyMethodMayBeStatic,PyUnusedLocal
-    async def resolve_user(self, info: ResolveInfo, details: UserInput):
-        user = users.get(str(details.name))
-        if user and user.get('password') == details.password:
-            user_without_password = dict(user)
-            del user_without_password['password']
-            return UserType(**user_without_password)
-
 
 app = Starlette()
 # noinspection PyTypeChecker
