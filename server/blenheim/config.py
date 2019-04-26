@@ -7,6 +7,27 @@ default_config = {
             "name": "admin",
             "password": "Password1"
         }
+    },
+    "tokens": {
+    },
+    "domains": {
+    },
+    "settings": {
+        "ipv4": [
+            "111.111.111.111",
+            "111.111.111.111"
+        ],
+        "ipv6": [
+            "2001:0:53aa:64c:2867:5478:a053:193c",
+            "2001:0:53aa:64c:2867:5478:a053:193c"
+        ],
+        "subdomains": [
+            "www",
+            "ftp",
+            "imap",
+            "pop",
+            "smtp"
+        ]
     }
 }
 
