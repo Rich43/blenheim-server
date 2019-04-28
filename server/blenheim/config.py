@@ -1,37 +1,38 @@
 from json import load, dump
 from os.path import exists
+from hashlib import sha3_512
 
 default_config = {
-    "users": {
-        "admin": {
-            "name": "admin",
-            "password": "Password1"
+    'users': {
+        'admin': {
+            'name': 'admin',
+            'password': sha3_512(b'Password1').hexdigest()
         }
     },
-    "tokens": {
+    'tokens': {
     },
-    "domains": {
+    'domains': {
     },
-    "settings": {
-        "ipv4": [
-            "111.111.111.111",
-            "111.111.111.111"
+    'settings': {
+        'ipv4': [
+            '111.111.111.111',
+            '111.111.111.111'
         ],
-        "ipv6": [
-            "2001:0:53aa:64c:2867:5478:a053:193c",
-            "2001:0:53aa:64c:2867:5478:a053:193c"
+        'ipv6': [
+            '2001:0:53aa:64c:2867:5478:a053:193c',
+            '2001:0:53aa:64c:2867:5478:a053:193c'
         ],
-        "subdomains": [
-            "www",
-            "ftp",
-            "imap",
-            "pop",
-            "smtp"
+        'subdomains': [
+            'www',
+            'ftp',
+            'imap',
+            'pop',
+            'smtp'
         ]
     }
 }
 
-FILENAME = "config.json"
+FILENAME = 'config.json'
 
 
 class Config(dict):
@@ -42,17 +43,9 @@ class Config(dict):
         else:
             self.update(default_config)
 
-    def __setitem__(self, k, v):
-        super().__setitem__(k, v)
-        self.save()
-
-    def __delitem__(self, v):
-        super().__delitem__(v)
-        self.save()
-
     def update(self, __m, **kwargs):
         super().update(__m, **kwargs)
         self.save()
 
     def save(self):
-        dump(self, open(FILENAME, "w"), indent=4)
+        dump(self, open(FILENAME, 'w'), indent=4)

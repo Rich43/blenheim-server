@@ -3,7 +3,7 @@ from graphql.execution.executors.asyncio import AsyncioExecutor
 from starlette.applications import Starlette
 from starlette.graphql import GraphQLApp
 
-from blenheim.schema import Query
+from blenheim.schema.schema import Query
 
 app = Starlette()
 # noinspection PyTypeChecker
