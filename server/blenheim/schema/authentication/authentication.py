@@ -22,6 +22,7 @@ class UserType(graphene.ObjectType):
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class Authentication(graphene.ObjectType):
     login = graphene.Field(String, details=UserInput(required=True))
+    logout = graphene.Field(Boolean)
     current_user = graphene.Field(UserType)
     change_password = graphene.Field(
         Boolean, password=ChangePasswordInput(required=True)
@@ -56,6 +57,7 @@ class Authentication(graphene.ObjectType):
         if token_data:
             user = config[USERS][token_data['user']]
             info.context['current_user'] = user
+            info.context['current_token'] = token.token
             return token.token
 
     async def resolve_login(self, info: ResolveInfo, details: UserInput):
@@ -72,6 +74,11 @@ class Authentication(graphene.ObjectType):
             config.save()
             await Authentication.expire_tokens()
             return token
+
+    async def resolve_logout(self, info: ResolveInfo):
+        current_user = info.context.get('current_user')
+        if current_user:
+            del info.context[TOKENS][info.context['current_token']]
 
     async def resolve_current_user(self, info: ResolveInfo):
         current_user = info.context.get('current_user')
