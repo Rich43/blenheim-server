@@ -52,6 +52,7 @@ class Authentication(graphene.ObjectType):
         config.save()
 
     async def resolve_token(self, info: ResolveInfo, token: TokenInput):
+        await Authentication.expire_tokens()
         config = Config()
         token_data = config[TOKENS].get(token.token)
         if token_data:
