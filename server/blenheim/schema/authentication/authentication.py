@@ -1,4 +1,4 @@
-from _sha3 import sha3_512
+from hashlib import sha3_512
 from datetime import datetime
 from secrets import token_urlsafe
 from typing import Union
