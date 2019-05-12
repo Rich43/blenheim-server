@@ -10,7 +10,7 @@ from graphene import String, Boolean
 from blenheim.config import Config
 from blenheim.schema.authentication.input import (
     ChangePasswordInput,
-    TokenInput, UserInput
+    UserInput
 )
 
 TOKENS = 'tokens'
@@ -29,7 +29,7 @@ class Authentication(graphene.ObjectType):
     change_password = graphene.Field(
         Boolean, password=ChangePasswordInput(required=True)
     )
-    token = graphene.Field(String, token=TokenInput(required=True))
+    token = graphene.Field(String, token=String())
 
     @staticmethod
     async def get_user_type_without_password(user):
@@ -53,15 +53,15 @@ class Authentication(graphene.ObjectType):
             del config[TOKENS][key]
         config.save()
 
-    async def resolve_token(self, info: ResolveInfo, token: TokenInput):
+    async def resolve_token(self, info: ResolveInfo, token: str):
         await Authentication.expire_tokens()
         config = Config()
-        token_data = config[TOKENS].get(token.token)
+        token_data = config[TOKENS].get(token)
         if token_data:
             user = config[USERS][token_data['user']]
             info.context['current_user'] = user
-            info.context['current_token'] = token.token
-            return token.token
+            info.context['current_token'] = token
+            return token
 
     async def resolve_login(self, info: ResolveInfo, details: UserInput):
         config = Config()
