@@ -1,15 +1,17 @@
-from hashlib import sha3_512
 from datetime import datetime
+from hashlib import sha3_512
 from secrets import token_urlsafe
 from typing import Union
 
 import graphene
-from graphene import String, Boolean
 from graphene import ResolveInfo
+from graphene import String, Boolean
 
 from blenheim.config import Config
-from blenheim.schema.authentication.input import (ChangePasswordInput,
-                                                  TokenInput, UserInput)
+from blenheim.schema.authentication.input import (
+    ChangePasswordInput,
+    TokenInput, UserInput
+)
 
 TOKENS = 'tokens'
 USERS = 'users'
