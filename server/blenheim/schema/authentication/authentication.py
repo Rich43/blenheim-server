@@ -8,10 +8,7 @@ from graphene import ResolveInfo
 from graphene import String, Boolean
 
 from blenheim.config import Config
-from blenheim.schema.authentication.input import (
-    ChangePasswordInput,
-    UserInput
-)
+from blenheim.schema.authentication.input import UserInput
 
 TOKENS = 'tokens'
 USERS = 'users'
@@ -27,7 +24,7 @@ class Authentication(graphene.ObjectType):
     logout = graphene.Field(Boolean)
     current_user = graphene.Field(UserType)
     change_password = graphene.Field(
-        Boolean, password=ChangePasswordInput(required=True)
+        Boolean, password=String()
     )
     token = graphene.Field(String, token=String())
 
@@ -91,12 +88,12 @@ class Authentication(graphene.ObjectType):
             )
 
     async def resolve_change_password(self, info: ResolveInfo,
-                                      password: ChangePasswordInput):
+                                      password: str):
         current_user = info.context.get('current_user')
         if current_user:
             config = Config()
             config[USERS][current_user['name']]['password'] = (
-                await Authentication.hash_password(password.password)
+                await Authentication.hash_password(password)
             )
             config.save()
             return True
