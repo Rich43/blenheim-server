@@ -1,7 +1,7 @@
+import getpass
 from os.path import exists
 
 from graphql import GraphQLError
-import getpass
 
 
 def check_docker_container():
@@ -10,5 +10,5 @@ def check_docker_container():
 
 
 def check_root():
-    if getpass.getuser() is not 'root':
+    if getpass.getuser() != 'root':
         raise GraphQLError('You need to run this program as a root user')
