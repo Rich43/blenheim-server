@@ -5,7 +5,7 @@ from typing import Union
 
 import graphene
 from graphene import String, Boolean
-from graphql import ResolveInfo
+from graphene import ResolveInfo
 
 from blenheim.config import Config
 from blenheim.schema.authentication.input import (ChangePasswordInput,
