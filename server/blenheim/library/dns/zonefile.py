@@ -3,9 +3,9 @@ from blenheim.library.librarybase import LibraryBase
 
 class ZoneFile(LibraryBase):
     """
-    Generate a Zone File, used by nsd and bind.
+    Generate a Zone File, used by bind.
     """
-    def generate_zones(self):
+    def generate_zones(self) -> list:
         """
         Generate the zones, return as a list of tuples.
         """
@@ -25,7 +25,5 @@ class ZoneFile(LibraryBase):
                                               std_subdomains=std_subdomains,
                                               sub_domains=sub_domains,
                                               enumerate=enumerate)
-            for dummy in range(5):
-                template_output = template_output.replace("\n" * 2, "\n")
             result.append((domain, template_output))
         return result

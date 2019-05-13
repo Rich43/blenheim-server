@@ -1,0 +1,6 @@
+{% for domain in domains %}
+    zone "{{ domain }}" {
+        type master;
+        file "/etc/bind/{{ domain }}.zone";
+    };
+{% endfor %}
