@@ -13,6 +13,9 @@ from blenheim.schema.result import Result
 class Dns(ObjectType):
     generate = Field(Result)
 
+    def strip(self, text):
+        return '\n'.join([x.lstrip() for x in text.split('\n')])
+
     async def resolve_generate(self, info: ResolveInfo):
         if info.context.get('current_user'):
             # Check environment
@@ -30,7 +33,7 @@ class Dns(ObjectType):
                 path = join(abspath(sep), 'etc', 'bind', domain + '.zone')
                 try:
                     with open(path, 'w') as f:
-                        f.write(template_output)
+                        f.write(self.strip(template_output))
                 except IOError:
                     return Result('cannot write to ', extra=path)
             path = join(abspath(sep), 'etc', 'bind', 'named.conf.local')
@@ -38,7 +41,9 @@ class Dns(ObjectType):
             # Generate named.conf
             try:
                 with open(path, 'w') as f:
-                    f.write(NamedConfLocal().generate_named_conf_local())
+                    template_output = (NamedConfLocal()
+                                       .generate_named_conf_local())
+                    f.write(self.strip(template_output))
             except IOError:
                 return Result('cannot write to ', extra=path)
 
