@@ -39,18 +39,18 @@ mail.{{ domain }}.   IN    MX    1 {{ domain }}.
 
 {# Add some subdomains #}
 {% for sub_domain in sub_domains %}
-    {{ sub_domain }}.   IN    A     {{ ipv4[0] }}
-    {{ sub_domain }}.   IN    AAAA     {{ ipv6[0] }}
+    {{ sub_domain }}.{{ domain }}.   IN    A     {{ ipv4[0] }}
+    {{ sub_domain }}.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}
 
     {# Add the mail Records #}
-    mail.{{ sub_domain }}.   IN    A     {{ ipv4[0] }}
-    mail.{{ sub_domain }}.   IN    AAAA     {{ ipv6[0] }}
-    mail.{{ sub_domain }}.   IN    MX    1 {{ domain }}.
-    {{ sub_domain }}.        IN    MX    1 {{ domain }}.
+    mail.{{ sub_domain }}.{{ domain }}.   IN    A     {{ ipv4[0] }}
+    mail.{{ sub_domain }}.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}
+    mail.{{ sub_domain }}.{{ domain }}.   IN    MX    1 {{ domain }}.
+    {{ sub_domain }}.{{ domain }}.        IN    MX    1 {{ domain }}.
 
     {# Add the Standard Subdomain Records #}
     {% for std_subdomain in std_subdomains %}
-        {{ std_subdomain }}.{{ sub_domain }}.   IN    A     {{ ipv4[0] }}
-        {{ std_subdomain }}.{{ sub_domain }}.   IN    AAAA     {{ ipv6[0] }}
+        {{ std_subdomain }}.{{ sub_domain }}.{{ domain }}.   IN    A     {{ ipv4[0] }}
+        {{ std_subdomain }}.{{ sub_domain }}.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}
     {% endfor %}
 {% endfor %}
