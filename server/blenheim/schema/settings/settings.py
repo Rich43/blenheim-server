@@ -10,8 +10,8 @@ class Domain(ObjectType):
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class Settings(ObjectType):
-    subdomains = Field(List(String), resolver=lambda x, y:
-                       Config()['settings']['subdomains'])
+    default_subdomains = Field(List(String), resolver=lambda x, y:
+                               Config()['settings']['default_subdomains'])
     ipv4 = Field(List(String), resolver=lambda x, y:
                  Config()['settings']['ipv4'])
     ipv6 = Field(List(String), resolver=lambda x, y:

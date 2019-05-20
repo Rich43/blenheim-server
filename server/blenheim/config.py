@@ -1,6 +1,6 @@
+from hashlib import sha3_512
 from json import load, dump
 from os.path import exists
-from hashlib import sha3_512
 
 default_config = {
     'users': {
@@ -22,7 +22,7 @@ default_config = {
             '2001:0:53aa:64c:2867:5478:a053:193c',
             '2001:0:53aa:64c:2867:5478:a053:193c'
         ],
-        'subdomains': [
+        'default_subdomains': [
             'www',
             'ftp',
             'imap',
