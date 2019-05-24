@@ -1,4 +1,4 @@
-from graphene import ObjectType, List, String, Field, Mutation
+from graphene import ObjectType, List, String, Field, Mutation, Int
 
 from blenheim.config import Config
 
@@ -20,19 +20,34 @@ class Settings(ObjectType):
                      for k, v in Config()['domains'].items()])
 
 
-class AbstractCreateSettings(ObjectType):
-    class Arguments:
-        name = String()
-
+class AbstractSettings(ObjectType):
     result = List(String)
 
 
-def create_settings_mutate(name, setting_id: str):
+class AbstractCreateSettings(AbstractSettings):
+    class Arguments:
+        name = String()
+
+
+class AbstractUpdateSettings(AbstractSettings):
+    class Arguments:
+        name = String()
+        index = Int()
+
+
+def create_settings_mutate(name: str, setting_id: str):
     config = Config()
     setting = config['settings'][setting_id]
     setting.append(name)
     config.save()
     return AbstractCreateSettings(result=setting)
+
+
+def update_settings_mutate(name: str, index: int, setting_id: str):
+    config = Config()
+    config['settings'][setting_id][index] = name
+    config.save()
+    return AbstractUpdateSettings(result=config['settings'][setting_id])
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
