@@ -20,55 +20,62 @@ class Settings(ObjectType):
                      for k, v in Config()['domains'].items()])
 
 
-class AbstractSettings(ObjectType):
-    result = List(String)
+def create_setting(setting_id: str):
+    # noinspection PyMethodMayBeStatic,PyUnusedLocal
+    class CreateSettings(Mutation):
+        class Arguments:
+            name = String()
+        result = List(String)
+
+        def mutate(self, info, name: str):
+            config = Config()
+            setting = config['settings'][setting_id]
+            setting.append(name)
+            config.save()
+            return CreateSettings(result=setting)
+    return type('create_' + setting_id, (CreateSettings,), {})
 
 
-class AbstractCreateSettings(AbstractSettings):
-    class Arguments:
-        name = String()
+def update_setting(setting_id: str):
+    # noinspection PyMethodMayBeStatic,PyUnusedLocal
+    class UpdateSettings(Mutation):
+        class Arguments:
+            name = String()
+            index = Int()
+        result = List(String)
+
+        def mutate(self, info, name: str, index: int):
+            config = Config()
+            setting = config['settings'][setting_id]
+            setting[index] = name
+            config.save()
+            return UpdateSettings(result=setting)
+    return type('update_' + setting_id, (UpdateSettings,), {})
 
 
-class AbstractUpdateSettings(AbstractSettings):
-    class Arguments:
-        name = String()
-        index = Int()
+def delete_setting(setting_id: str):
+    # noinspection PyMethodMayBeStatic,PyUnusedLocal
+    class DeleteSettings(Mutation):
+        class Arguments:
+            index = Int()
+        result = List(String)
 
-
-def create_settings_mutate(name: str, setting_id: str):
-    config = Config()
-    setting = config['settings'][setting_id]
-    setting.append(name)
-    config.save()
-    return AbstractCreateSettings(result=setting)
-
-
-def update_settings_mutate(name: str, index: int, setting_id: str):
-    config = Config()
-    config['settings'][setting_id][index] = name
-    config.save()
-    return AbstractUpdateSettings(result=config['settings'][setting_id])
-
-
-# noinspection PyMethodMayBeStatic,PyUnusedLocal
-class CreateDefaultSubDomain(Mutation, AbstractCreateSettings):
-    def mutate(self, info, name):
-        return create_settings_mutate(name, 'default_subdomains')
-
-
-# noinspection PyMethodMayBeStatic,PyUnusedLocal
-class CreateIPv4(Mutation, AbstractCreateSettings):
-    def mutate(self, info, name):
-        return create_settings_mutate(name, 'ipv4')
-
-
-# noinspection PyMethodMayBeStatic,PyUnusedLocal
-class CreateIPv6(Mutation, AbstractCreateSettings):
-    def mutate(self, info, name):
-        return create_settings_mutate(name, 'ipv6')
+        def mutate(self, info, index: int):
+            config = Config()
+            setting = config['settings'][setting_id]
+            del setting[index]
+            config.save()
+            return DeleteSettings(result=setting)
+    return type('delete_' + setting_id, (DeleteSettings,), {})
 
 
 class SettingsMutations(ObjectType):
-    create_default_sub_domain = CreateDefaultSubDomain.Field()
-    create_ipv4 = CreateIPv4.Field()
-    create_ipv6 = CreateIPv6.Field()
+    create_default_sub_domain = create_setting('default_subdomains').Field()
+    create_ipv4 = create_setting('ipv4').Field()
+    create_ipv6 = create_setting('ipv6').Field()
+    update_default_sub_domain = update_setting('default_subdomains').Field()
+    update_ipv4 = update_setting('ipv4').Field()
+    update_ipv6 = update_setting('ipv6').Field()
+    delete_default_sub_domain = delete_setting('default_subdomains').Field()
+    delete_ipv4 = delete_setting('ipv4').Field()
+    delete_ipv6 = delete_setting('ipv6').Field()
