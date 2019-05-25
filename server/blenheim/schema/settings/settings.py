@@ -69,6 +69,20 @@ def delete_setting(setting_id: str):
     return type('delete_' + setting_id, (DeleteSettings,), {})
 
 
+# noinspection PyMethodMayBeStatic,PyUnusedLocal
+class CreateDomain(Mutation):
+    class Arguments:
+        domain = Domain()
+    result = List(Domain)
+
+    def mutate(self, info, domain: Domain):
+        config = Config()
+        config['domain'][domain.name] = domain.subdomains
+        config.save()
+        return CreateDomain(result=[Domain(name=k, subdomains=v)
+                            for k, v in config['domains'].items()])
+
+
 class SettingsMutations(ObjectType):
     create_default_sub_domain = create_setting('default_subdomains').Field()
     create_ipv4 = create_setting('ipv4').Field()
@@ -79,3 +93,4 @@ class SettingsMutations(ObjectType):
     delete_default_sub_domain = delete_setting('default_subdomains').Field()
     delete_ipv4 = delete_setting('ipv4').Field()
     delete_ipv6 = delete_setting('ipv6').Field()
+    create_domain = CreateDomain.Field()
