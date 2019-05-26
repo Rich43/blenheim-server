@@ -72,12 +72,13 @@ def delete_setting(setting_id: str):
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class CreateDomain(Mutation):
     class Arguments:
-        domain = Domain()
+        name = String()
+        subdomains = List(String)
     result = List(Domain)
 
-    def mutate(self, info, domain: Domain):
+    def mutate(self, info, name: str, subdomains: list):
         config = Config()
-        config['domain'][domain.name] = domain.subdomains
+        config['domains'][name] = subdomains
         config.save()
         return CreateDomain(result=[Domain(name=k, subdomains=v)
                             for k, v in config['domains'].items()])
