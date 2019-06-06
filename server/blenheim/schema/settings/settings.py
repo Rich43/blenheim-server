@@ -113,6 +113,49 @@ class DeleteDomain(Mutation):
         return DeleteDomain(result=create_domain_list(config))
 
 
+# noinspection PyMethodMayBeStatic,PyUnusedLocal
+class CreateSubDomain(Mutation):
+    class Arguments:
+        domain = String()
+        name = String()
+    Output = Domain
+
+    def mutate(self, info, domain: str, name: str):
+        config = Config()
+        config['domains'][domain].append(name)
+        config.save()
+        return Domain(name=domain, subdomains=config['domains'][domain])
+
+
+# noinspection PyMethodMayBeStatic,PyUnusedLocal
+class UpdateSubDomain(Mutation):
+    class Arguments:
+        domain = String()
+        name = String()
+        index = Int()
+    Output = Domain
+
+    def mutate(self, info, domain: str, name: str, index: int):
+        config = Config()
+        config['domains'][domain][index] = name
+        config.save()
+        return Domain(name=domain, subdomains=config['domains'][domain])
+
+
+# noinspection PyMethodMayBeStatic,PyUnusedLocal
+class DeleteSubDomain(Mutation):
+    class Arguments:
+        domain = String()
+        index = Int()
+    Output = Domain
+
+    def mutate(self, info, domain: str, index: int):
+        config = Config()
+        del config['domains'][domain][index]
+        config.save()
+        return Domain(name=domain, subdomains=config['domains'][domain])
+
+
 # noinspection PyUnresolvedReferences
 class SettingsMutations(ObjectType):
     create_default_sub_domain = create_setting('default_subdomains').Field()
@@ -127,3 +170,6 @@ class SettingsMutations(ObjectType):
     create_domain = CreateDomain.Field()
     update_domain = UpdateDomain.Field()
     delete_domain = DeleteDomain.Field()
+    create_sub_domain = CreateSubDomain.Field()
+    update_sub_domain = UpdateSubDomain.Field()
+    delete_sub_domain = DeleteSubDomain.Field()
