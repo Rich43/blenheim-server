@@ -3,6 +3,10 @@ from graphene import ObjectType, List, String, Field, Mutation, Int
 from blenheim.config import Config
 
 
+def create_domain_list(config: Config):
+    return [Domain(name=k, subdomains=v) for k, v in config['domains'].items()]
+
+
 class Domain(ObjectType):
     name = String()
     subdomains = List(String)
@@ -15,9 +19,8 @@ class Settings(ObjectType):
                  Config()['settings']['ipv4'])
     ipv6 = Field(List(String), resolver=lambda x, y:
                  Config()['settings']['ipv6'])
-    domains = Field(List(Domain), resolver=lambda x, y:
-                    [Domain(name=k, subdomains=v)
-                     for k, v in Config()['domains'].items()])
+    domains = Field(List(Domain),
+                    resolver=lambda x, y: create_domain_list(Config()))
 
 
 def create_setting(setting_id: str):
@@ -80,10 +83,37 @@ class CreateDomain(Mutation):
         config = Config()
         config['domains'][name] = subdomains
         config.save()
-        return CreateDomain(result=[Domain(name=k, subdomains=v)
-                            for k, v in config['domains'].items()])
+        return CreateDomain(result=create_domain_list(config))
 
 
+# noinspection PyMethodMayBeStatic,PyUnusedLocal
+class UpdateDomain(Mutation):
+    class Arguments:
+        old_name = String()
+        new_name = String()
+    result = List(Domain)
+
+    def mutate(self, info, old_name: str, new_name: str):
+        config = Config()
+        config['domains'][new_name] = config['domains'].pop(old_name)
+        config.save()
+        return UpdateDomain(result=create_domain_list(config))
+
+
+# noinspection PyMethodMayBeStatic,PyUnusedLocal
+class DeleteDomain(Mutation):
+    class Arguments:
+        name = String()
+    result = List(Domain)
+
+    def mutate(self, info, name: str):
+        config = Config()
+        del config['domains'][name]
+        config.save()
+        return DeleteDomain(result=create_domain_list(config))
+
+
+# noinspection PyUnresolvedReferences
 class SettingsMutations(ObjectType):
     create_default_sub_domain = create_setting('default_subdomains').Field()
     create_ipv4 = create_setting('ipv4').Field()
@@ -95,3 +125,5 @@ class SettingsMutations(ObjectType):
     delete_ipv4 = delete_setting('ipv4').Field()
     delete_ipv6 = delete_setting('ipv6').Field()
     create_domain = CreateDomain.Field()
+    update_domain = UpdateDomain.Field()
+    delete_domain = DeleteDomain.Field()
