@@ -8,7 +8,8 @@ from blenheim.schema.schema import Query, Mutations
 from blenheim.schema.settings.settings import SettingsMutations
 
 app = Starlette()
-app.add_middleware(CORSMiddleware, allow_origins=['*'])
+app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['*'],
+                   allow_methods=["POST"])
 # noinspection PyTypeChecker
 app.add_route(
     '/',

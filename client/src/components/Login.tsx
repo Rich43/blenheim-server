@@ -5,12 +5,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
 import { Logo } from "./Logo";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import gql from 'graphql-tag';
+import Query from "react-apollo/Query";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -32,8 +32,24 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+interface Authentication {
+    authentication: {
+        login: string;
+    };
+};
+
 export const Login: React.FC = () => {
     const classes = useStyles();
+    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const LOGIN_QUERY = gql`
+        query Login($username: String!, $password: String!) {
+            authentication {
+                login(details: {name: $username, password: $password})
+            }
+        }
+    `;
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -57,6 +73,7 @@ export const Login: React.FC = () => {
                         name="username"
                         autoComplete="username"
                         autoFocus
+                        onChange={event => setUsername(event.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -68,13 +85,14 @@ export const Login: React.FC = () => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
+                        onChange={event => setPassword(event.target.value)}
                     />
                     <Button
-                        type="submit"
+                        onClick={() => {
+                            setLoggedIn(false);
+                            setLoggedIn(true);
+                        }}
+                        // type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
@@ -83,6 +101,19 @@ export const Login: React.FC = () => {
                         Sign In
                     </Button>
                 </form>
+                {loggedIn && <Query<Authentication> query={LOGIN_QUERY} variables={{
+                    username: username,
+                    password: password
+                }}>
+                    {({loading, error, data }) => {
+                        if (loading) return 'Loading...';
+                        if (error) return `Error! ${error.message}`;
+                        return (
+                            <div>{data!.authentication.login ? 'Logged in' : 'Login failed'}</div>
+                        );
+                    }}
+                </Query>}
+                {!loggedIn && <div>Not logged in</div>}
             </div>
         </Container>
     );
