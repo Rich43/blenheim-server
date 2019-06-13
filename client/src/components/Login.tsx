@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import gql from 'graphql-tag';
 import Query from "react-apollo/Query";
+import { useAuth } from "./context/AuthProvider";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -43,6 +44,8 @@ export const Login: React.FC = () => {
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const {token, updateToken} = useAuth();
+
     const LOGIN_QUERY = gql`
         query Login($username: String!, $password: String!) {
             authentication {
@@ -88,11 +91,12 @@ export const Login: React.FC = () => {
                         onChange={event => setPassword(event.target.value)}
                     />
                     <Button
-                        onClick={() => {
+                        onClick={event => {
+                            event.preventDefault();
                             setLoggedIn(false);
                             setLoggedIn(true);
                         }}
-                        // type="submit"
+                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
@@ -108,12 +112,19 @@ export const Login: React.FC = () => {
                     {({loading, error, data }) => {
                         if (loading) return 'Loading...';
                         if (error) return `Error! ${error.message}`;
+                        const token = data!.authentication.login;
+                        if (token) {
+                            updateToken(token);
+                        } else {
+                            updateToken('');
+                        }
                         return (
-                            <div>{data!.authentication.login ? 'Logged in' : 'Login failed'}</div>
+                            <div>{token ? 'Logged in' : 'Login failed'}</div>
                         );
                     }}
                 </Query>}
                 {!loggedIn && <div>Not logged in</div>}
+                Token: {token}
             </div>
         </Container>
     );
