@@ -4,14 +4,14 @@ import { Container } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { Logo } from "./Logo";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import gql from 'graphql-tag';
+import { useStore } from "./context/StoreProvider";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import Query from "react-apollo/Query";
-import { useAuth } from "./context/AuthProvider";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -41,11 +41,11 @@ interface Authentication {
 
 export const Login: React.FC = () => {
     const classes = useStyles();
-    const [loggedIn, setLoggedIn] = React.useState(false);
+    const {state, dispatch} = useStore();
+    const loggedIn = !!state.authentication.token;
+    const [logIn, setLogIn] = React.useState(false);
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const {token, updateToken} = useAuth();
-
     const LOGIN_QUERY = gql`
         query Login($username: String!, $password: String!) {
             authentication {
@@ -93,8 +93,7 @@ export const Login: React.FC = () => {
                     <Button
                         onClick={event => {
                             event.preventDefault();
-                            setLoggedIn(false);
-                            setLoggedIn(true);
+                            setLogIn(true);
                         }}
                         type="submit"
                         fullWidth
@@ -105,7 +104,7 @@ export const Login: React.FC = () => {
                         Sign In
                     </Button>
                 </form>
-                {loggedIn && <Query<Authentication> query={LOGIN_QUERY} variables={{
+                {logIn && <Query<Authentication> query={LOGIN_QUERY} variables={{
                     username: username,
                     password: password
                 }}>
@@ -114,17 +113,17 @@ export const Login: React.FC = () => {
                         if (error) return `Error! ${error.message}`;
                         const token = data!.authentication.login;
                         if (token) {
-                            updateToken(token);
+                            dispatch({type: 'SET_TOKEN', payload: token});
+                            setLogIn(false);
                         } else {
-                            updateToken('');
+                            dispatch({type: 'SET_TOKEN', payload: ''});
+                            setLogIn(false);
                         }
-                        return (
-                            <div>{token ? 'Logged in' : 'Login failed'}</div>
-                        );
+                        return <></>;
                     }}
                 </Query>}
+                {loggedIn && <div>Logged in {state.authentication.token}</div>}
                 {!loggedIn && <div>Not logged in</div>}
-                Token: {token}
             </div>
         </Container>
     );

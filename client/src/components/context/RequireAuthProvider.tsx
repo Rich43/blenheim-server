@@ -1,8 +1,8 @@
 import React from "react";
-import { useAuth } from "./AuthProvider";
+import { useStore } from "./StoreProvider";
 
 export const RequireAuthProvider: React.FC = ({children}) => {
-    const auth = useAuth();
+    const auth = useStore();
     if (auth.token === '') {
         return <div>Access Denied</div>;
     } else {
