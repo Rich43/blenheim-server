@@ -61,6 +61,7 @@ class Authentication(graphene.ObjectType):
             return token
 
     async def resolve_login(self, info: ResolveInfo, details: UserInput):
+        await Authentication.expire_tokens()
         config = Config()
         user = config[USERS].get(str(details.name))
         if (user and
@@ -72,7 +73,6 @@ class Authentication(graphene.ObjectType):
                 'created': datetime.now().isoformat()
             }
             config.save()
-            await Authentication.expire_tokens()
             return token
 
     async def resolve_logout(self, info: ResolveInfo):
