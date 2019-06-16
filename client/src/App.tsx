@@ -3,15 +3,21 @@ import { Login } from "./components/Login";
 import { client } from "./graphQL";
 import ApolloProvider from "react-apollo/ApolloProvider";
 import { Home } from "./components/Home";
-import { RequireAuthProvider } from "./components/context/RequireAuthProvider";
+import { RequireAuth } from "./components/RequireAuth";
+import { BrowserRouter, Route } from "react-router-dom";
+
+export const ROOT = '/';
+export const HOME = '/home';
 
 const App: React.FC = (): JSX.Element => {
     return (
         <ApolloProvider client={client}>
-            <Login />
-            <RequireAuthProvider>
-                <Home />
-            </RequireAuthProvider>
+            <BrowserRouter>
+                <Route exact path={ROOT} component={Login} />
+                <RequireAuth>
+                    <Route path={HOME} component={Home} />
+                </RequireAuth>
+            </BrowserRouter>
         </ApolloProvider>
     );
 };

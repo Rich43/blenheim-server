@@ -8,11 +8,13 @@ import { Logo } from "./Logo";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import gql from 'graphql-tag';
-import { StoreProvider } from "./context/StoreProvider";
+import { StoreProvider } from "../StoreProvider";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Query from "react-apollo/Query";
 import { observer } from "mobx-react-lite";
+import useReactRouter from 'use-react-router';
+import { HOME } from "../App";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -38,15 +40,15 @@ interface Authentication {
     authentication: {
         login: string;
     };
-};
+}
 
 export const Login: React.FC = observer((): JSX.Element => {
     const classes = useStyles();
     const store = useContext(StoreProvider);
-    const loggedIn = !!store.token;
     const [logIn, setLogIn] = React.useState(false);
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const { history, location, match } = useReactRouter();
     const LOGIN_QUERY = gql`
         query Login($username: String!, $password: String!) {
             authentication {
@@ -116,6 +118,7 @@ export const Login: React.FC = observer((): JSX.Element => {
                         if (token) {
                             store.token = token;
                             setLogIn(false);
+                            history.push(HOME);
                         } else {
                             store.token = '';
                             setLogIn(false);
@@ -123,8 +126,6 @@ export const Login: React.FC = observer((): JSX.Element => {
                         return <></>;
                     }}
                 </Query>}
-                {loggedIn && <div>Logged in {store.token}</div>}
-                {!loggedIn && <div>Not logged in</div>}
             </div>
         </Container>
     );
