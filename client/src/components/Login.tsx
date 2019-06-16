@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Container } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,10 +8,11 @@ import { Logo } from "./Logo";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import gql from 'graphql-tag';
-import { useStore } from "./context/StoreProvider";
+import { StoreProvider } from "./context/StoreProvider";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Query from "react-apollo/Query";
+import { observer } from "mobx-react-lite";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -39,10 +40,10 @@ interface Authentication {
     };
 };
 
-export const Login: React.FC = () => {
+export const Login: React.FC = observer((): JSX.Element => {
     const classes = useStyles();
-    const {state, dispatch} = useStore();
-    const loggedIn = !!state.authentication.token;
+    const store = useContext(StoreProvider);
+    const loggedIn = !!store.token;
     const [logIn, setLogIn] = React.useState(false);
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -113,18 +114,18 @@ export const Login: React.FC = () => {
                         if (error) return `Error! ${error.message}`;
                         const token = data!.authentication.login;
                         if (token) {
-                            dispatch({type: 'SET_TOKEN', payload: token});
+                            store.token = token;
                             setLogIn(false);
                         } else {
-                            dispatch({type: 'SET_TOKEN', payload: ''});
+                            store.token = '';
                             setLogIn(false);
                         }
                         return <></>;
                     }}
                 </Query>}
-                {loggedIn && <div>Logged in {state.authentication.token}</div>}
+                {loggedIn && <div>Logged in {store.token}</div>}
                 {!loggedIn && <div>Not logged in</div>}
             </div>
         </Container>
     );
-}
+});

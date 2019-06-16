@@ -3,19 +3,16 @@ import { Login } from "./components/Login";
 import { client } from "./graphQL";
 import ApolloProvider from "react-apollo/ApolloProvider";
 import { Home } from "./components/Home";
-import { StoreProvider } from "./components/context/StoreProvider";
 import { RequireAuthProvider } from "./components/context/RequireAuthProvider";
 
-const App: React.FC = () => {
+const App: React.FC = (): JSX.Element => {
     return (
-        <StoreProvider>
-            <ApolloProvider client={client}>
-                <Login />
-                <RequireAuthProvider>
-                    <Home />
-                </RequireAuthProvider>
-            </ApolloProvider>
-        </StoreProvider>
+        <ApolloProvider client={client}>
+            <Login />
+            <RequireAuthProvider>
+                <Home />
+            </RequireAuthProvider>
+        </ApolloProvider>
     );
 };
 
