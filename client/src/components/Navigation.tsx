@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { createStyles, IconButton, Theme } from '@material-ui/core';
+import { createStyles, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { StoreProvider } from '../StoreProvider';
 import { deepPurple } from '@material-ui/core/colors';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
         title: {
             flexGrow: 1
