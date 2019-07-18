@@ -116,10 +116,12 @@ export const Login: React.FC = observer((): JSX.Element => {
                             const token = data.authentication.login;
                             if (token) {
                                 store.token = token;
+                                store.user = username;
                                 setLogIn(false);
                                 history.push(HOME);
                             } else {
                                 store.token = '';
+                                store.user = '';
                                 setLogIn(false);
                             }
                         }
