@@ -24,7 +24,8 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "typescript": "3.5.1",
-    "use-react-router": "^1.0.7"
+    "use-react-router": "^1.0.7",
+    "prop-types": "^15.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
