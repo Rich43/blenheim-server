@@ -14,7 +14,7 @@ import Query from 'react-apollo/Query';
 import { observer } from 'mobx-react-lite';
 import useReactRouter from 'use-react-router';
 import { HOME } from '../App';
-import { Login as LoginType, LoginVariables } from './types/Login';
+import { Login as LoginType, LoginVariables } from '../types/Login';
 import gql from 'graphql-tag';
 
 const useStyles = makeStyles<Theme, {}>((theme) => {

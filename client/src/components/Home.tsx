@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import gql from 'graphql-tag';
 import Query from 'react-apollo/Query';
 import { StoreProvider } from '../StoreProvider';
-import { Token, TokenVariables } from './types/Token';
+import { Token, TokenVariables } from '../types/Token';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
