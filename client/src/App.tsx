@@ -5,7 +5,7 @@ import ApolloProvider from 'react-apollo/ApolloProvider';
 import { Home } from './components/Home';
 import { RequireAuth } from './components/RequireAuth';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Navigation } from './components/Navigation';
+import { Navigation } from './components/nav/Navigation';
 import { Box } from '@material-ui/core';
 
 export const ROOT = '/';
