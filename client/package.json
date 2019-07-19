@@ -13,7 +13,7 @@
     "@types/react-router-dom": "^4.3.4",
     "apollo": "^2.14.0",
     "apollo-boost": "^0.4.2",
-    "graphql": "~14.2.1",
+    "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
     "mobx": "^5.10.1",
     "mobx-react-lite": "^1.4.0",
@@ -26,6 +26,9 @@
     "typescript": "3.5.1",
     "use-react-router": "^1.0.7",
     "prop-types": "^15.7.2"
+  },
+  "resolutions": {
+    "graphql": "^14.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
