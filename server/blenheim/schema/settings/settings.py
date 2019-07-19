@@ -13,14 +13,18 @@ class Domain(ObjectType):
 
 
 class Settings(ObjectType):
-    default_subdomains = Field(List(String), resolver=lambda x, y:
-                               Config()['settings']['default_subdomains'])
-    ipv4 = Field(List(String), resolver=lambda x, y:
-                 Config()['settings']['ipv4'])
-    ipv6 = Field(List(String), resolver=lambda x, y:
-                 Config()['settings']['ipv6'])
+    default_subdomains = Field(List(String), resolver=lambda dummy, info:
+                               Config()['settings']['default_subdomains']
+                               if info.context.get('current_user') else [])
+    ipv4 = Field(List(String), resolver=lambda dummy, info:
+                 Config()['settings']['ipv4']
+                 if info.context.get('current_user') else [])
+    ipv6 = Field(List(String), resolver=lambda dummy, info:
+                 Config()['settings']['ipv6']
+                 if info.context.get('current_user') else [])
     domains = Field(List(Domain),
-                    resolver=lambda x, y: create_domain_list(Config()))
+                    resolver=lambda dummy, info: create_domain_list(Config())
+                    if info.context.get('current_user') else [])
 
 
 def create_setting(setting_id: str):
@@ -31,11 +35,12 @@ def create_setting(setting_id: str):
         result = List(String)
 
         def mutate(self, info, name: str):
-            config = Config()
-            setting = config['settings'][setting_id]
-            setting.append(name)
-            config.save()
-            return CreateSettings(result=setting)
+            if info.context.get('current_user'):
+                config = Config()
+                setting = config['settings'][setting_id]
+                setting.append(name)
+                config.save()
+                return CreateSettings(result=setting)
     return type('create_' + setting_id, (CreateSettings,), {})
 
 
@@ -48,11 +53,12 @@ def update_setting(setting_id: str):
         result = List(String)
 
         def mutate(self, info, name: str, index: int):
-            config = Config()
-            setting = config['settings'][setting_id]
-            setting[index] = name
-            config.save()
-            return UpdateSettings(result=setting)
+            if info.context.get('current_user'):
+                config = Config()
+                setting = config['settings'][setting_id]
+                setting[index] = name
+                config.save()
+                return UpdateSettings(result=setting)
     return type('update_' + setting_id, (UpdateSettings,), {})
 
 
@@ -64,11 +70,12 @@ def delete_setting(setting_id: str):
         result = List(String)
 
         def mutate(self, info, index: int):
-            config = Config()
-            setting = config['settings'][setting_id]
-            del setting[index]
-            config.save()
-            return DeleteSettings(result=setting)
+            if info.context.get('current_user'):
+                config = Config()
+                setting = config['settings'][setting_id]
+                del setting[index]
+                config.save()
+                return DeleteSettings(result=setting)
     return type('delete_' + setting_id, (DeleteSettings,), {})
 
 
@@ -80,10 +87,11 @@ class CreateDomain(Mutation):
     result = List(Domain)
 
     def mutate(self, info, name: str, subdomains: list):
-        config = Config()
-        config['domains'][name] = subdomains
-        config.save()
-        return CreateDomain(result=create_domain_list(config))
+        if info.context.get('current_user'):
+            config = Config()
+            config['domains'][name] = subdomains
+            config.save()
+            return CreateDomain(result=create_domain_list(config))
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -94,10 +102,11 @@ class UpdateDomain(Mutation):
     result = List(Domain)
 
     def mutate(self, info, old_name: str, new_name: str):
-        config = Config()
-        config['domains'][new_name] = config['domains'].pop(old_name)
-        config.save()
-        return UpdateDomain(result=create_domain_list(config))
+        if info.context.get('current_user'):
+            config = Config()
+            config['domains'][new_name] = config['domains'].pop(old_name)
+            config.save()
+            return UpdateDomain(result=create_domain_list(config))
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -107,10 +116,11 @@ class DeleteDomain(Mutation):
     result = List(Domain)
 
     def mutate(self, info, name: str):
-        config = Config()
-        del config['domains'][name]
-        config.save()
-        return DeleteDomain(result=create_domain_list(config))
+        if info.context.get('current_user'):
+            config = Config()
+            del config['domains'][name]
+            config.save()
+            return DeleteDomain(result=create_domain_list(config))
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -121,10 +131,11 @@ class CreateSubDomain(Mutation):
     Output = Domain
 
     def mutate(self, info, domain: str, name: str):
-        config = Config()
-        config['domains'][domain].append(name)
-        config.save()
-        return Domain(name=domain, subdomains=config['domains'][domain])
+        if info.context.get('current_user'):
+            config = Config()
+            config['domains'][domain].append(name)
+            config.save()
+            return Domain(name=domain, subdomains=config['domains'][domain])
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -136,10 +147,11 @@ class UpdateSubDomain(Mutation):
     Output = Domain
 
     def mutate(self, info, domain: str, name: str, index: int):
-        config = Config()
-        config['domains'][domain][index] = name
-        config.save()
-        return Domain(name=domain, subdomains=config['domains'][domain])
+        if info.context.get('current_user'):
+            config = Config()
+            config['domains'][domain][index] = name
+            config.save()
+            return Domain(name=domain, subdomains=config['domains'][domain])
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -150,10 +162,11 @@ class DeleteSubDomain(Mutation):
     Output = Domain
 
     def mutate(self, info, domain: str, index: int):
-        config = Config()
-        del config['domains'][domain][index]
-        config.save()
-        return Domain(name=domain, subdomains=config['domains'][domain])
+        if info.context.get('current_user'):
+            config = Config()
+            del config['domains'][domain][index]
+            config.save()
+            return Domain(name=domain, subdomains=config['domains'][domain])
 
 
 # noinspection PyUnresolvedReferences
