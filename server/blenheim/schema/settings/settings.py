@@ -1,4 +1,5 @@
 from graphene import ObjectType, List, String, Field, Mutation, Int
+from graphql import ResolveInfo
 
 from blenheim.config import Config
 
@@ -12,19 +13,28 @@ class Domain(ObjectType):
     subdomains = List(String)
 
 
+# noinspection PyMethodMayBeStatic
 class Settings(ObjectType):
-    default_subdomains = Field(List(String), resolver=lambda dummy, info:
-                               Config()['settings']['default_subdomains']
-                               if info.context.get('current_user') else [])
-    ipv4 = Field(List(String), resolver=lambda dummy, info:
-                 Config()['settings']['ipv4']
-                 if info.context.get('current_user') else [])
-    ipv6 = Field(List(String), resolver=lambda dummy, info:
-                 Config()['settings']['ipv6']
-                 if info.context.get('current_user') else [])
-    domains = Field(List(Domain),
-                    resolver=lambda dummy, info: create_domain_list(Config())
-                    if info.context.get('current_user') else [])
+    default_subdomains = Field(List(String))
+    ipv4 = Field(List(String))
+    ipv6 = Field(List(String))
+    domains = Field(List(Domain))
+
+    async def resolve_default_subdomains(self, info: ResolveInfo):
+        if info.context.get('current_user'):
+            return Config()['settings']['default_subdomains']
+
+    async def resolve_ipv4(self, info: ResolveInfo):
+        if info.context.get('current_user'):
+            return Config()['settings']['ipv4']
+
+    async def resolve_ipv6(self, info: ResolveInfo):
+        if info.context.get('current_user'):
+            return Config()['settings']['ipv6']
+
+    async def resolve_domains(self, info: ResolveInfo):
+        if info.context.get('current_user'):
+            return create_domain_list(Config())
 
 
 def create_setting(setting_id: str):
