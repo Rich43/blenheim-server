@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { Domains } from './panels/Domains';
+import { Domains } from '../panels/Domains';
 
 export const Home: React.FC = (): JSX.Element => {
     return (

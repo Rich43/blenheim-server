@@ -4,17 +4,17 @@ import { Container, Theme } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { Logo } from './Logo';
+import { Logo } from '../Logo';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { StoreProvider } from '../StoreProvider';
+import { StoreProvider } from '../../StoreProvider';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Query from 'react-apollo/Query';
 import { observer } from 'mobx-react-lite';
 import useReactRouter from 'use-react-router';
-import { HOME } from '../App';
-import { Login as LoginType, LoginVariables } from '../types/Login';
+import { HOME } from '../../App';
+import { Login as LoginType, LoginVariables } from '../../types/Login';
 import gql from 'graphql-tag';
 
 const useStyles = makeStyles<Theme, {}>((theme) => {

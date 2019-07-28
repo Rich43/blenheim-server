@@ -1,8 +1,8 @@
 import React from 'react';
-import { Login } from './components/Login';
+import { Login } from './components/pages/Login';
 import { client } from './graphQL';
 import ApolloProvider from 'react-apollo/ApolloProvider';
-import { Home } from './components/Home';
+import { Home } from './components/pages/Home';
 import { RequireAuth } from './components/RequireAuth';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Navigation } from './components/nav/Navigation';
