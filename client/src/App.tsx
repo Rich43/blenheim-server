@@ -7,9 +7,11 @@ import { RequireAuth } from './components/RequireAuth';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Navigation } from './components/nav/Navigation';
 import { Box } from '@material-ui/core';
+import { Domains } from './components/pages/Domains';
 
 export const ROOT = '/';
 export const HOME = '/home';
+export const DOMAINS = '/domains';
 
 const App: React.FC = (): JSX.Element => {
     return (
@@ -20,6 +22,7 @@ const App: React.FC = (): JSX.Element => {
                     <Navigation />
                     <Box p={2} />
                     <Route path={HOME} component={Home} />
+                    <Route path={DOMAINS} component={Domains} />
                 </RequireAuth>
             </BrowserRouter>
         </ApolloProvider>

@@ -9,6 +9,8 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Logo } from '../Logo';
 import Close from '@material-ui/icons/Close';
 import Box from '@material-ui/core/Box';
+import { DOMAINS, HOME } from '../../App';
+import useReactRouter from 'use-react-router';
 
 const useStyles = makeStyles({
     list: {
@@ -18,7 +20,13 @@ const useStyles = makeStyles({
 
 export const SideDrawer: FunctionComponent = () => {
     const [open, setOpen] = useState(false);
+    const { history } = useReactRouter();
     const classes = useStyles();
+    const menu = [
+        [HOME, 'Home'],
+        [DOMAINS, 'Domains']
+    ];
+
     return (
         <>
             <IconButton
@@ -42,9 +50,16 @@ export const SideDrawer: FunctionComponent = () => {
                         </Box>
                     </Box>
                     <List className={classes.list}>
-                        <ListItem button>
-                            <ListItemText>Domains</ListItemText>
-                        </ListItem>
+                        {menu.map(item => {
+                            return (
+                                <ListItem button onClick={() => {
+                                    history.push(item[0]);
+                                    setOpen(false);
+                                }}>
+                                    <ListItemText>{item[1]}</ListItemText>
+                                </ListItem>
+                            );
+                        })}
                     </List>
                 </Box>
             </Drawer>
