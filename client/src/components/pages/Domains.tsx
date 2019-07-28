@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 export const Domains: FunctionComponent = () => {
-    return (<div />);
+    return (
+        <div>Domains</div>
+    );
 };
