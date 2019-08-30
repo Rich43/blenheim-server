@@ -6,22 +6,23 @@ import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
-import ListItem from '@material-ui/core/ListItem';
 import { DomainsQuery } from '../queries/DomainsQuery';
+import useReactRouter from 'use-react-router';
+import { DOMAINS } from '../../App';
+import { DomainsList } from './DomainsList';
 
 export const Domains: FunctionComponent = () => {
+    const { history } = useReactRouter();
     return (
         <Card>
             <CardHeader title='Domains' />
             <CardContent>
                 <List>
-                    <DomainsQuery processRow={(domain, count) => {
-                        return (<ListItem key={count}>{domain.name}</ListItem>);
-                    }} />
+                    <DomainsQuery processRow={DomainsList} />
                 </List>
             </CardContent>
             <CardActions>
-                <Button size='small' href=''>Configure domains</Button>
+                <Button size='small' href='' onClick={() => history.push(DOMAINS)}>Configure domains</Button>
             </CardActions>
         </Card>
     );

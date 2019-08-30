@@ -14,11 +14,13 @@ export interface Token_authentication {
 export interface Token_settings_domains {
   __typename: "Domain";
   name: string | null;
+  subdomains: (string | null)[] | null;
 }
 
 export interface Token_settings {
   __typename: "Settings";
   domains: (Token_settings_domains | null)[] | null;
+  defaultSubdomains: (string | null)[] | null;
 }
 
 export interface Token {

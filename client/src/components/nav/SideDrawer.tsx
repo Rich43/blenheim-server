@@ -26,6 +26,7 @@ export const SideDrawer: FunctionComponent = () => {
         [HOME, 'Home'],
         [DOMAINS, 'Domains']
     ];
+    let count = 0;
 
     return (
         <>
@@ -51,8 +52,9 @@ export const SideDrawer: FunctionComponent = () => {
                     </Box>
                     <List className={classes.list}>
                         {menu.map(item => {
+                            count++;
                             return (
-                                <ListItem button onClick={() => {
+                                <ListItem button key={count} onClick={() => {
                                     history.push(item[0]);
                                     setOpen(false);
                                 }}>
