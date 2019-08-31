@@ -1,15 +1,7 @@
 import React, { useState, FunctionComponent } from 'react';
 import { ListItem, ListItemText, Collapse, List } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import { Token_settings_domains } from '../../types/Token';
-
-interface DomainsProps {
-    row: Token_settings_domains,
-    defaultSubdomains: (string | null)[] | null,
-    count: number
-}
-
-export type DomainsListProps = DomainsProps;
+import { DomainsListProps } from '../interfaces';
 
 export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
     let innerCount = 0;

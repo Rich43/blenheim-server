@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { DomainsListProps } from "../pages/DomainsList";
+import { DomainsListProps } from '../interfaces';
 import { ListItem } from "@material-ui/core";
 
 export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
