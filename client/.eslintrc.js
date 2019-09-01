@@ -56,11 +56,11 @@ module.exports = {
         "react/no-did-update-set-state": "error",
         "react/no-unknown-property": "error",
         "react/no-unused-prop-types": "error",
-        "react/prop-types": "error",
         "react/react-in-jsx-scope": "error",
         "indent": ["error", 4],
         "react/jsx-indent": ["error", 4],
         "react/jsx-indent-props": ["error", 4],
+        "react/prop-types": ["error", {"ignore": ["children"]}],
         "semi": ["error", "always"],
         "space-before-function-paren": ["error", "never"]
     },

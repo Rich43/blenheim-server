@@ -19,6 +19,9 @@ class Query(ObjectType):
 
 
 class Mutations(ObjectType):
+    authentication = Field(
+        Authentication, resolver=lambda x, y: Authentication()
+    )
     settings = Field(
         SettingsMutations, resolver=lambda x, y: SettingsMutations()
     )

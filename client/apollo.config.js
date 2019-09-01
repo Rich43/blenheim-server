@@ -2,7 +2,7 @@ module.exports = {
     client: {
         service: {
             name: 'blenheim',
-            localSchemaFile: './src/schema.json',
-        },
-    },
+            url: 'http://localhost:8000'
+        }
+    }
 };
