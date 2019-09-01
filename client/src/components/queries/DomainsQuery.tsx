@@ -5,7 +5,7 @@ import Query from 'react-apollo/Query';
 import { Token, TokenVariables } from '../../types/Token';
 import { StoreProvider } from '../../StoreProvider';
 import PropTypes from 'prop-types';
-import { DomainsListProps } from '../pages/DomainsList';
+import { DomainsListProps } from '../interfaces';
 
 interface DomainsProps {
     processRow: FunctionComponent<DomainsListProps>;
