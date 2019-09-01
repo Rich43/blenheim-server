@@ -36,7 +36,20 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                         props.defaultSubdomains && props.defaultSubdomains.map(subdomain => {
                             innerCount++;
                             return (
-                                <ListItem key={innerCount}>{subdomain}</ListItem>
+                                <ListItem key={innerCount}>
+                                    <ListItemText>{subdomain}</ListItemText>
+                                    Default Subdomain
+                                </ListItem>
+                            );
+                        })
+                    }
+                    {
+                        props.row.subdomains && props.row.subdomains.map(subdomain => {
+                            innerCount++;
+                            return (
+                                <ListItem key={innerCount}>
+                                    <ListItemText>{subdomain}</ListItemText>
+                                </ListItem>
                             );
                         })
                     }
@@ -47,7 +60,7 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                 <DialogTitle>Add Subdomain</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        todo
+                        Enter the subdomain name in the box below. For example: &lt;subdomain&gt;.{props.row.name}
                     </DialogContentText>
                     <TextField
                         autoFocus
