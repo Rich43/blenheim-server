@@ -1,6 +1,6 @@
-import React, { useState, FunctionComponent } from 'react';
-import { ListItem, ListItemText, Collapse, List } from '@material-ui/core';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import React, { FunctionComponent, useState } from 'react';
+import { Button, Collapse, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
+import { AddCircle, ExpandLess, ExpandMore } from '@material-ui/icons';
 import { DomainsListProps } from '../interfaces';
 
 export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
@@ -9,9 +9,10 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
-            <ListItem button key={props.count} onClick={() => setOpen(!open)}>
-                <ListItemText>{name}</ListItemText>
-                {open ? <ExpandLess /> : <ExpandMore />}
+            <ListItem key={props.count}>
+                <ListItemText><Button onClick={() => setOpen(!open)}>{name}</Button></ListItemText>
+                <IconButton><AddCircle /></IconButton>
+                <IconButton onClick={() => setOpen(!open)}>{open ? <ExpandLess /> : <ExpandMore />}</IconButton>
             </ListItem>
 
             <Collapse in={open} timeout='auto' unmountOnExit>
