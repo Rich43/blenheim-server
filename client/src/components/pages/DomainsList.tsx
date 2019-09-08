@@ -1,20 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-    Button,
-    Collapse,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    IconButton,
-    List,
-    ListItem,
-    ListItemText,
-    TextField
-} from '@material-ui/core';
+import { Button, Collapse, IconButton, List, ListItem, ListItemText, } from '@material-ui/core';
 import { AddCircle, ExpandLess, ExpandMore } from '@material-ui/icons';
 import { DomainsListProps } from '../interfaces';
+import { DomainDialog } from './DomainDialog';
 
 export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
     let innerCount = 0;
@@ -56,29 +44,13 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                 </List>
             </Collapse>
 
-            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-                <DialogTitle>Add Subdomain</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Enter the subdomain name in the box below. For example: &lt;subdomain&gt;.{props.row.name}
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin='dense'
-                        id='subdomain'
-                        label='Subdomain:'
-                        fullWidth
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDialogOpen(false)} color='primary'>
-                        Cancel
-                    </Button>
-                    <Button onClick={() => setDialogOpen(false)} color='primary'>
-                        Ok
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <DomainDialog
+                dialogOpen={dialogOpen}
+                setDialogOpen={setDialogOpen}
+                dialogTitle='Add Subdomain'
+                dialogContentText={`Enter the subdomain name in the box below. For example: &lt;subdomain&gt;.${props.row.name}`}
+                textBoxLabel='Subdomain:'
+            />
         </>
     );
 };
