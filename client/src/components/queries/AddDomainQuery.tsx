@@ -3,11 +3,10 @@ import { StoreProvider } from "../../StoreProvider";
 import gql from "graphql-tag";
 import Query from "react-apollo/Query";
 import { AddDomain, AddDomainVariables } from "../../types/AddDomain";
-import { QueryResultProps } from "../interfaces";
+import { QueryInputProps } from "../interfaces";
 
-interface AddDomainProps {
+interface AddDomainProps extends QueryInputProps {
     domain: string;
-    queryResult: FunctionComponent<QueryResultProps>;
 }
 
 type Props = AddDomainProps;
