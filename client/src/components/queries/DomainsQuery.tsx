@@ -1,4 +1,3 @@
-/* eslint-disable camelcase,@typescript-eslint/camelcase */
 import React, { FunctionComponent, useContext } from 'react';
 import gql from 'graphql-tag';
 import Query from 'react-apollo/Query';

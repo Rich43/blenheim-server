@@ -1,12 +1,13 @@
-/* eslint-disable camelcase,@typescript-eslint/camelcase */
-import React, {FunctionComponent, useContext} from 'react';
-import {StoreProvider} from "../../StoreProvider";
+import React, { FunctionComponent, useContext } from 'react';
+import { StoreProvider } from "../../StoreProvider";
 import gql from "graphql-tag";
 import Query from "react-apollo/Query";
-import {AddDomain, AddDomainVariables} from "../../types/AddDomain";
+import { AddDomain, AddDomainVariables } from "../../types/AddDomain";
+import { QueryResultProps } from "../interfaces";
 
 interface AddDomainProps {
     domain: string;
+    queryResult: FunctionComponent<QueryResultProps>;
 }
 
 type Props = AddDomainProps;
@@ -29,7 +30,7 @@ export const AddDomainQuery: FunctionComponent<Props> = (props) => {
     `;
     return (
         <Query<AddDomain, AddDomainVariables> query={QUERY} variables={{ token: store.token, domain: props.domain }}>
-            {({ loading, error, data }) => props.children}
+            {({ loading, error, data }) => (<props.queryResult loading={loading} error={error} data={data} />)}
         </Query>
     );
 };
