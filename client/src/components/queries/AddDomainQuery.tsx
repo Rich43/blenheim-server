@@ -9,9 +9,7 @@ interface AddDomainProps extends QueryInputProps {
     domain: string;
 }
 
-type Props = AddDomainProps;
-
-export const AddDomainQuery: FunctionComponent<Props> = (props) => {
+export const AddDomainQuery: FunctionComponent<AddDomainProps> = (props) => {
     const store = useContext(StoreProvider);
     const QUERY = gql`
         mutation AddDomain($token: String!, $domain: String!) {

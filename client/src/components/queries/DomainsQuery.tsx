@@ -10,9 +10,7 @@ interface DomainsProps {
     processRow: FunctionComponent<DomainsListProps>;
 }
 
-type Props = DomainsProps;
-
-export const DomainsQuery: FunctionComponent<Props> = (props) => {
+export const DomainsQuery: FunctionComponent<DomainsProps> = (props) => {
     const store = useContext(StoreProvider);
     const QUERY = gql`
         query Token($token: String!) {
