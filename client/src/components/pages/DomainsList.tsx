@@ -12,20 +12,20 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
 
     return (
         <>
-            <ListItem key={props.count}>
-                <ListItemText><Button onClick={() => setOpen(!open)}>{name}</Button></ListItemText>
-                <IconButton onClick={() => setDialogOpen(true)}><AddCircle /></IconButton>
-                <IconButton onClick={() => setOpen(!open)}>{open ? <ExpandLess /> : <ExpandMore />}</IconButton>
+            <ListItem key={`li${props.count}`}>
+                <ListItemText key={`lit${props.count}`}><Button onClick={() => setOpen(!open)}>{name}</Button></ListItemText>
+                <IconButton onClick={() => setDialogOpen(true)} key={`ib1${props.count}`}><AddCircle /></IconButton>
+                <IconButton onClick={() => setOpen(!open)} key={`ib2${props.count}`}>{open ? <ExpandLess /> : <ExpandMore />}</IconButton>
             </ListItem>
 
-            <Collapse in={open} timeout='auto' unmountOnExit>
-                <List component='div' disablePadding>
+            <Collapse in={open} timeout='auto' key={`col${props.count}`} unmountOnExit>
+                <List component='div' disablePadding key={`lst${props.count}`} >
                     {
                         props.defaultSubdomains && props.defaultSubdomains.map(subdomain => {
                             innerCount++;
                             return (
-                                <ListItem key={innerCount}>
-                                    <ListItemText>{subdomain}</ListItemText>
+                                <ListItem key={`innerLi${innerCount}`}>
+                                    <ListItemText key={`innerLit${innerCount}`}>{subdomain}</ListItemText>
                                     Default Subdomain
                                 </ListItem>
                             );
@@ -35,8 +35,8 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                         props.row.subdomains && props.row.subdomains.map(subdomain => {
                             innerCount++;
                             return (
-                                <ListItem key={innerCount}>
-                                    <ListItemText>{subdomain}</ListItemText>
+                                <ListItem key={`innerLi${innerCount}`}>
+                                    <ListItemText key={`innerLit${innerCount}`}>{subdomain}</ListItemText>
                                 </ListItem>
                             );
                         })
@@ -47,6 +47,8 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
             <DomainDialog
                 dialogOpen={dialogOpen}
                 setDialogOpen={setDialogOpen}
+                okClicked={() => setDialogOpen(false)}
+                onChange={() => {}}
                 dialogTitle='Add Subdomain'
                 dialogContentText={`Enter the subdomain name in the box below. For example: &lt;subdomain&gt;.${props.row.name}`}
                 textBoxLabel='Subdomain:'
