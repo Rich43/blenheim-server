@@ -8,9 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { DomainDialog } from './DomainDialog';
 import { StoreProvider } from "../../StoreProvider";
-import { AddDomain, AddDomainVariables } from "../../types/AddDomain";
-import { MUTATION } from "../queries/AddDomainQuery";
-import { useMutation } from '@apollo/react-hooks';
+import { useAddDomainMutation } from "../queries/AddDomainQuery";
 
 export const Domains: FunctionComponent = () => {
     const useStyles = makeStyles((theme: Theme) =>
@@ -18,16 +16,15 @@ export const Domains: FunctionComponent = () => {
             fab: {
                 position: 'absolute',
                 bottom: theme.spacing(4),
-                right: theme.spacing(4),
-            },
-        }),
+                right: theme.spacing(4)
+            }
+        })
     );
     const classes = useStyles();
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
     const [dialogText, setDialogText] = React.useState<string>('');
     const store = useContext(StoreProvider);
-    const [addDomain,] = useMutation<AddDomain, AddDomainVariables>(MUTATION);
-
+    const [addDomain] = useAddDomainMutation();
 
     return (
         <>
@@ -47,7 +44,7 @@ export const Domains: FunctionComponent = () => {
                 dialogOpen={dialogOpen}
                 setDialogOpen={setDialogOpen}
                 okClicked={() => {
-                    addDomain({variables: {token: store.token, domain: dialogText}}).then(dummy => {});
+                    addDomain({ variables: { token: store.token, domain: dialogText } }).then(dummy => {});
                     setDialogOpen(false);
                 }}
                 onChange={event => setDialogText(event.target.value || '')}
