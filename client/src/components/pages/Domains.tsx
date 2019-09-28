@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useContext } from 'react';
 import List from '@material-ui/core/List';
-import { DomainsQuery } from '../queries/DomainsQuery';
+import { useDomainsQuery } from '../queries/DomainsQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { DomainsList } from './DomainsList';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { DomainDialog } from './DomainDialog';
-import { StoreProvider } from "../../StoreProvider";
-import { useAddDomainMutation } from "../queries/AddDomainQuery";
+import { useAddDomainMutation } from '../queries/AddDomainQuery';
+import { StoreProvider } from '../../StoreProvider';
 
 export const Domains: FunctionComponent = () => {
     const useStyles = makeStyles((theme: Theme) =>
@@ -25,7 +25,12 @@ export const Domains: FunctionComponent = () => {
     const [dialogText, setDialogText] = React.useState<string>('');
     const store = useContext(StoreProvider);
     const [addDomain] = useAddDomainMutation();
-
+    const domains = useDomainsQuery({ token: store.token });
+    const domainsSettings = domains.data && domains.data.settings;
+    if (domains.loading) {
+        return (<span>Loading...</span>);
+    }
+    let count = 1;
     return (
         <>
             <List subheader={
@@ -33,7 +38,14 @@ export const Domains: FunctionComponent = () => {
                     Domains and Subdomains
                 </ListSubheader>
             }>
-                <DomainsQuery processRow={DomainsList} />
+                {domainsSettings && domainsSettings.domains && domainsSettings.domains.map(domain => {
+                    if (domain) {
+                        count += 1;
+                        return (<DomainsList row={domain} defaultSubdomains={domainsSettings.defaultSubdomains} count={count}/>);
+                    } else {
+                        return (<></>);
+                    }
+                })}
             </List>
 
             <Fab className={classes.fab} color='secondary' onClick={() => setDialogOpen(true)}>

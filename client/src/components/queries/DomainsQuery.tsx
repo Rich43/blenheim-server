@@ -1,58 +1,21 @@
-import React, { FunctionComponent, useContext } from 'react';
 import gql from 'graphql-tag';
-import Query from 'react-apollo/Query';
 import { Token, TokenVariables } from '../../types/Token';
-import { StoreProvider } from '../../StoreProvider';
-import PropTypes from 'prop-types';
-import { DomainsListProps } from '../interfaces';
+import { useQuery } from '@apollo/react-hooks';
 
-interface DomainsProps {
-    processRow: FunctionComponent<DomainsListProps>;
-}
-
-export const DomainsQuery: FunctionComponent<DomainsProps> = (props) => {
-    const store = useContext(StoreProvider);
-    const QUERY = gql`
-        query Token($token: String!) {
-            authentication {
-                token(token: $token)
-            }
-            settings {
-                domains {
-                    name
-                    subdomains
-                }
-                defaultSubdomains
-            }
+const QUERY = gql`
+    query Domains($token: String!) {
+        authentication {
+            token(token: $token)
         }
-    `;
-    return (
-        <Query<Token, TokenVariables> query={QUERY} variables={{ token: store.token }}>
-            {({ loading, error, data }) => {
-                const result: JSX.Element[] = [];
-                let count = 0;
-                if (data && data.settings && data.settings.domains) {
-                    for (const domain of data.settings.domains) {
-                        if (domain) {
-                            result.push(
-                                (
-                                    <props.processRow
-                                        row={domain}
-                                        defaultSubdomains={data!.settings!.defaultSubdomains!}
-                                        count={count}
-                                    />
-                                )
-                            );
-                            count++;
-                        }
-                    }
-                }
-                return result;
-            }}
-        </Query>
-    );
-};
+        settings {
+            domains {
+                name
+                subdomains
+            }
+            defaultSubdomains
+        }
+    }
+`;
 
-DomainsQuery.propTypes = {
-    processRow: PropTypes.func.isRequired
-};
+export const useDomainsQuery = (variables: TokenVariables) => 
+    useQuery<Token, TokenVariables>(QUERY, {variables});
