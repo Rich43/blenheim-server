@@ -14,7 +14,7 @@ export const Domains: FunctionComponent = () => {
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
             fab: {
-                position: 'absolute',
+                position: 'fixed',
                 bottom: theme.spacing(4),
                 right: theme.spacing(4)
             }
