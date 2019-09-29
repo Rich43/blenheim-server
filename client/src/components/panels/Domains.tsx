@@ -27,7 +27,7 @@ export const Domains: FunctionComponent = () => {
             <CardContent>
                 <List>
                     {domainsSettings && domainsSettings.domains && domainsSettings.domains.map(domain => {
-                        if (domain) {
+                        if (domain && count <= 5) {
                             count += 1;
                             return (<DomainsList row={domain} defaultSubdomains={domainsSettings.defaultSubdomains} count={count}/>);
                         } else {

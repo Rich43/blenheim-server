@@ -9,7 +9,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Logo } from '../Logo';
 import Close from '@material-ui/icons/Close';
 import Box from '@material-ui/core/Box';
-import { DOMAINS, HOME } from '../../App';
+import { DOMAINS, HOME, LOGOUT } from '../../App';
 import useReactRouter from 'use-react-router';
 
 const useStyles = makeStyles({
@@ -24,7 +24,8 @@ export const SideDrawer: FunctionComponent = () => {
     const classes = useStyles();
     const menu = [
         [HOME, 'Home'],
-        [DOMAINS, 'Domains']
+        [DOMAINS, 'Domains'],
+        [LOGOUT, 'Logout']
     ];
     let count = 0;
 

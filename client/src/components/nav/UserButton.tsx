@@ -25,9 +25,7 @@ export const UserButton: FunctionComponent = () => {
 
     function handleLogout() {
         setMenuEl(null);
-        store.user = '';
-        store.token = '';
-        history.push('/');
+        history.push('/logout');
     }
 
     return (
