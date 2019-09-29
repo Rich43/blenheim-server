@@ -28,7 +28,7 @@ export interface Subdomain {
 }
 
 export interface SubdomainVariables {
-  domain: string;
+  id: string;
   name: string;
   token: string;
 }

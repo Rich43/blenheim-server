@@ -11,19 +11,14 @@ export interface AddDomain_authentication {
   token: string | null;
 }
 
-export interface AddDomain_settings_createDomain_result {
+export interface AddDomain_settings_createDomain {
   __typename: "Domain";
   id: string | null;
 }
 
-export interface AddDomain_settings_createDomain {
-  __typename: "CreateDomain";
-  result: (AddDomain_settings_createDomain_result | null)[] | null;
-}
-
 export interface AddDomain_settings {
   __typename: "SettingsMutations";
-  createDomain: AddDomain_settings_createDomain | null;
+  createDomain: (AddDomain_settings_createDomain | null)[] | null;
 }
 
 export interface AddDomain {
@@ -33,5 +28,5 @@ export interface AddDomain {
 
 export interface AddDomainVariables {
   token: string;
-  domain: string;
+  id: string;
 }

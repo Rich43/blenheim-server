@@ -56,7 +56,7 @@ export const Domains: FunctionComponent = () => {
                 dialogOpen={dialogOpen}
                 setDialogOpen={setDialogOpen}
                 okClicked={() => {
-                    addDomain({ variables: { token: store.token, domain: dialogText } })
+                    addDomain({ variables: { token: store.token, id: dialogText } })
                         .then(dummy => domains.refetch());
                     setDialogOpen(false);
                 }}
