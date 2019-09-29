@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
-import { Token, TokenVariables } from '../../types/Token';
 import { useQuery } from '@apollo/react-hooks';
+import { Domains, DomainsVariables } from '../../types/Domains';
 
 const QUERY = gql`
     query Domains($token: String!) {
@@ -9,7 +9,7 @@ const QUERY = gql`
         }
         settings {
             domains {
-                name
+                id
                 subdomains
             }
             defaultSubdomains
@@ -17,5 +17,5 @@ const QUERY = gql`
     }
 `;
 
-export const useDomainsQuery = (variables: TokenVariables) => 
-    useQuery<Token, TokenVariables>(QUERY, {variables});
+export const useDomainsQuery = (variables: DomainsVariables) => 
+    useQuery<Domains, DomainsVariables>(QUERY, {variables});

@@ -3,31 +3,31 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: Token
+// GraphQL query operation: Domains
 // ====================================================
 
-export interface Token_authentication {
+export interface Domains_authentication {
   __typename: "Authentication";
   token: string | null;
 }
 
-export interface Token_settings_domains {
+export interface Domains_settings_domains {
   __typename: "Domain";
-  name: string | null;
+  id: string | null;
   subdomains: (string | null)[] | null;
 }
 
-export interface Token_settings {
+export interface Domains_settings {
   __typename: "Settings";
-  domains: (Token_settings_domains | null)[] | null;
+  domains: (Domains_settings_domains | null)[] | null;
   defaultSubdomains: (string | null)[] | null;
 }
 
-export interface Token {
-  authentication: Token_authentication | null;
-  settings: Token_settings | null;
+export interface Domains {
+  authentication: Domains_authentication | null;
+  settings: Domains_settings | null;
 }
 
-export interface TokenVariables {
+export interface DomainsVariables {
   token: string;
 }

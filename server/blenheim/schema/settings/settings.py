@@ -5,11 +5,11 @@ from blenheim.config import Config
 
 
 def create_domain_list(config: Config):
-    return [Domain(name=k, subdomains=v) for k, v in config['domains'].items()]
+    return [Domain(id=k, subdomains=v) for k, v in config['domains'].items()]
 
 
 class Domain(ObjectType):
-    name = String()
+    id = String()
     subdomains = List(String)
 
 
@@ -145,7 +145,7 @@ class CreateSubDomain(Mutation):
             config = Config()
             config['domains'][domain].append(name)
             config.save()
-            return Domain(name=domain, subdomains=config['domains'][domain])
+            return Domain(id=domain, subdomains=config['domains'][domain])
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -161,7 +161,7 @@ class UpdateSubDomain(Mutation):
             config = Config()
             config['domains'][domain][index] = name
             config.save()
-            return Domain(name=domain, subdomains=config['domains'][domain])
+            return Domain(id=domain, subdomains=config['domains'][domain])
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -176,7 +176,7 @@ class DeleteSubDomain(Mutation):
             config = Config()
             del config['domains'][domain][index]
             config.save()
-            return Domain(name=domain, subdomains=config['domains'][domain])
+            return Domain(id=domain, subdomains=config['domains'][domain])
 
 
 # noinspection PyUnresolvedReferences

@@ -412,7 +412,7 @@
         "description": null,
         "fields": [
           {
-            "name": "name",
+            "name": "id",
             "description": null,
             "args": [],
             "type": {

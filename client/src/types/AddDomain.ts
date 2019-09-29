@@ -13,7 +13,7 @@ export interface AddDomain_authentication {
 
 export interface AddDomain_settings_createDomain_result {
   __typename: "Domain";
-  name: string | null;
+  id: string | null;
 }
 
 export interface AddDomain_settings_createDomain {

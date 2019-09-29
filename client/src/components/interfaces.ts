@@ -1,9 +1,10 @@
-import { Token_settings_domains } from "../types/Token";
+
 import { ApolloError } from "apollo-client";
 import { FunctionComponent } from "react";
+import { Domains_settings_domains } from "../types/Domains";
 
 export interface DomainsListProps {
-    row: Token_settings_domains,
+    row: Domains_settings_domains,
     defaultSubdomains: (string | null)[] | null,
     count: number
 }

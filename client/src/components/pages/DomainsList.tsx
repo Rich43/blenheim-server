@@ -6,7 +6,7 @@ import { DomainDialog } from './DomainDialog';
 
 export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
     let innerCount = 0;
-    const name = props.row ? props.row.name ? props.row.name : '' : '';
+    const name = props.row ? props.row.id ? props.row.id : '' : '';
     const [open, setOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
 
@@ -50,7 +50,7 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                 okClicked={() => setDialogOpen(false)}
                 onChange={() => {}}
                 dialogTitle='Add Subdomain'
-                dialogContentText={`Enter the subdomain name in the box below. For example: &lt;subdomain&gt;.${props.row.name}`}
+                dialogContentText={`Enter the subdomain name in the box below. For example: <subdomain>.${props.row.id}`}
                 textBoxLabel='Subdomain:'
             />
         </>

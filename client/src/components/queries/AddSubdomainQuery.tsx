@@ -7,7 +7,8 @@ export const QUERY = gql`
         }
         settings {
             createSubDomain(domain: $domain, name: $name) {
-                name
+                id
+                subdomains
             }
         }
     }
