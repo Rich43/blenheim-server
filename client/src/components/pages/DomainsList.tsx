@@ -1,14 +1,19 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useContext } from 'react';
 import { Button, Collapse, IconButton, List, ListItem, ListItemText, } from '@material-ui/core';
 import { AddCircle, ExpandLess, ExpandMore } from '@material-ui/icons';
 import { DomainsListProps } from '../interfaces';
 import { DomainDialog } from './DomainDialog';
+import { useSubdomainMutation } from '../queries/AddSubdomainQuery';
+import { StoreProvider } from '../../StoreProvider';
 
 export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
     let innerCount = 0;
     const name = props.row ? props.row.id ? props.row.id : '' : '';
     const [open, setOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
+    const [dialogText, setDialogText] = React.useState<string>('');
+    const [subdomain] = useSubdomainMutation();
+    const store = useContext(StoreProvider);
 
     return (
         <>
@@ -47,8 +52,11 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
             <DomainDialog
                 dialogOpen={dialogOpen}
                 setDialogOpen={setDialogOpen}
-                okClicked={() => setDialogOpen(false)}
-                onChange={() => {}}
+                okClicked={() => {
+                    subdomain({ variables: { token: store.token, id: name, name: dialogText } });
+                    setDialogOpen(false);
+                }}
+                onChange={event => setDialogText(event.target.value || '')}
                 dialogTitle='Add Subdomain'
                 dialogContentText={`Enter the subdomain name in the box below. For example: <subdomain>.${props.row.id}`}
                 textBoxLabel='Subdomain:'

@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+import { Subdomain, SubdomainVariables } from '../../types/Subdomain';
 
-export const QUERY = gql`
+export const MUTATION = gql`
     mutation Subdomain($id: ID!, $name: String!, $token: String!) {
         authentication {
             token(token: $token)
@@ -13,3 +15,5 @@ export const QUERY = gql`
         }
     }
 `;
+
+export const useSubdomainMutation = () => useMutation<Subdomain, SubdomainVariables>(MUTATION);
