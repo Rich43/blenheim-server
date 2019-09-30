@@ -23,7 +23,7 @@ export const Domains: FunctionComponent = () => {
     let count = 1;
     return (
         <Card>
-            <CardHeader title='Domains' />
+            <CardHeader title='Domains (First 5)' />
             <CardContent>
                 <List>
                     {domainsSettings && domainsSettings.domains && domainsSettings.domains.map(domain => {
