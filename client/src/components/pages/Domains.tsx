@@ -6,7 +6,7 @@ import { DomainsList } from './DomainsList';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import { DomainDialog } from './DomainDialog';
+import { DomainDialog } from '../dialogs/DomainDialog';
 import { useAddDomainMutation } from '../queries/AddDomainQuery';
 import { StoreProvider } from '../../StoreProvider';
 

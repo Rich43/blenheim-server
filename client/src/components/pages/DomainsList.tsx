@@ -1,30 +1,26 @@
-import React, { FunctionComponent, useState, useContext } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Button, Collapse, IconButton, List, ListItem, ListItemText, } from '@material-ui/core';
-import { AddCircle, ExpandLess, ExpandMore } from '@material-ui/icons';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import { DomainsListProps } from '../interfaces';
-import { DomainDialog } from './DomainDialog';
-import { useSubdomainMutation } from '../queries/AddSubdomainQuery';
-import { StoreProvider } from '../../StoreProvider';
+import { AddSubdomain } from "../dialogs/AddSubdomain";
 
 export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
     let innerCount = 0;
     const name = props.row ? props.row.id ? props.row.id : '' : '';
     const [open, setOpen] = useState<boolean>(false);
-    const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
-    const [dialogText, setDialogText] = React.useState<string>('');
-    const [subdomain] = useSubdomainMutation();
-    const store = useContext(StoreProvider);
 
     return (
         <>
             <ListItem key={`li${props.count}`}>
-                <ListItemText key={`lit${props.count}`}><Button onClick={() => setOpen(!open)}>{name}</Button></ListItemText>
-                <IconButton onClick={() => setDialogOpen(true)} key={`ib1${props.count}`}><AddCircle /></IconButton>
-                <IconButton onClick={() => setOpen(!open)} key={`ib2${props.count}`}>{open ? <ExpandLess /> : <ExpandMore />}</IconButton>
+                <ListItemText key={`lit${props.count}`}><Button
+                    onClick={() => setOpen(!open)}>{name}</Button></ListItemText>
+                <AddSubdomain domainName={name} setOpen={setOpen}/>
+                <IconButton onClick={() => setOpen(!open)} key={`ib2${props.count}`}>{open ? <ExpandLess/> :
+                    <ExpandMore/>}</IconButton>
             </ListItem>
 
             <Collapse in={open} timeout='auto' key={`col${props.count}`} unmountOnExit>
-                <List component='div' disablePadding key={`lst${props.count}`} >
+                <List component='div' disablePadding key={`lst${props.count}`}>
                     {
                         props.defaultSubdomains && props.defaultSubdomains.map(subdomain => {
                             innerCount++;
@@ -48,19 +44,6 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                     }
                 </List>
             </Collapse>
-
-            <DomainDialog
-                dialogOpen={dialogOpen}
-                setDialogOpen={setDialogOpen}
-                okClicked={() => {
-                    subdomain({ variables: { token: store.token, id: name, name: dialogText } });
-                    setDialogOpen(false);
-                }}
-                onChange={event => setDialogText(event.target.value || '')}
-                dialogTitle='Add Subdomain'
-                dialogContentText={`Enter the subdomain name in the box below. For example: <subdomain>.${props.row.id}`}
-                textBoxLabel='Subdomain:'
-            />
         </>
     );
 };
