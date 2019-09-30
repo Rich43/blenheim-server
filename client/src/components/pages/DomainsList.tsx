@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Button, Collapse, IconButton, List, ListItem, ListItemText, } from '@material-ui/core';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { Edit, Remove, ExpandLess, ExpandMore } from '@material-ui/icons';
 import { DomainsListProps } from '../interfaces';
 import { AddSubdomain } from "../dialogs/AddSubdomain";
 
@@ -38,6 +38,8 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                             return (
                                 <ListItem key={`innerLi${innerCount}`}>
                                     <ListItemText key={`innerLit${innerCount}`}>{subdomain}</ListItemText>
+                                    <IconButton><Edit/></IconButton>
+                                    <IconButton><Remove/></IconButton>
                                 </ListItem>
                             );
                         })

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { IconButton, } from '@material-ui/core';
-import { AddCircle } from '@material-ui/icons';
+import { Add } from '@material-ui/icons';
 import { DomainDialog } from './DomainDialog';
 import { useSubdomainMutation } from '../queries/AddSubdomainQuery';
 import { StoreProvider } from '../../StoreProvider';
@@ -18,7 +18,7 @@ export const AddSubdomain: FunctionComponent<AddSubdomainProps> = (props) => {
 
     return (
         <>
-            <IconButton onClick={() => setDialogOpen(true)}><AddCircle/></IconButton>
+            <IconButton onClick={() => setDialogOpen(true)}><Add/></IconButton>
             <DomainDialog
                 dialogOpen={dialogOpen}
                 setDialogOpen={setDialogOpen}
