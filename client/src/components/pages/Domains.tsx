@@ -4,11 +4,12 @@ import { useDomainsQuery } from '../queries/DomainsQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { DomainsList } from './DomainsList';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import { MoreVert } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import { DomainDialog } from '../dialogs/DomainDialog';
-import { useAddDomainMutation } from '../queries/AddDomainQuery';
 import { StoreProvider } from '../../StoreProvider';
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { AddDomain } from "../dialogs/AddDomain";
 
 export const Domains: FunctionComponent = () => {
     const useStyles = makeStyles((theme: Theme) =>
@@ -21,10 +22,9 @@ export const Domains: FunctionComponent = () => {
         })
     );
     const classes = useStyles();
-    const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
-    const [dialogText, setDialogText] = React.useState<string>('');
     const store = useContext(StoreProvider);
-    const [addDomain] = useAddDomainMutation();
+    const [menuEl, setMenuEl] = React.useState<null | HTMLElement>(null);
+    const id = menuEl ? 'domain-menu' : undefined;
     const domains = useDomainsQuery({ token: store.token });
     const domainsSettings = domains.data && domains.data.settings;
     if (domains.loading) {
@@ -48,23 +48,29 @@ export const Domains: FunctionComponent = () => {
                 })}
             </List>
 
-            <Fab className={classes.fab} color='secondary' onClick={() => setDialogOpen(true)}>
-                <AddIcon />
+            <Fab className={classes.fab} color='secondary' onClick={event => setMenuEl(event.currentTarget)}>
+                <MoreVert />
             </Fab>
 
-            <DomainDialog
-                dialogOpen={dialogOpen}
-                setDialogOpen={setDialogOpen}
-                okClicked={() => {
-                    addDomain({ variables: { token: store.token, id: dialogText } })
-                        .then(dummy => domains.refetch());
-                    setDialogOpen(false);
+            <Menu
+                id={id}
+                anchorEl={menuEl}
+                open={Boolean(menuEl)}
+                onClose={() => setMenuEl(null)}
+                getContentAnchorEl={null}
+                anchorOrigin={{
+                    vertical: -24,
+                    horizontal: 'center'
                 }}
-                onChange={event => setDialogText(event.target.value || '')}
-                dialogTitle='Add Domain'
-                dialogContentText='Enter the domain name in the box below. For example: example.com'
-                textBoxLabel='Domain:'
-            />
+                transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                }}
+            >
+                <AddDomain refetch={domains.refetch} />
+                <MenuItem>Edit Domain</MenuItem>
+                <MenuItem>Remove Domain</MenuItem>
+            </Menu>
         </>
     );
 };
