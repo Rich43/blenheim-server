@@ -34,6 +34,11 @@ export const DomainDialog: FunctionComponent<DomainDialogProps> = (props) => {
                     label={props.textBoxLabel}
                     fullWidth
                     onChange={props.onChange}
+                    onKeyPress={event => {
+                        if (event.key === 'Enter') {
+                            props.okClicked();
+                        }
+                    }}
                 />
             </DialogContent>
             <DialogActions>
