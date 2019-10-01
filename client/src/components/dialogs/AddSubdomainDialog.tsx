@@ -10,7 +10,7 @@ interface AddSubdomainProps {
     setOpen: (open: boolean) => void;
 }
 
-export const AddSubdomain: FunctionComponent<AddSubdomainProps> = (props) => {
+export const AddSubdomainDialog: FunctionComponent<AddSubdomainProps> = (props) => {
     const [subdomain] = useSubdomainMutation();
     const store = useContext(StoreProvider);
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);

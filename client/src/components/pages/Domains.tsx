@@ -9,7 +9,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { StoreProvider } from '../../StoreProvider';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { AddDomain } from "../dialogs/AddDomain";
+import { AddDomainDialog } from "../dialogs/AddDomainDialog";
 
 export const Domains: FunctionComponent = () => {
     const useStyles = makeStyles((theme: Theme) =>
@@ -27,6 +27,7 @@ export const Domains: FunctionComponent = () => {
     const id = menuEl ? 'domain-menu' : undefined;
     const domains = useDomainsQuery({ token: store.token });
     const domainsSettings = domains.data && domains.data.settings;
+    const [addDomainDialogOpen, setAddDomainDialogOpen] = React.useState<boolean>(false);
     if (domains.loading) {
         return (<span>Loading...</span>);
     }
@@ -67,10 +68,14 @@ export const Domains: FunctionComponent = () => {
                     horizontal: 'center'
                 }}
             >
-                <AddDomain refetch={domains.refetch} />
+                <MenuItem onClick={() => {
+                    setMenuEl(null);
+                    setAddDomainDialogOpen(true);
+                }}>Add Domain</MenuItem>
                 <MenuItem>Edit Domain</MenuItem>
                 <MenuItem>Remove Domain</MenuItem>
             </Menu>
+            <AddDomainDialog refetch={domains.refetch} dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
         </>
     );
 };

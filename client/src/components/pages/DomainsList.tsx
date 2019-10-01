@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Button, Collapse, IconButton, List, ListItem, ListItemText, } from '@material-ui/core';
-import { Edit, Remove, ExpandLess, ExpandMore } from '@material-ui/icons';
+import { Edit, ExpandLess, ExpandMore, Remove } from '@material-ui/icons';
 import { DomainsListProps } from '../interfaces';
-import { AddSubdomain } from "../dialogs/AddSubdomain";
+import { AddSubdomainDialog } from "../dialogs/AddSubdomainDialog";
 
 export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
     let innerCount = 0;
@@ -14,7 +14,7 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
             <ListItem key={`li${props.count}`}>
                 <ListItemText key={`lit${props.count}`}><Button
                     onClick={() => setOpen(!open)}>{name}</Button></ListItemText>
-                <AddSubdomain domainName={name} setOpen={setOpen}/>
+                <AddSubdomainDialog domainName={name} setOpen={setOpen}/>
                 <IconButton onClick={() => setOpen(!open)} key={`ib2${props.count}`}>{open ? <ExpandLess/> :
                     <ExpandMore/>}</IconButton>
             </ListItem>
