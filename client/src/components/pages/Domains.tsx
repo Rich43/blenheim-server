@@ -73,7 +73,9 @@ export const Domains: FunctionComponent = () => {
                     setAddDomainDialogOpen(true);
                 }}>Add Domain</MenuItem>
                 <MenuItem>Edit Domain</MenuItem>
-                <MenuItem>Remove Domain</MenuItem>
+                <MenuItem onClick={() => {
+                    setMenuEl(null);
+                }}>Remove Domain</MenuItem>
             </Menu>
             <AddDomainDialog refetch={domains.refetch} dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
         </>

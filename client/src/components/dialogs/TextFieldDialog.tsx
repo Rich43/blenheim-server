@@ -19,7 +19,7 @@ interface DomainDialogProps {
     textBoxLabel: string;
 }
 
-export const DomainDialog: FunctionComponent<DomainDialogProps> = (props) => {
+export const TextFieldDialog: FunctionComponent<DomainDialogProps> = (props) => {
     return (
         <Dialog open={props.dialogOpen} onClose={() => props.setDialogOpen(false)}>
             <DialogTitle>{props.dialogTitle}</DialogTitle>

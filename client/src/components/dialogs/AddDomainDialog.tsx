@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { DomainDialog } from './DomainDialog';
+import { TextFieldDialog } from './TextFieldDialog';
 import { StoreProvider } from '../../StoreProvider';
 import { useAddDomainMutation } from "../queries/AddDomainQuery";
 
@@ -15,7 +15,7 @@ export const AddDomainDialog: FunctionComponent<AddDomainProps> = (props) => {
     const [dialogText, setDialogText] = React.useState<string>('');
 
     return (
-        <DomainDialog
+        <TextFieldDialog
             dialogOpen={props.dialogOpen}
             setDialogOpen={props.setDialogOpen}
             okClicked={() => {
