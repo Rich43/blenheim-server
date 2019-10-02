@@ -1,10 +1,13 @@
 import React, { FunctionComponent } from 'react';
-import { TextField } from "@material-ui/core";
+import { MenuItem, Select } from "@material-ui/core";
 import { AbstractDialog, AbstractDialogProps } from "./AbstractDialog";
 
 interface TextFieldDialogProps extends AbstractDialogProps {
-    textBoxLabel: string;
-    onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
+    selectData: {[key: string]: string}
+    onChange: (
+        event: React.ChangeEvent<{ name?: string; value: unknown }>,
+        child: React.ReactNode,
+    ) => void;
 }
 
 export const TextFieldDialog: FunctionComponent<TextFieldDialogProps> = (props) => {
@@ -15,19 +18,13 @@ export const TextFieldDialog: FunctionComponent<TextFieldDialogProps> = (props) 
             okClicked={props.okClicked}
             dialogTitle={props.dialogTitle}
             dialogContentText={props.dialogContentText}>
-            <TextField
-                autoFocus
-                margin='dense'
-                id={props.textBoxLabel}
-                label={props.textBoxLabel}
-                fullWidth
+            <Select
                 onChange={props.onChange}
-                onKeyPress={event => {
-                    if (event.key === 'Enter') {
-                        props.okClicked();
-                    }
-                }}
-            />
+            >
+                { Object.keys(props.selectData).map(key => {
+                    return (<MenuItem value={key}>{ props.selectData[key] }</MenuItem>);
+                }) }
+            </Select>
         </AbstractDialog>
     );
 }
