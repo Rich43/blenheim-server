@@ -28,6 +28,7 @@ export const Domains: FunctionComponent = () => {
     const id = menuEl ? 'domain-menu' : undefined;
     const domains = useDomainsQuery({ token: store.token });
     const domainsSettings = domains.data && domains.data.settings;
+    const domainsSettingsDomains = (domainsSettings && domainsSettings.domains) || null;
     const [addDomainDialogOpen, setAddDomainDialogOpen] = React.useState<boolean>(false);
     const [deleteDomainDialogOpen, setDeleteDomainDialogOpen] = React.useState<boolean>(false);
     if (domains.loading) {
@@ -41,7 +42,7 @@ export const Domains: FunctionComponent = () => {
                     Domains and Subdomains
                 </ListSubheader>
             }>
-                {domainsSettings && domainsSettings.domains && domainsSettings.domains.map(domain => {
+                {domainsSettings && domainsSettingsDomains && domainsSettingsDomains.map(domain => {
                     if (domain) {
                         count += 1;
                         return (<DomainsList row={domain} defaultSubdomains={domainsSettings.defaultSubdomains} count={count}/>);
@@ -81,7 +82,7 @@ export const Domains: FunctionComponent = () => {
                 }}>Remove Domain</MenuItem>
             </Menu>
             <AddDomainDialog refetch={domains.refetch} dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
-            <DeleteDomainDialog dialogOpen={deleteDomainDialogOpen} setDialogOpen={setDeleteDomainDialogOpen}/>
+            <DeleteDomainDialog dialogOpen={deleteDomainDialogOpen} setDialogOpen={setDeleteDomainDialogOpen} domains={domainsSettingsDomains} />
         </>
     );
 };
