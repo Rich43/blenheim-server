@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { MenuItem, Select } from "@material-ui/core";
 import { AbstractDialog, AbstractDialogProps } from "./AbstractDialog";
 
-interface TextFieldDialogProps extends AbstractDialogProps {
+interface SelectDialogProps extends AbstractDialogProps {
     selectData: {[key: string]: string}
     onChange: (
         event: React.ChangeEvent<{ name?: string; value: unknown }>,
@@ -10,7 +10,7 @@ interface TextFieldDialogProps extends AbstractDialogProps {
     ) => void;
 }
 
-export const TextFieldDialog: FunctionComponent<TextFieldDialogProps> = (props) => {
+export const SelectDialog: FunctionComponent<SelectDialogProps> = (props) => {
     return (
         <AbstractDialog
             dialogOpen={props.dialogOpen}
