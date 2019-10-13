@@ -12,7 +12,6 @@ interface SelectDialogProps extends AbstractDialogProps {
 }
 
 export const SelectDialog: FunctionComponent<SelectDialogProps> = (props) => {
-    console.log('initial value', props.initialValue);
     return (
         <AbstractDialog
             dialogOpen={props.dialogOpen}
@@ -25,7 +24,6 @@ export const SelectDialog: FunctionComponent<SelectDialogProps> = (props) => {
                 value={props.initialValue}
             >
                 { Object.keys(props.selectData).map(key => {
-                    console.log('key', key);
                     return (<MenuItem value={key}>{ props.selectData[key] }</MenuItem>);
                 }) }
             </Select>

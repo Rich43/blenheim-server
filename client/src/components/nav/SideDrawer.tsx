@@ -15,6 +15,10 @@ import useReactRouter from 'use-react-router';
 const useStyles = makeStyles({
     list: {
         width: 200
+    },
+    logo: {
+        width: 140,
+        height: 105.5
     }
 });
 
@@ -47,9 +51,7 @@ export const SideDrawer: FunctionComponent = () => {
                         </IconButton>
                     </Box>
                     <Box display='flex' flexDirection='row' justifyContent='center'>
-                        <Box width={100}>
-                            <Logo />
-                        </Box>
+                        <Logo className={classes.logo} viewBox='0 0 280 211' />
                     </Box>
                     <List className={classes.list}>
                         {menu.map(item => {
