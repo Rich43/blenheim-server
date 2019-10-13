@@ -35,6 +35,10 @@ const useStyles = makeStyles<Theme, {}>((theme) => {
         },
         submit: {
             margin: theme.spacing(3, 0, 2)
+        },
+        svg: {
+            width: 280,
+            height: 211
         }
     });
 });
@@ -57,7 +61,7 @@ export const Login: React.FC = observer((): JSX.Element => {
         <Container component='main' maxWidth='xs'>
             <CssBaseline />
             <div className={classes.paper}>
-                <Logo />
+                <Logo viewBox='0 0 280 211' className={classes.svg}/>
                 <Box p={3} />
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />

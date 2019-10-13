@@ -3,25 +3,23 @@ import { TextFieldDialog } from './TextFieldDialog';
 import { StoreProvider } from '../../StoreProvider';
 import { useAddDomainMutation } from "../queries/AddDomainQuery";
 
-interface AddDomainProps {
+export const AddDomainDialog: FunctionComponent<{
     refetch: () => void;
     dialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
-}
-
-export const AddDomainDialog: FunctionComponent<AddDomainProps> = (props) => {
+}> = ({refetch, dialogOpen, setDialogOpen}) => {
     const [addDomain] = useAddDomainMutation();
     const store = useContext(StoreProvider);
     const [dialogText, setDialogText] = React.useState<string>('');
 
     return (
         <TextFieldDialog
-            dialogOpen={props.dialogOpen}
-            setDialogOpen={props.setDialogOpen}
+            dialogOpen={dialogOpen}
+            setDialogOpen={setDialogOpen}
             okClicked={() => {
                 addDomain({variables: {token: store.token, id: dialogText}})
-                    .then(dummy => props.refetch());
-                props.setDialogOpen(false);
+                    .then(dummy => refetch());
+                setDialogOpen(false);
             }}
             onChange={event => setDialogText(event.target.value || '')}
             dialogTitle='Add Domain'

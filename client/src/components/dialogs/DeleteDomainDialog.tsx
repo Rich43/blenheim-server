@@ -2,17 +2,15 @@ import React, { FunctionComponent } from 'react';
 import { SelectDialog } from "./SelectDialog";
 import { Domains_settings_domains } from "../../types/Domains";
 
-interface DeleteDomainDialogProps {
+export const DeleteDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     domains: (Domains_settings_domains | null)[] | null
-}
-
-export const DeleteDomainDialog: FunctionComponent<DeleteDomainDialogProps> = (props) => {
+}> = ({dialogOpen, setDialogOpen, domains}) => {
     const [value, setValue] = React.useState<unknown>(null);
     const domainMap: {[key: string]: string} = {};
-    if (props.domains) {
-        for (const domain of props.domains) {
+    if (domains) {
+        for (const domain of domains) {
             if (domain && domain.id) {
                 domainMap[domain.id] = domain.id;
             }
@@ -21,9 +19,9 @@ export const DeleteDomainDialog: FunctionComponent<DeleteDomainDialogProps> = (p
 
     return (
         <SelectDialog
-            dialogOpen={props.dialogOpen}
-            setDialogOpen={props.setDialogOpen}
-            okClicked={() => props.setDialogOpen(false)}
+            dialogOpen={dialogOpen}
+            setDialogOpen={setDialogOpen}
+            okClicked={() => setDialogOpen(false)}
             onChange={event => setValue(event.target.value)}
             initialValue={value}
             dialogTitle='Delete domain'
