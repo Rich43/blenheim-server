@@ -8,13 +8,22 @@ export const DeleteDomainDialog: FunctionComponent<{
     domains: (Domains_settings_domains | null)[] | null
 }> = ({dialogOpen, setDialogOpen, domains}) => {
     const [value, setValue] = React.useState<unknown>(null);
+    let firstDomain;
     const domainMap: {[key: string]: string} = {};
+
     if (domains) {
         for (const domain of domains) {
             if (domain && domain.id) {
                 domainMap[domain.id] = domain.id;
+                if (!firstDomain) {
+                    firstDomain = domain.id;
+                }
             }
         }
+    }
+
+    if (firstDomain && !value) {
+        setValue(firstDomain);
     }
 
     return (
