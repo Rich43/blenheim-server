@@ -42,7 +42,7 @@ def create_setting(setting_id: str):
     class CreateSettings(Mutation):
         class Arguments:
             id = ID()
-        result = List(ID)
+        Output = Settings
 
         def mutate(self, info, id: str):
             if info.context.get('current_user'):
@@ -50,7 +50,7 @@ def create_setting(setting_id: str):
                 setting = config['settings'][setting_id]
                 setting.append(id)
                 config.save()
-                return CreateSettings(result=setting)
+                return Settings(**{setting_id: setting})
     return type('create_' + setting_id, (CreateSettings,), {})
 
 
@@ -60,7 +60,7 @@ def update_setting(setting_id: str):
         class Arguments:
             id = ID()
             index = Int()
-        result = List(ID)
+        Output = Settings
 
         def mutate(self, info, id: str, index: int):
             if info.context.get('current_user'):
@@ -68,7 +68,7 @@ def update_setting(setting_id: str):
                 setting = config['settings'][setting_id]
                 setting[index] = id
                 config.save()
-                return UpdateSettings(result=setting)
+                return Settings(**{setting_id: setting})
     return type('update_' + setting_id, (UpdateSettings,), {})
 
 
@@ -77,7 +77,7 @@ def delete_setting(setting_id: str):
     class DeleteSettings(Mutation):
         class Arguments:
             index = Int()
-        result = List(ID)
+        Output = Settings
 
         def mutate(self, info, index: int):
             if info.context.get('current_user'):
@@ -85,7 +85,7 @@ def delete_setting(setting_id: str):
                 setting = config['settings'][setting_id]
                 del setting[index]
                 config.save()
-                return DeleteSettings(result=setting)
+                return Settings(**{setting_id: setting})
     return type('delete_' + setting_id, (DeleteSettings,), {})
 
 
@@ -94,14 +94,14 @@ class CreateDomain(Mutation):
     class Arguments:
         id = ID()
         subdomains = List(String)
-    Output = List(Domain)
+    Output = Domain
 
     def mutate(self, info, id: str, subdomains: list):
         if info.context.get('current_user'):
             config = Config()
             config['domains'][id] = subdomains
             config.save()
-            return create_domain_list(config)
+            return Domain(id=id, subdomains=subdomains)
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
