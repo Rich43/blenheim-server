@@ -38,7 +38,7 @@ export const Domains: FunctionComponent = () => {
     return (
         <>
             <List subheader={
-                <ListSubheader component='div'>
+                <ListSubheader disableSticky={true}>
                     Domains and Subdomains
                 </ListSubheader>
             }>
