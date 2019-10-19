@@ -1,6 +1,7 @@
 import graphene
+from graphene import InputObjectType, String, NonNull
 
 
-class UserInput(graphene.InputObjectType):
-    name = graphene.String(required=True)
-    password = graphene.String()
+class UserInput(InputObjectType):
+    name = String(required=True)
+    password = NonNull(String)

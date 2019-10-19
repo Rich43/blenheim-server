@@ -1,4 +1,4 @@
-from graphene import Field, ObjectType
+from graphene import Field, ObjectType, NonNull
 
 from blenheim.schema.authentication.authentication import Authentication
 from blenheim.schema.dns.dns import Dns
@@ -8,20 +8,20 @@ from blenheim.schema.settings.settings import Settings, SettingsMutations
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class Query(ObjectType):
     authentication = Field(
-        Authentication, resolver=lambda x, y: Authentication()
+        NonNull(Authentication), resolver=lambda x, y: Authentication()
     )
     dns = Field(
-        Dns, resolver=lambda x, y: Dns()
+        NonNull(Dns), resolver=lambda x, y: Dns()
     )
     settings = Field(
-        Settings, resolver=lambda x, y: Settings()
+        NonNull(Settings), resolver=lambda x, y: Settings()
     )
 
 
 class Mutations(ObjectType):
     authentication = Field(
-        Authentication, resolver=lambda x, y: Authentication()
+        NonNull(Authentication), resolver=lambda x, y: Authentication()
     )
     settings = Field(
-        SettingsMutations, resolver=lambda x, y: SettingsMutations()
+        NonNull(SettingsMutations), resolver=lambda x, y: SettingsMutations()
     )

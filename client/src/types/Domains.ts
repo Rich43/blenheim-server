@@ -8,24 +8,24 @@
 
 export interface Domains_authentication {
   __typename: "Authentication";
-  token: string | null;
+  token: string;
 }
 
 export interface Domains_settings_domains {
   __typename: "Domain";
-  id: string | null;
-  subdomains: (string | null)[] | null;
+  id: string;
+  subdomains: string[];
 }
 
 export interface Domains_settings {
   __typename: "Settings";
-  domains: (Domains_settings_domains | null)[] | null;
-  defaultSubdomains: (string | null)[] | null;
+  domains: Domains_settings_domains[];
+  defaultSubdomains: string[];
 }
 
 export interface Domains {
-  authentication: Domains_authentication | null;
-  settings: Domains_settings | null;
+  authentication: Domains_authentication;
+  settings: Domains_settings;
 }
 
 export interface DomainsVariables {

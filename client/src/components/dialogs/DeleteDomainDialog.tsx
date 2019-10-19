@@ -5,7 +5,7 @@ import { Domains_settings_domains } from "../../types/Domains";
 export const DeleteDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
-    domains: (Domains_settings_domains | null)[] | null
+    domains: Domains_settings_domains[] | null
 }> = ({dialogOpen, setDialogOpen, domains}) => {
     const [value, setValue] = React.useState<unknown>(null);
     let firstDomain;

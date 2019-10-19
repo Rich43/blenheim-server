@@ -23,8 +23,7 @@ export const AddDomainDialog: FunctionComponent<{
                             variables: {token: store.token, id: dialogText},
                             update: (cache, {data}) => {
                                 const domainsQuery = domainsFromCache(cache, store.token);
-                                if (domainsQuery && domainsQuery.settings && domainsQuery.settings.domains &&
-                                    data && data.settings && data.settings.createDomain) {
+                                if (domainsQuery && data) {
                                     cache.writeQuery<Domains, DomainsVariables>(
                                         {
                                             query: QUERY,

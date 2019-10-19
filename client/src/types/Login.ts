@@ -12,7 +12,7 @@ export interface Login_authentication {
 }
 
 export interface Login {
-  authentication: Login_authentication | null;
+  authentication: Login_authentication;
 }
 
 export interface LoginVariables {

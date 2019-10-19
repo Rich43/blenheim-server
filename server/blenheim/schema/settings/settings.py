@@ -1,4 +1,5 @@
-from graphene import ObjectType, List, String, Field, Mutation, Int, ID
+from graphene import ObjectType, List, String, Field, Mutation, Int, ID, NonNull
+# noinspection PyPackageRequirements
 from graphql import ResolveInfo
 
 from blenheim.config import Config
@@ -9,16 +10,16 @@ def create_domain_list(config: Config):
 
 
 class Domain(ObjectType):
-    id = ID()
-    subdomains = List(String)
+    id = NonNull(ID)
+    subdomains = NonNull(List(NonNull(String)))
 
 
 # noinspection PyMethodMayBeStatic
 class Settings(ObjectType):
-    default_subdomains = Field(List(String))
-    ipv4 = Field(List(String))
-    ipv6 = Field(List(String))
-    domains = Field(List(Domain))
+    default_subdomains = Field(NonNull(List(NonNull(String))))
+    ipv4 = Field(NonNull(List(NonNull(String))))
+    ipv6 = Field(NonNull(List(NonNull(String))))
+    domains = Field(NonNull(List(NonNull(Domain))))
 
     async def resolve_default_subdomains(self, info: ResolveInfo):
         if info.context.get('current_user'):
@@ -41,8 +42,8 @@ def create_setting(setting_id: str):
     # noinspection PyMethodMayBeStatic,PyUnusedLocal
     class CreateSettings(Mutation):
         class Arguments:
-            id = ID()
-        Output = Settings
+            id = NonNull(ID)
+        Output = NonNull(Settings)
 
         def mutate(self, info, id: str):
             if info.context.get('current_user'):
@@ -58,9 +59,9 @@ def update_setting(setting_id: str):
     # noinspection PyMethodMayBeStatic,PyUnusedLocal
     class UpdateSettings(Mutation):
         class Arguments:
-            id = ID()
-            index = Int()
-        Output = Settings
+            id = NonNull(ID)
+            index = NonNull(Int)
+        Output = NonNull(Settings)
 
         def mutate(self, info, id: str, index: int):
             if info.context.get('current_user'):
@@ -76,8 +77,8 @@ def delete_setting(setting_id: str):
     # noinspection PyMethodMayBeStatic,PyUnusedLocal
     class DeleteSettings(Mutation):
         class Arguments:
-            index = Int()
-        Output = Settings
+            index = NonNull(Int)
+        Output = NonNull(Settings)
 
         def mutate(self, info, index: int):
             if info.context.get('current_user'):
@@ -92,9 +93,9 @@ def delete_setting(setting_id: str):
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class CreateDomain(Mutation):
     class Arguments:
-        id = ID()
-        subdomains = List(String)
-    Output = Domain
+        id = NonNull(ID)
+        subdomains = NonNull(List(NonNull(String)))
+    Output = NonNull(Domain)
 
     def mutate(self, info, id: str, subdomains: list):
         if info.context.get('current_user'):
@@ -107,9 +108,9 @@ class CreateDomain(Mutation):
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class UpdateDomain(Mutation):
     class Arguments:
-        id = ID()
-        new_name = String()
-    Output = List(Domain)
+        id = NonNull(ID)
+        new_name = NonNull(String)
+    Output = NonNull(List(NonNull(Domain)))
 
     def mutate(self, info, id: str, new_name: str):
         if info.context.get('current_user'):
@@ -122,8 +123,8 @@ class UpdateDomain(Mutation):
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class DeleteDomain(Mutation):
     class Arguments:
-        id = ID()
-    Output = List(Domain)
+        id = NonNull(ID)
+    Output = NonNull(List(NonNull(Domain)))
 
     def mutate(self, info, id: str):
         if info.context.get('current_user'):
@@ -136,9 +137,9 @@ class DeleteDomain(Mutation):
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class CreateSubDomain(Mutation):
     class Arguments:
-        id = ID()
-        name = String()
-    Output = Domain
+        id = NonNull(ID)
+        name = NonNull(String)
+    Output = NonNull(Domain)
 
     def mutate(self, info, id: str, name: str):
         if info.context.get('current_user'):
@@ -151,10 +152,10 @@ class CreateSubDomain(Mutation):
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class UpdateSubDomain(Mutation):
     class Arguments:
-        id = ID()
-        name = String()
-        index = Int()
-    Output = Domain
+        id = NonNull(ID)
+        name = NonNull(String)
+        index = NonNull(Int)
+    Output = NonNull(Domain)
 
     def mutate(self, info, id: str, name: str, index: int):
         if info.context.get('current_user'):
@@ -167,9 +168,9 @@ class UpdateSubDomain(Mutation):
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
 class DeleteSubDomain(Mutation):
     class Arguments:
-        id = ID()
-        index = Int()
-    Output = Domain
+        id = NonNull(ID)
+        index = NonNull(Int)
+    Output = NonNull(Domain)
 
     def mutate(self, info, id: str, index: int):
         if info.context.get('current_user'):

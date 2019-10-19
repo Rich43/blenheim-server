@@ -8,23 +8,23 @@
 
 export interface Subdomain_authentication {
   __typename: "Authentication";
-  token: string | null;
+  token: string;
 }
 
 export interface Subdomain_settings_createSubDomain {
   __typename: "Domain";
-  id: string | null;
-  subdomains: (string | null)[] | null;
+  id: string;
+  subdomains: string[];
 }
 
 export interface Subdomain_settings {
   __typename: "SettingsMutations";
-  createSubDomain: Subdomain_settings_createSubDomain | null;
+  createSubDomain: Subdomain_settings_createSubDomain;
 }
 
 export interface Subdomain {
-  authentication: Subdomain_authentication | null;
-  settings: Subdomain_settings | null;
+  authentication: Subdomain_authentication;
+  settings: Subdomain_settings;
 }
 
 export interface SubdomainVariables {

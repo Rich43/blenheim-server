@@ -8,23 +8,23 @@
 
 export interface AddDomain_authentication {
   __typename: "Authentication";
-  token: string | null;
+  token: string;
 }
 
 export interface AddDomain_settings_createDomain {
   __typename: "Domain";
-  id: string | null;
-  subdomains: (string | null)[] | null;
+  id: string;
+  subdomains: string[];
 }
 
 export interface AddDomain_settings {
   __typename: "SettingsMutations";
-  createDomain: AddDomain_settings_createDomain | null;
+  createDomain: AddDomain_settings_createDomain;
 }
 
 export interface AddDomain {
-  authentication: AddDomain_authentication | null;
-  settings: AddDomain_settings | null;
+  authentication: AddDomain_authentication;
+  settings: AddDomain_settings;
 }
 
 export interface AddDomainVariables {

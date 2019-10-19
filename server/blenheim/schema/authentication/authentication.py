@@ -4,7 +4,7 @@ from secrets import token_urlsafe
 from typing import Union
 
 import graphene
-from graphene import ResolveInfo
+from graphene import ResolveInfo, NonNull, Field, ObjectType
 from graphene import String, Boolean
 
 from blenheim.config import Config
@@ -19,14 +19,14 @@ class UserType(graphene.ObjectType):
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
-class Authentication(graphene.ObjectType):
-    login = graphene.Field(String, details=UserInput(required=True))
-    logout = graphene.Field(Boolean)
-    current_user = graphene.Field(UserType)
-    change_password = graphene.Field(
-        Boolean, password=String()
+class Authentication(ObjectType):
+    login = Field(String, details=UserInput(required=True))
+    logout = Field(Boolean)
+    current_user = Field(UserType)
+    change_password = Field(
+        Boolean, password=NonNull(String)
     )
-    token = graphene.Field(String, token=String())
+    token = graphene.Field(NonNull(String), token=NonNull(String))
 
     @staticmethod
     async def get_user_type_without_password(user):
