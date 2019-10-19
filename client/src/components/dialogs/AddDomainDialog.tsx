@@ -2,12 +2,14 @@ import React, { FunctionComponent, useContext } from 'react';
 import { TextFieldDialog } from './TextFieldDialog';
 import { StoreProvider } from '../../StoreProvider';
 import { useAddDomainMutation } from "../queries/AddDomainQuery";
+import { QUERY } from "../queries/DomainsQuery";
+import { AddDomain_settings_createDomain } from "../../types/AddDomain";
+import { Domains, DomainsVariables } from "../../types/Domains";
 
 export const AddDomainDialog: FunctionComponent<{
-    refetch: () => void;
     dialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
-}> = ({refetch, dialogOpen, setDialogOpen}) => {
+}> = ({dialogOpen, setDialogOpen}) => {
     const [addDomain] = useAddDomainMutation();
     const store = useContext(StoreProvider);
     const [dialogText, setDialogText] = React.useState<string>('');
@@ -17,8 +19,31 @@ export const AddDomainDialog: FunctionComponent<{
             dialogOpen={dialogOpen}
             setDialogOpen={setDialogOpen}
             okClicked={() => {
-                addDomain({variables: {token: store.token, id: dialogText}})
-                    .then(dummy => refetch());
+                addDomain({
+                        variables: {token: store.token, id: dialogText},
+                        update: (cache, {data}) => {
+                            const domains: (AddDomain_settings_createDomain | null)[] =
+                                data!.settings!.createDomain!.map(item => {
+                                return {
+                                    __typename: "Domain",
+                                    id: item!.id,
+                                    subdomains: item!.subdomains
+                                };
+                            });
+                            cache.writeQuery<Domains, DomainsVariables>({
+                                query: QUERY,
+                                data: {
+                                    settings: {
+                                        __typename: "Settings",
+                                        domains: domains,
+                                        defaultSubdomains: null
+                                    },
+                                    authentication: null
+                                }
+                            });
+                        }
+                    }
+                ).then();
                 setDialogOpen(false);
             }}
             onChange={event => setDialogText(event.target.value || '')}

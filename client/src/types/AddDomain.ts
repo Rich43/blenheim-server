@@ -14,6 +14,7 @@ export interface AddDomain_authentication {
 export interface AddDomain_settings_createDomain {
   __typename: "Domain";
   id: string | null;
+  subdomains: (string | null)[] | null;
 }
 
 export interface AddDomain_settings {

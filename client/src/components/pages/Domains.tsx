@@ -81,7 +81,7 @@ export const Domains: FunctionComponent = () => {
                     setDeleteDomainDialogOpen(true);
                 }}>Remove Domain</MenuItem>
             </Menu>
-            <AddDomainDialog refetch={domains.refetch} dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
+            <AddDomainDialog dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
             <DeleteDomainDialog dialogOpen={deleteDomainDialogOpen} setDialogOpen={setDeleteDomainDialogOpen} domains={domainsSettingsDomains} />
         </>
     );
