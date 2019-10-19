@@ -18,34 +18,36 @@ export const AddDomainDialog: FunctionComponent<{
         <TextFieldDialog
             dialogOpen={dialogOpen}
             setDialogOpen={setDialogOpen}
-            okClicked={() => {
-                addDomain({
-                        variables: {token: store.token, id: dialogText},
-                        update: (cache, {data}) => {
-                            const domains: (AddDomain_settings_createDomain | null)[] =
-                                data!.settings!.createDomain!.map(item => {
-                                return {
-                                    __typename: "Domain",
-                                    id: item!.id,
-                                    subdomains: item!.subdomains
-                                };
-                            });
-                            cache.writeQuery<Domains, DomainsVariables>({
-                                query: QUERY,
-                                data: {
-                                    settings: {
-                                        __typename: "Settings",
-                                        domains: domains,
-                                        defaultSubdomains: null
-                                    },
-                                    authentication: null
-                                }
-                            });
+            okClicked={
+                () => {
+                    addDomain({
+                            variables: {token: store.token, id: dialogText},
+                            update: (cache, {data}) => {
+                                const domains: (AddDomain_settings_createDomain | null)[] =
+                                    data!.settings!.createDomain!.map(item => {
+                                        return {
+                                            __typename: "Domain",
+                                            id: item!.id,
+                                            subdomains: item!.subdomains
+                                        };
+                                    });
+                                cache.writeQuery<Domains, DomainsVariables>({
+                                    query: QUERY,
+                                    data: {
+                                        settings: {
+                                            __typename: "Settings",
+                                            domains: domains,
+                                            defaultSubdomains: null
+                                        },
+                                        authentication: null
+                                    }
+                                });
+                            }
                         }
-                    }
-                ).then();
-                setDialogOpen(false);
-            }}
+                    ).then();
+                    setDialogOpen(false);
+                }
+            }
             onChange={event => setDialogText(event.target.value || '')}
             dialogTitle='Add Domain'
             dialogContentText='Enter the domain name in the box below. For example: example.com'
