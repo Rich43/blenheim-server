@@ -19,7 +19,7 @@ export interface AddDomain_settings_createDomain {
 
 export interface AddDomain_settings {
   __typename: "SettingsMutations";
-  createDomain: (AddDomain_settings_createDomain | null)[] | null;
+  createDomain: AddDomain_settings_createDomain | null;
 }
 
 export interface AddDomain {

@@ -2,8 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import { TextFieldDialog } from './TextFieldDialog';
 import { StoreProvider } from '../../StoreProvider';
 import { useAddDomainMutation } from "../queries/AddDomainQuery";
-import { QUERY } from "../queries/DomainsQuery";
-import { AddDomain_settings_createDomain } from "../../types/AddDomain";
+import { domainsFromCache, QUERY } from "../queries/DomainsQuery";
 import { Domains, DomainsVariables } from "../../types/Domains";
 
 export const AddDomainDialog: FunctionComponent<{
@@ -23,25 +22,25 @@ export const AddDomainDialog: FunctionComponent<{
                     addDomain({
                             variables: {token: store.token, id: dialogText},
                             update: (cache, {data}) => {
-                                const domains: (AddDomain_settings_createDomain | null)[] =
-                                    data!.settings!.createDomain!.map(item => {
-                                        return {
-                                            __typename: "Domain",
-                                            id: item!.id,
-                                            subdomains: item!.subdomains
-                                        };
-                                    });
-                                cache.writeQuery<Domains, DomainsVariables>({
-                                    query: QUERY,
-                                    data: {
-                                        settings: {
-                                            __typename: "Settings",
-                                            domains: domains,
-                                            defaultSubdomains: null
-                                        },
-                                        authentication: null
-                                    }
-                                });
+                                const domainsQuery = domainsFromCache(cache, store.token);
+                                if (domainsQuery && domainsQuery.settings && domainsQuery.settings.domains &&
+                                    data && data.settings && data.settings.createDomain) {
+                                    cache.writeQuery<Domains, DomainsVariables>(
+                                        {
+                                            query: QUERY,
+                                            data: {
+                                                ...domainsQuery,
+                                                settings: {
+                                                    ...domainsQuery.settings,
+                                                    domains: [
+                                                        ...domainsQuery.settings.domains,
+                                                        data.settings.createDomain
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    );
+                                }
                             }
                         }
                     ).then();
@@ -54,4 +53,4 @@ export const AddDomainDialog: FunctionComponent<{
             textBoxLabel='Domain:'
         />
     );
-}
+};

@@ -38,4 +38,4 @@ export const DeleteDomainDialog: FunctionComponent<{
             selectData={domainMap}
         />
     );
-}
+};
