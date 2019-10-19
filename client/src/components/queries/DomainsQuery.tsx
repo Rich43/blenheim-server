@@ -18,4 +18,4 @@ const QUERY = gql`
 `;
 
 export const useDomainsQuery = (variables: DomainsVariables) => 
-    useQuery<Domains, DomainsVariables>(QUERY, {variables});
+    useQuery<Domains, DomainsVariables>(QUERY, {partialRefetch: true, variables});
