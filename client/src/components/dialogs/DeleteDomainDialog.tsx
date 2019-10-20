@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { SelectDialog } from "./SelectDialog";
-import { Domains, Domains_settings_domains, DomainsVariables } from "../../types/Domains";
+import { Domains_settings_domains } from "../../types/Domains";
 import { useDeleteDomainMutation } from "../queries/DeleteDomainQuery";
 import { StoreProvider } from "../../StoreProvider";
-import { domainsFromCache, QUERY } from "../queries/DomainsQuery";
+import { updateDomainsCache } from "../queries/DomainsQuery";
 
 export const DeleteDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
@@ -39,26 +39,11 @@ export const DeleteDomainDialog: FunctionComponent<{
                 deleteDomain(
                     {
                         variables: {token: store.token, id: String(value)},
-                        update: (cache, {data}) => {
-                            const domainsQuery = domainsFromCache(cache, store.token);
-                            if (domainsQuery && data) {
-                                cache.writeQuery<Domains, DomainsVariables>(
-                                    {
-                                        query: QUERY,
-                                        data: {
-                                            ...domainsQuery,
-                                            settings: {
-                                                ...domainsQuery.settings,
-                                                domains: data.settings.deleteDomain
-                                            }
-                                        }
-                                    }
-                                );
-                            }
-                        }
+                        update: updateDomainsCache('deleteDomain', store.token)
                     }
                 ).then();
                 setDialogOpen(false);
+                setValue(null);
             }}
             onChange={event => setValue(event.target.value)}
             initialValue={value}

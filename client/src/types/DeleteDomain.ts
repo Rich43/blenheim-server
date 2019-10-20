@@ -8,7 +8,7 @@
 
 export interface DeleteDomain_authentication {
   __typename: "Authentication";
-  token: string;
+  token: string | null;
 }
 
 export interface DeleteDomain_settings_deleteDomain {
@@ -19,7 +19,7 @@ export interface DeleteDomain_settings_deleteDomain {
 
 export interface DeleteDomain_settings {
   __typename: "SettingsMutations";
-  deleteDomain: DeleteDomain_settings_deleteDomain[];
+  deleteDomain: DeleteDomain_settings_deleteDomain[] | null;
 }
 
 export interface DeleteDomain {

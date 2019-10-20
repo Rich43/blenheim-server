@@ -8,7 +8,7 @@
 
 export interface Domains_authentication {
   __typename: "Authentication";
-  token: string;
+  token: string | null;
 }
 
 export interface Domains_settings_domains {

@@ -8,7 +8,7 @@
 
 export interface AddDomain_authentication {
   __typename: "Authentication";
-  token: string;
+  token: string | null;
 }
 
 export interface AddDomain_settings_createDomain {
@@ -19,7 +19,7 @@ export interface AddDomain_settings_createDomain {
 
 export interface AddDomain_settings {
   __typename: "SettingsMutations";
-  createDomain: AddDomain_settings_createDomain;
+  createDomain: AddDomain_settings_createDomain[] | null;
 }
 
 export interface AddDomain {

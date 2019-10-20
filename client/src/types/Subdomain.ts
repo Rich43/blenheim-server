@@ -8,7 +8,7 @@
 
 export interface Subdomain_authentication {
   __typename: "Authentication";
-  token: string;
+  token: string | null;
 }
 
 export interface Subdomain_settings_createSubDomain {
@@ -19,7 +19,7 @@ export interface Subdomain_settings_createSubDomain {
 
 export interface Subdomain_settings {
   __typename: "SettingsMutations";
-  createSubDomain: Subdomain_settings_createSubDomain;
+  createSubDomain: Subdomain_settings_createSubDomain | null;
 }
 
 export interface Subdomain {

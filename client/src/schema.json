@@ -170,13 +170,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -595,13 +591,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Settings",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Settings",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -626,13 +618,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Settings",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Settings",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -657,13 +645,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Settings",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Settings",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -823,13 +807,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Settings",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Settings",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -854,13 +834,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Settings",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Settings",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -885,13 +861,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Settings",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Settings",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -938,12 +910,16 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Domain",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Domain",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -983,19 +959,15 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Domain",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "Domain",
+                  "ofType": null
                 }
               }
             },
@@ -1022,19 +994,15 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Domain",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "Domain",
+                  "ofType": null
                 }
               }
             },
@@ -1075,13 +1043,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Domain",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Domain",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1134,13 +1098,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Domain",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Domain",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1179,13 +1139,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Domain",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Domain",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
