@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { SelectDialog } from "./SelectDialog";
-import { Domains_settings_domains } from "../../types/Domains";
-import { useDeleteDomainMutation } from "../queries/DeleteDomainQuery";
-import { StoreProvider } from "../../StoreProvider";
-import { updateDomainsCache } from "../queries/DomainsQuery";
+import { SelectDialog } from "../generic/SelectDialog";
+import { Domains_settings_domains } from "../../../types/Domains";
+import { useDeleteDomainMutation } from "../../queries/DeleteDomainQuery";
+import { StoreProvider } from "../../../StoreProvider";
+import { updateDomainsCache } from "../../queries/DomainsQuery";
 
 export const DeleteDomainDialog: FunctionComponent<{
     dialogOpen: boolean;

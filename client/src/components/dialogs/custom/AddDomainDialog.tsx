@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { TextFieldDialog } from './TextFieldDialog';
-import { StoreProvider } from '../../StoreProvider';
-import { useAddDomainMutation } from "../queries/AddDomainQuery";
-import { updateDomainsCache } from "../queries/DomainsQuery";
+import { TextFieldDialog } from '../generic/TextFieldDialog';
+import { StoreProvider } from '../../../StoreProvider';
+import { useAddDomainMutation } from "../../queries/AddDomainQuery";
+import { updateDomainsCache } from "../../queries/DomainsQuery";
 
 export const AddDomainDialog: FunctionComponent<{
     dialogOpen: boolean;

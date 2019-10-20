@@ -9,8 +9,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { StoreProvider } from '../../StoreProvider';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { AddDomainDialog } from "../dialogs/AddDomainDialog";
-import { DeleteDomainDialog } from "../dialogs/DeleteDomainDialog";
+import { AddDomainDialog } from "../dialogs/custom/AddDomainDialog";
+import { DeleteDomainDialog } from "../dialogs/custom/DeleteDomainDialog";
 
 export const Domains: FunctionComponent = () => {
     const useStyles = makeStyles((theme: Theme) =>
