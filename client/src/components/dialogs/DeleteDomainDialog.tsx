@@ -1,6 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { SelectDialog } from "./SelectDialog";
-import { Domains_settings_domains } from "../../types/Domains";
+import { Domains, Domains_settings_domains, DomainsVariables } from "../../types/Domains";
+import { useDeleteDomainMutation } from "../queries/DeleteDomainQuery";
+import { StoreProvider } from "../../StoreProvider";
+import { domainsFromCache, QUERY } from "../queries/DomainsQuery";
 
 export const DeleteDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
@@ -8,8 +11,10 @@ export const DeleteDomainDialog: FunctionComponent<{
     domains: Domains_settings_domains[] | null
 }> = ({dialogOpen, setDialogOpen, domains}) => {
     const [value, setValue] = React.useState<unknown>(null);
+    const [deleteDomain] = useDeleteDomainMutation();
+    const store = useContext(StoreProvider);
     let firstDomain;
-    const domainMap: {[key: string]: string} = {};
+    const domainMap: { [key: string]: string } = {};
 
     if (domains) {
         for (const domain of domains) {
@@ -30,7 +35,31 @@ export const DeleteDomainDialog: FunctionComponent<{
         <SelectDialog
             dialogOpen={dialogOpen}
             setDialogOpen={setDialogOpen}
-            okClicked={() => setDialogOpen(false)}
+            okClicked={() => {
+                deleteDomain(
+                    {
+                        variables: {token: store.token, id: String(value)},
+                        update: (cache, {data}) => {
+                            const domainsQuery = domainsFromCache(cache, store.token);
+                            if (domainsQuery && data) {
+                                cache.writeQuery<Domains, DomainsVariables>(
+                                    {
+                                        query: QUERY,
+                                        data: {
+                                            ...domainsQuery,
+                                            settings: {
+                                                ...domainsQuery.settings,
+                                                domains: data.settings.deleteDomain
+                                            }
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                    }
+                ).then();
+                setDialogOpen(false);
+            }}
             onChange={event => setValue(event.target.value)}
             initialValue={value}
             dialogTitle='Delete domain'
