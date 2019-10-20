@@ -43,7 +43,7 @@ def create_setting(setting_id: str):
     class CreateSettings(Mutation):
         class Arguments:
             id = NonNull(ID)
-        Output = NonNull(Settings)
+        Output = Settings
 
         def mutate(self, info, id: str):
             if info.context.get('current_user'):
@@ -78,7 +78,7 @@ def delete_setting(setting_id: str):
     class DeleteSettings(Mutation):
         class Arguments:
             index = NonNull(Int)
-        Output = NonNull(Settings)
+        Output = Settings
 
         def mutate(self, info, index: int):
             if info.context.get('current_user'):
@@ -95,14 +95,14 @@ class CreateDomain(Mutation):
     class Arguments:
         id = NonNull(ID)
         subdomains = NonNull(List(NonNull(String)))
-    Output = NonNull(Domain)
+    Output = List(NonNull(Domain))
 
     def mutate(self, info, id: str, subdomains: list):
         if info.context.get('current_user'):
             config = Config()
             config['domains'][id] = subdomains
             config.save()
-            return Domain(id=id, subdomains=subdomains)
+            return create_domain_list(config)
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -110,7 +110,7 @@ class UpdateDomain(Mutation):
     class Arguments:
         id = NonNull(ID)
         new_name = NonNull(String)
-    Output = NonNull(List(NonNull(Domain)))
+    Output = List(NonNull(Domain))
 
     def mutate(self, info, id: str, new_name: str):
         if info.context.get('current_user'):
@@ -124,7 +124,7 @@ class UpdateDomain(Mutation):
 class DeleteDomain(Mutation):
     class Arguments:
         id = NonNull(ID)
-    Output = NonNull(List(NonNull(Domain)))
+    Output = List(NonNull(Domain))
 
     def mutate(self, info, id: str):
         if info.context.get('current_user'):
@@ -139,7 +139,7 @@ class CreateSubDomain(Mutation):
     class Arguments:
         id = NonNull(ID)
         name = NonNull(String)
-    Output = NonNull(Domain)
+    Output = Domain
 
     def mutate(self, info, id: str, name: str):
         if info.context.get('current_user'):
@@ -155,7 +155,7 @@ class UpdateSubDomain(Mutation):
         id = NonNull(ID)
         name = NonNull(String)
         index = NonNull(Int)
-    Output = NonNull(Domain)
+    Output = Domain
 
     def mutate(self, info, id: str, name: str, index: int):
         if info.context.get('current_user'):
@@ -170,7 +170,7 @@ class DeleteSubDomain(Mutation):
     class Arguments:
         id = NonNull(ID)
         index = NonNull(Int)
-    Output = NonNull(Domain)
+    Output = Domain
 
     def mutate(self, info, id: str, index: int):
         if info.context.get('current_user'):

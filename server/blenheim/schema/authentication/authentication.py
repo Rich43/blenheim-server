@@ -26,7 +26,7 @@ class Authentication(ObjectType):
     change_password = Field(
         Boolean, password=NonNull(String)
     )
-    token = graphene.Field(NonNull(String), token=NonNull(String))
+    token = graphene.Field(String, token=NonNull(String))
 
     @staticmethod
     async def get_user_type_without_password(user):
