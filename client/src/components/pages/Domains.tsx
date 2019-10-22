@@ -11,6 +11,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { AddDomainDialog } from "../dialogs/custom/AddDomainDialog";
 import { DeleteDomainDialog } from "../dialogs/custom/DeleteDomainDialog";
+import { EditDomainDialog } from "../dialogs/custom/EditDomainDialog";
 
 export const Domains: FunctionComponent = () => {
     const useStyles = makeStyles((theme: Theme) =>
@@ -30,6 +31,7 @@ export const Domains: FunctionComponent = () => {
     const domainsSettings = domains.data && domains.data.settings;
     const domainsSettingsDomains = (domainsSettings && domainsSettings.domains) || null;
     const [addDomainDialogOpen, setAddDomainDialogOpen] = React.useState<boolean>(false);
+    const [editDomainDialogOpen, setEditDomainDialogOpen] = React.useState<boolean>(false);
     const [deleteDomainDialogOpen, setDeleteDomainDialogOpen] = React.useState<boolean>(false);
     if (domains.loading) {
         return (<span>Loading...</span>);
@@ -75,13 +77,17 @@ export const Domains: FunctionComponent = () => {
                     setMenuEl(null);
                     setAddDomainDialogOpen(true);
                 }}>Add Domain</MenuItem>
-                <MenuItem>Edit Domain</MenuItem>
+                <MenuItem onClick={() => {
+                    setMenuEl(null);
+                    setEditDomainDialogOpen(true);
+                }}>Edit Domain</MenuItem>
                 <MenuItem onClick={() => {
                     setMenuEl(null);
                     setDeleteDomainDialogOpen(true);
                 }}>Remove Domain</MenuItem>
             </Menu>
             <AddDomainDialog dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
+            <EditDomainDialog dialogOpen={editDomainDialogOpen} setDialogOpen={setEditDomainDialogOpen} domains={domainsSettingsDomains} />
             <DeleteDomainDialog dialogOpen={deleteDomainDialogOpen} setDialogOpen={setDeleteDomainDialogOpen} domains={domainsSettingsDomains} />
         </>
     );

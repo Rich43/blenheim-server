@@ -1,31 +1,19 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { SelectDialog } from "../generic/SelectDialog";
-import { Domains_settings_domains } from "../../../types/Domains";
 import { useDeleteDomainMutation } from "../../queries/DeleteDomainQuery";
 import { StoreProvider } from "../../../StoreProvider";
 import { updateDomainsCache } from "../../queries/DomainsQuery";
+import { createDomainMap, DomainsArray } from "../../common";
 
 export const DeleteDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
-    domains: Domains_settings_domains[] | null
+    domains: DomainsArray
 }> = ({dialogOpen, setDialogOpen, domains}) => {
     const [value, setValue] = React.useState<unknown>(null);
     const [deleteDomain] = useDeleteDomainMutation();
     const store = useContext(StoreProvider);
-    let firstDomain;
-    const domainMap: { [key: string]: string } = {};
-
-    if (domains) {
-        for (const domain of domains) {
-            if (domain && domain.id) {
-                domainMap[domain.id] = domain.id;
-                if (!firstDomain) {
-                    firstDomain = domain.id;
-                }
-            }
-        }
-    }
+    const {domainMap, firstDomain} = createDomainMap(domains);
 
     if (firstDomain && !value) {
         setValue(firstDomain);

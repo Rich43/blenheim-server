@@ -5,7 +5,8 @@ import { AbstractDialog, AbstractDialogProps } from "./AbstractDialog";
 interface SelectTextFieldDialogProps extends AbstractDialogProps {
     selectData: {[key: string]: string}
     textBoxLabel: string;
-    initialValue: unknown;
+    textBoxValue: string;
+    selectInitialValue: unknown;
     onSelectChange: (
         event: React.ChangeEvent<{ name?: string; value: unknown }>,
         child: React.ReactNode,
@@ -23,7 +24,7 @@ export const SelectTextFieldDialog: FunctionComponent<SelectTextFieldDialogProps
             dialogContentText={props.dialogContentText}>
             <Select
                 onChange={props.onSelectChange}
-                value={props.initialValue}
+                value={props.selectInitialValue}
             >
                 { Object.keys(props.selectData).map(key => {
                     return (<MenuItem value={key}>{ props.selectData[key] }</MenuItem>);
@@ -34,6 +35,7 @@ export const SelectTextFieldDialog: FunctionComponent<SelectTextFieldDialogProps
                 margin='dense'
                 id={props.textBoxLabel}
                 label={props.textBoxLabel}
+                value={props.textBoxValue}
                 fullWidth
                 onChange={props.onTextFieldChange}
                 onKeyPress={event => {
