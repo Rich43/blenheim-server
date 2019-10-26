@@ -3,6 +3,7 @@ import { SelectTextFieldDialog } from "../generic/SelectTextFieldDialog";
 import { createDomainMap, DomainsArray } from "../../common";
 import { StoreProvider } from "../../../StoreProvider";
 import { useUpdateDomainMutation } from "../../queries/UpdateDomainQuery";
+import { updateDomainsCache } from "../../queries/DomainsQuery";
 
 export const UpdateDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
@@ -31,7 +32,8 @@ export const UpdateDomainDialog: FunctionComponent<{
                             token: store.token,
                             id: String(value),
                             newName: dialogText
-                        }
+                        },
+                        update: updateDomainsCache('updateDomain', store.token)
                     }
                 ).then();
                 setDialogOpen(false);
