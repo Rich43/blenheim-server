@@ -11,7 +11,7 @@ export const TextFieldDialog: FunctionComponent<TextFieldDialogProps> = (props) 
     return (
         <AbstractDialog
             dialogOpen={props.dialogOpen}
-            setDialogOpen={props.setDialogOpen}
+            onClose={props.onClose}
             okClicked={props.okClicked}
             dialogTitle={props.dialogTitle}
             dialogContentText={props.dialogContentText}>
@@ -30,4 +30,4 @@ export const TextFieldDialog: FunctionComponent<TextFieldDialogProps> = (props) 
             />
         </AbstractDialog>
     );
-}
+};

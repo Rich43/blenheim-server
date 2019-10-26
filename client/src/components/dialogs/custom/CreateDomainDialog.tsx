@@ -6,8 +6,8 @@ import { updateDomainsCache } from "../../queries/DomainsQuery";
 
 export const CreateDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
-    setDialogOpen: (open: boolean) => void;
-}> = ({dialogOpen, setDialogOpen}) => {
+    onClose: () => void;
+}> = ({dialogOpen, onClose}) => {
     const [createDomain] = useCreateDomainMutation();
     const store = useContext(StoreProvider);
     const [dialogText, setDialogText] = React.useState<string>('');
@@ -15,7 +15,7 @@ export const CreateDomainDialog: FunctionComponent<{
     return (
         <TextFieldDialog
             dialogOpen={dialogOpen}
-            setDialogOpen={setDialogOpen}
+            onClose={onClose}
             okClicked={
                 () => {
                     createDomain(
@@ -24,7 +24,7 @@ export const CreateDomainDialog: FunctionComponent<{
                             update: updateDomainsCache('createDomain', store.token)
                         }
                     ).then();
-                    setDialogOpen(false);
+                    onClose();
                 }
             }
             onChange={event => setDialogText(event.target.value || '')}

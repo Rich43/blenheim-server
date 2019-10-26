@@ -7,8 +7,8 @@ import { StoreProvider } from '../../../StoreProvider';
 
 export const CreateSubDomainDialog: FunctionComponent<{
     domainName: string;
-    setOpen: (open: boolean) => void;
-}> = ({domainName, setOpen}) => {
+    onClose: () => void;
+}> = ({domainName, onClose}) => {
     const [createSubDomain] = useCreateSubDomainMutation();
     const store = useContext(StoreProvider);
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
@@ -19,12 +19,11 @@ export const CreateSubDomainDialog: FunctionComponent<{
             <IconButton onClick={() => setDialogOpen(true)}><Add/></IconButton>
             <TextFieldDialog
                 dialogOpen={dialogOpen}
-                setDialogOpen={setDialogOpen}
+                onClose={onClose}
                 okClicked={() => {
-                    // noinspection JSIgnoredPromiseFromCall
-                    createSubDomain({variables: {token: store.token, id: domainName, name: dialogText}});
+                    createSubDomain({variables: {token: store.token, id: domainName, name: dialogText}}).then();
                     setDialogOpen(false);
-                    setOpen(true);
+                    onClose();
                 }}
                 onChange={event => setDialogText(event.target.value || '')}
                 dialogTitle='Add Subdomain'

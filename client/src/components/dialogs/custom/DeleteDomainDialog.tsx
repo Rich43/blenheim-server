@@ -7,9 +7,9 @@ import { createDomainMap, DomainsArray } from "../../common";
 
 export const DeleteDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
-    setDialogOpen: (open: boolean) => void;
+    onClose: () => void;
     domains: DomainsArray
-}> = ({dialogOpen, setDialogOpen, domains}) => {
+}> = ({dialogOpen, onClose, domains}) => {
     const [value, setValue] = React.useState<unknown>(null);
     const [deleteDomain] = useDeleteDomainMutation();
     const store = useContext(StoreProvider);
@@ -22,7 +22,7 @@ export const DeleteDomainDialog: FunctionComponent<{
     return (
         <SelectDialog
             dialogOpen={dialogOpen}
-            setDialogOpen={setDialogOpen}
+            onClose={onClose}
             okClicked={() => {
                 deleteDomain(
                     {
@@ -30,7 +30,7 @@ export const DeleteDomainDialog: FunctionComponent<{
                         update: updateDomainsCache('deleteDomain', store.token)
                     }
                 ).then();
-                setDialogOpen(false);
+                onClose();
                 setValue(null);
             }}
             onChange={event => setValue(event.target.value)}

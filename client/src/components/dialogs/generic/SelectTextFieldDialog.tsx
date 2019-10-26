@@ -18,7 +18,7 @@ export const SelectTextFieldDialog: FunctionComponent<SelectTextFieldDialogProps
     return (
         <AbstractDialog
             dialogOpen={props.dialogOpen}
-            setDialogOpen={props.setDialogOpen}
+            onClose={props.onClose}
             okClicked={props.okClicked}
             dialogTitle={props.dialogTitle}
             dialogContentText={props.dialogContentText}>

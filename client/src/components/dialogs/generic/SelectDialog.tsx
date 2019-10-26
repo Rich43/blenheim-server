@@ -15,7 +15,7 @@ export const SelectDialog: FunctionComponent<SelectDialogProps> = (props) => {
     return (
         <AbstractDialog
             dialogOpen={props.dialogOpen}
-            setDialogOpen={props.setDialogOpen}
+            onClose={props.onClose}
             okClicked={props.okClicked}
             dialogTitle={props.dialogTitle}
             dialogContentText={props.dialogContentText}>

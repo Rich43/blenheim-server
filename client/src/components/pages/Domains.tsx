@@ -86,9 +86,9 @@ export const Domains: FunctionComponent = () => {
                     setDeleteDomainDialogOpen(true);
                 }}>Remove Domain</MenuItem>
             </Menu>
-            <CreateDomainDialog dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
-            <UpdateDomainDialog dialogOpen={editDomainDialogOpen} setDialogOpen={setEditDomainDialogOpen} domains={domainsSettingsDomains} />
-            <DeleteDomainDialog dialogOpen={deleteDomainDialogOpen} setDialogOpen={setDeleteDomainDialogOpen} domains={domainsSettingsDomains} />
+            <CreateDomainDialog dialogOpen={addDomainDialogOpen} onClose={() => setAddDomainDialogOpen(false)} />
+            <UpdateDomainDialog dialogOpen={editDomainDialogOpen} onClose={() => setEditDomainDialogOpen(false)} domains={domainsSettingsDomains} />
+            <DeleteDomainDialog dialogOpen={deleteDomainDialogOpen} onClose={() => setDeleteDomainDialogOpen(false)} domains={domainsSettingsDomains} />
         </>
     );
 };

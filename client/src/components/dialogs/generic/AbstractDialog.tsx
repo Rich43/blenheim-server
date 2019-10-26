@@ -3,15 +3,15 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 
 export interface AbstractDialogProps {
     dialogOpen: boolean;
-    setDialogOpen: (open: boolean) => void;
     okClicked: () => void;
+    onClose: () => void;
     dialogTitle: string;
     dialogContentText: string;
 }
 
 export const AbstractDialog: FunctionComponent<AbstractDialogProps> = (props) => {
     return (
-        <Dialog open={props.dialogOpen} onClose={() => props.setDialogOpen(false)}>
+        <Dialog open={props.dialogOpen} onClose={() => props.onClose()}>
             <DialogTitle>{props.dialogTitle}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -20,7 +20,7 @@ export const AbstractDialog: FunctionComponent<AbstractDialogProps> = (props) =>
                 { props.children }
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => props.setDialogOpen(false)} color='primary'>
+                <Button onClick={() => props.onClose()} color='primary'>
                     Cancel
                 </Button>
                 <Button onClick={props.okClicked} color='primary'>

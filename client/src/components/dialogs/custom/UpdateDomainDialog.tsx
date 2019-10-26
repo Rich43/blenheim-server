@@ -7,9 +7,9 @@ import { updateDomainsCache } from "../../queries/DomainsQuery";
 
 export const UpdateDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
-    setDialogOpen: (open: boolean) => void;
+    onClose: () => void;
     domains: DomainsArray
-}> = ({dialogOpen, setDialogOpen, domains}) => {
+}> = ({dialogOpen, onClose, domains}) => {
     const store = useContext(StoreProvider);
     const [dialogText, setDialogText] = React.useState<string>('');
     const [value, setValue] = React.useState<unknown>(null);
@@ -24,7 +24,7 @@ export const UpdateDomainDialog: FunctionComponent<{
     return (
         <SelectTextFieldDialog
             dialogOpen={dialogOpen}
-            setDialogOpen={setDialogOpen}
+            onClose={onClose}
             okClicked={() => {
                 updateDomain(
                     {
@@ -38,7 +38,7 @@ export const UpdateDomainDialog: FunctionComponent<{
                 ).then();
                 setValue(null);
                 setDialogText('');
-                setDialogOpen(false);
+                onClose();
             }}
             onTextFieldChange={event => setDialogText(event.target.value || '')}
             onSelectChange={event => {
