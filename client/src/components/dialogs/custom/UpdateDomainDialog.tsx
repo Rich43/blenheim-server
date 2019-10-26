@@ -1,16 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { SelectTextFieldDialog } from "../generic/SelectTextFieldDialog";
 import { createDomainMap, DomainsArray } from "../../common";
+import { StoreProvider } from "../../../StoreProvider";
+import { useUpdateDomainMutation } from "../../queries/UpdateDomainQuery";
 
 export const UpdateDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     domains: DomainsArray
 }> = ({dialogOpen, setDialogOpen, domains}) => {
-    // const store = useContext(StoreProvider);
+    const store = useContext(StoreProvider);
     const [dialogText, setDialogText] = React.useState<string>('');
     const [value, setValue] = React.useState<unknown>(null);
     const {domainMap, firstDomain} = createDomainMap(domains);
+    const [updateDomain] = useUpdateDomainMutation();
 
     if (firstDomain && !value) {
         setValue(firstDomain);
@@ -22,6 +25,15 @@ export const UpdateDomainDialog: FunctionComponent<{
             dialogOpen={dialogOpen}
             setDialogOpen={setDialogOpen}
             okClicked={() => {
+                updateDomain(
+                    {
+                        variables: {
+                            token: store.token,
+                            id: String(value),
+                            newName: dialogText
+                        }
+                    }
+                ).then();
                 setDialogOpen(false);
             }}
             onTextFieldChange={event => setDialogText(event.target.value || '')}

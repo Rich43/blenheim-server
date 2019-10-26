@@ -2,14 +2,14 @@ import React, { FunctionComponent, useContext } from 'react';
 import { IconButton, } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import { TextFieldDialog } from '../generic/TextFieldDialog';
-import { useSubdomainMutation } from '../../queries/AddSubdomainQuery';
+import { useAddSubdomainMutation } from '../../queries/AddSubdomainQuery';
 import { StoreProvider } from '../../../StoreProvider';
 
 export const AddSubdomainDialog: FunctionComponent<{
     domainName: string;
     setOpen: (open: boolean) => void;
 }> = ({domainName, setOpen}) => {
-    const [subdomain] = useSubdomainMutation();
+    const [subdomain] = useAddSubdomainMutation();
     const store = useContext(StoreProvider);
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
     const [dialogText, setDialogText] = React.useState<string>('');
