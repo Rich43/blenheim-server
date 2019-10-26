@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { SelectDialog } from "../generic/SelectDialog";
-import { useDeleteDomainMutation } from "../../queries/DeleteDomainQuery";
+import { useDeleteDomainMutation } from "../../queries/DeleteDomainMutation";
 import { StoreProvider } from "../../../StoreProvider";
 import { updateDomainsCache } from "../../queries/DomainsQuery";
 import { createDomainMap, DomainsArray } from "../../common";

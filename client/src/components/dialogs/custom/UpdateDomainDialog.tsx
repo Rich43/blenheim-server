@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import { SelectTextFieldDialog } from "../generic/SelectTextFieldDialog";
 import { createDomainMap, DomainsArray } from "../../common";
 import { StoreProvider } from "../../../StoreProvider";
-import { useUpdateDomainMutation } from "../../queries/UpdateDomainQuery";
+import { useUpdateDomainMutation } from "../../queries/UpdateDomainMutation";
 import { updateDomainsCache } from "../../queries/DomainsQuery";
 
 export const UpdateDomainDialog: FunctionComponent<{
