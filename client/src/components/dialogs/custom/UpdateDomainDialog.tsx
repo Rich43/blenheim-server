@@ -36,6 +36,8 @@ export const UpdateDomainDialog: FunctionComponent<{
                         update: updateDomainsCache('updateDomain', store.token)
                     }
                 ).then();
+                setValue(null);
+                setDialogText('');
                 setDialogOpen(false);
             }}
             onTextFieldChange={event => setDialogText(event.target.value || '')}
