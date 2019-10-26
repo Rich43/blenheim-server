@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { SelectTextFieldDialog } from "../generic/SelectTextFieldDialog";
 import { createDomainMap, DomainsArray } from "../../common";
 
-export const EditDomainDialog: FunctionComponent<{
+export const UpdateDomainDialog: FunctionComponent<{
     dialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     domains: DomainsArray
@@ -21,11 +21,9 @@ export const EditDomainDialog: FunctionComponent<{
         <SelectTextFieldDialog
             dialogOpen={dialogOpen}
             setDialogOpen={setDialogOpen}
-            okClicked={
-                () => {
-                    setDialogOpen(false);
-                }
-            }
+            okClicked={() => {
+                setDialogOpen(false);
+            }}
             onTextFieldChange={event => setDialogText(event.target.value || '')}
             onSelectChange={event => {
                 setValue(event.target.value);

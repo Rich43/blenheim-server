@@ -11,7 +11,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { AddDomainDialog } from "../dialogs/custom/AddDomainDialog";
 import { DeleteDomainDialog } from "../dialogs/custom/DeleteDomainDialog";
-import { EditDomainDialog } from "../dialogs/custom/EditDomainDialog";
+import { UpdateDomainDialog } from "../dialogs/custom/UpdateDomainDialog";
 
 export const Domains: FunctionComponent = () => {
     const useStyles = makeStyles((theme: Theme) =>
@@ -87,7 +87,7 @@ export const Domains: FunctionComponent = () => {
                 }}>Remove Domain</MenuItem>
             </Menu>
             <AddDomainDialog dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
-            <EditDomainDialog dialogOpen={editDomainDialogOpen} setDialogOpen={setEditDomainDialogOpen} domains={domainsSettingsDomains} />
+            <UpdateDomainDialog dialogOpen={editDomainDialogOpen} setDialogOpen={setEditDomainDialogOpen} domains={domainsSettingsDomains} />
             <DeleteDomainDialog dialogOpen={deleteDomainDialogOpen} setDialogOpen={setDeleteDomainDialogOpen} domains={domainsSettingsDomains} />
         </>
     );
