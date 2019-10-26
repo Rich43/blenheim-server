@@ -16,4 +16,4 @@ export const MUTATION = gql`
     }
 `;
 
-export const useAddSubdomainMutation = () => useMutation<Subdomain, SubdomainVariables>(MUTATION);
+export const useCreateSubDomainMutation = () => useMutation<Subdomain, SubdomainVariables>(MUTATION);

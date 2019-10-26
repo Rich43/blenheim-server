@@ -2,14 +2,14 @@ import React, { FunctionComponent, useContext } from 'react';
 import { IconButton, } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import { TextFieldDialog } from '../generic/TextFieldDialog';
-import { useAddSubdomainMutation } from '../../queries/AddSubdomainMutation';
+import { useCreateSubDomainMutation } from '../../queries/CreateSubDomainMutation';
 import { StoreProvider } from '../../../StoreProvider';
 
-export const AddSubdomainDialog: FunctionComponent<{
+export const CreateSubDomainDialog: FunctionComponent<{
     domainName: string;
     setOpen: (open: boolean) => void;
 }> = ({domainName, setOpen}) => {
-    const [subdomain] = useAddSubdomainMutation();
+    const [createSubDomain] = useCreateSubDomainMutation();
     const store = useContext(StoreProvider);
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
     const [dialogText, setDialogText] = React.useState<string>('');
@@ -22,7 +22,7 @@ export const AddSubdomainDialog: FunctionComponent<{
                 setDialogOpen={setDialogOpen}
                 okClicked={() => {
                     // noinspection JSIgnoredPromiseFromCall
-                    subdomain({variables: {token: store.token, id: domainName, name: dialogText}});
+                    createSubDomain({variables: {token: store.token, id: domainName, name: dialogText}});
                     setDialogOpen(false);
                     setOpen(true);
                 }}

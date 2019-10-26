@@ -16,4 +16,4 @@ const MUTATION = gql`
     }
 `;
 
-export const useAddDomainMutation = () => useMutation<AddDomain, AddDomainVariables>(MUTATION);
+export const useCreateDomainMutation = () => useMutation<AddDomain, AddDomainVariables>(MUTATION);

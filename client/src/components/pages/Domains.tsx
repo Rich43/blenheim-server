@@ -9,7 +9,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { StoreProvider } from '../../StoreProvider';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { AddDomainDialog } from "../dialogs/custom/AddDomainDialog";
+import { CreateDomainDialog } from "../dialogs/custom/CreateDomainDialog";
 import { DeleteDomainDialog } from "../dialogs/custom/DeleteDomainDialog";
 import { UpdateDomainDialog } from "../dialogs/custom/UpdateDomainDialog";
 
@@ -86,7 +86,7 @@ export const Domains: FunctionComponent = () => {
                     setDeleteDomainDialogOpen(true);
                 }}>Remove Domain</MenuItem>
             </Menu>
-            <AddDomainDialog dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
+            <CreateDomainDialog dialogOpen={addDomainDialogOpen} setDialogOpen={setAddDomainDialogOpen} />
             <UpdateDomainDialog dialogOpen={editDomainDialogOpen} setDialogOpen={setEditDomainDialogOpen} domains={domainsSettingsDomains} />
             <DeleteDomainDialog dialogOpen={deleteDomainDialogOpen} setDialogOpen={setDeleteDomainDialogOpen} domains={domainsSettingsDomains} />
         </>
