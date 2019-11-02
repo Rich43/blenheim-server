@@ -9,7 +9,7 @@ import {
     TextField
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 
 export const MutableList: FunctionComponent<{
     subheaderText: string;
@@ -20,6 +20,8 @@ export const MutableList: FunctionComponent<{
     placeholderText,
     listItems
 }) => {
+    const [items, setItems] = useState(listItems);
+    const [textFieldValue, setTextFieldValue] = useState('');
     return <>
         <List subheader={
             <ListSubheader>
@@ -27,12 +29,14 @@ export const MutableList: FunctionComponent<{
             </ListSubheader>
         }>
             {
-                listItems.map(item => {
+                items.map(item => {
                     return (
                         <ListItem>
                             <ListItemText primary={item} />
                             <ListItemSecondaryAction>
-                                <IconButton edge='end' aria-label='delete'>
+                                <IconButton onClick={() => {
+                                    setItems(items.filter(value => { return value !== item; }));
+                                }} edge='end' aria-label='delete'>
                                     <DeleteIcon />
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -40,12 +44,20 @@ export const MutableList: FunctionComponent<{
                     );
                 })
             }
-        }
         </List>
         <Box p={2}>
             <TextField
                 placeholder={placeholderText}
                 fullWidth
+                onChange={event => setTextFieldValue(event.target.value)}
+                value={textFieldValue}
+                onKeyPress={event => {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        setItems([...items, textFieldValue]);
+                        setTextFieldValue('');
+                    }
+                }}
             />
         </Box>
     </>;
