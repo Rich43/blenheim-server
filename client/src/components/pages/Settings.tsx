@@ -8,7 +8,7 @@ export const Settings: FunctionComponent = () => {
         <form>
             <Container maxWidth='sm'>
                 <Paper>
-                    <MutableList />
+                    <MutableList subheaderText='Default subdomains' />
                 </Paper>
             </Container>
         </form>

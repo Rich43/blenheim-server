@@ -8,14 +8,18 @@ import {
     ListSubheader,
     TextField
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/core/SvgIcon/SvgIcon';
+import DeleteIcon from '@material-ui/icons/Delete';
 import React, { FunctionComponent } from 'react';
 
-export const MutableList: FunctionComponent = () => {
+export const MutableList: FunctionComponent<{
+    subheaderText: string;
+}> = ({
+    subheaderText
+}) => {
     return <>
         <List subheader={
             <ListSubheader>
-                Default subdomains
+                {subheaderText}
             </ListSubheader>
         }>
             <ListItem>
@@ -34,4 +38,4 @@ export const MutableList: FunctionComponent = () => {
             />
         </Box>
     </>;
-}
+};
