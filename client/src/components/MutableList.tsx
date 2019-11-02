@@ -13,8 +13,12 @@ import React, { FunctionComponent } from 'react';
 
 export const MutableList: FunctionComponent<{
     subheaderText: string;
+    placeholderText: string;
+    listItems: string[];
 }> = ({
-    subheaderText
+    subheaderText,
+    placeholderText,
+    listItems
 }) => {
     return <>
         <List subheader={
@@ -22,18 +26,25 @@ export const MutableList: FunctionComponent<{
                 {subheaderText}
             </ListSubheader>
         }>
-            <ListItem>
-                <ListItemText primary='Single-line item' />
-                <ListItemSecondaryAction>
-                    <IconButton edge='end' aria-label='delete'>
-                        <DeleteIcon />
-                    </IconButton>
-                </ListItemSecondaryAction>
-            </ListItem>
+            {
+                listItems.map(item => {
+                    return (
+                        <ListItem>
+                            <ListItemText primary={item} />
+                            <ListItemSecondaryAction>
+                                <IconButton edge='end' aria-label='delete'>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    );
+                })
+            }
+        }
         </List>
         <Box p={2}>
             <TextField
-                placeholder='Enter a new default subdomain'
+                placeholder={placeholderText}
                 fullWidth
             />
         </Box>
