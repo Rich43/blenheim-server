@@ -29,13 +29,13 @@ export const MutableList: FunctionComponent<{
             </ListSubheader>
         }>
             {
-                items.map(item => {
+                items.map((item, index) => {
                     return (
                         <ListItem>
                             <ListItemText primary={item} />
                             <ListItemSecondaryAction>
                                 <IconButton onClick={() => {
-                                    setItems(items.filter(value => { return value !== item; }));
+                                    setItems(items.filter((value, idx) => { return idx !== index; }));
                                 }} edge='end' aria-label='delete'>
                                     <DeleteIcon />
                                 </IconButton>
