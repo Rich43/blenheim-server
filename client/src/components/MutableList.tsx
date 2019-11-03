@@ -6,13 +6,24 @@ import {
     ListItemSecondaryAction,
     ListItemText,
     ListSubheader,
-    TextField
+    TextField,
+    Theme
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import React, { FunctionComponent, useState } from 'react';
 import { TextFieldDialog } from "./dialogs/generic/TextFieldDialog";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles<Theme, {}>((theme) => {
+    return ({
+        list: {
+            maxHeight: 300,
+            overflow: 'auto'
+        },
+    });
+});
 
 export const MutableList: FunctionComponent<{
     subheaderText: string;
@@ -34,6 +45,7 @@ export const MutableList: FunctionComponent<{
     const [editText, setEditText] = useState('');
     const [textFieldValue, setTextFieldValue] = useState('');
     const [rowIndex, setRowIndex] = useState(0);
+    const classes = useStyles();
     const create = () => {
         if (textFieldValue.length > 0) {
             setItems([...items, textFieldValue]);
@@ -56,11 +68,14 @@ export const MutableList: FunctionComponent<{
             dialogTitle='Edit'
             dialogContentText={placeholderText}
         />
-        <List subheader={
-            <ListSubheader>
-                {subheaderText}
-            </ListSubheader>
-        }>
+        <List
+            subheader={(
+                <ListSubheader>
+                    {subheaderText}
+                </ListSubheader>
+            )}
+            className={classes.list}
+        >
             {
                 items.map((item, index) => {
                     return (
