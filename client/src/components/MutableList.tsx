@@ -12,16 +12,16 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
-import React, { FunctionComponent, useState } from 'react';
-import { TextFieldDialog } from "./dialogs/generic/TextFieldDialog";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { TextFieldDialog } from './dialogs/generic/TextFieldDialog';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const useStyles = makeStyles<Theme, {}>((theme) => {
+const useStyles = makeStyles<Theme, {}>(() => {
     return ({
         list: {
             maxHeight: 300,
             overflow: 'auto'
-        },
+        }
     });
 });
 
@@ -42,15 +42,26 @@ export const MutableList: FunctionComponent<{
 }) => {
     const [items, setItems] = useState(listItems);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [scroll, setScroll] = useState(false);
     const [editText, setEditText] = useState('');
     const [textFieldValue, setTextFieldValue] = useState('');
     const [rowIndex, setRowIndex] = useState(0);
+    const listRef = React.createRef<HTMLUListElement>();
     const classes = useStyles();
+
+    useEffect(() => {
+        if (scroll) {
+            listRef.current && listRef.current.scrollTo(0, listRef.current.scrollHeight);
+            setScroll(false);
+        }
+    }, [items, listRef, scroll]);
+
     const create = () => {
         if (textFieldValue.length > 0) {
             setItems([...items, textFieldValue]);
             onCreate(textFieldValue);
             setTextFieldValue('');
+            setScroll(true);
         }
     };
 
@@ -61,7 +72,7 @@ export const MutableList: FunctionComponent<{
             onChange={event => setEditText(event.target.value)}
             dialogOpen={dialogOpen}
             okClicked={() => {
-                setItems(items.map((v, i) => i === rowIndex ? editText: v));
+                setItems(items.map((v, i) => i === rowIndex ? editText : v));
                 onUpdate(editText, rowIndex);
             }}
             onClose={() => setDialogOpen(false)}
@@ -75,6 +86,7 @@ export const MutableList: FunctionComponent<{
                 </ListSubheader>
             )}
             className={classes.list}
+            ref={listRef}
         >
             {
                 items.map((item, index) => {
