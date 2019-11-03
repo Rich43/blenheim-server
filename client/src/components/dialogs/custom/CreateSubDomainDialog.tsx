@@ -23,7 +23,6 @@ export const CreateSubDomainDialog: FunctionComponent<{
                 okClicked={() => {
                     createSubDomain({variables: {token: store.token, id: domainName, name: dialogText}}).then();
                     setDialogOpen(false);
-                    onClose();
                 }}
                 onChange={event => setDialogText(event.target.value || '')}
                 dialogTitle='Add Subdomain'

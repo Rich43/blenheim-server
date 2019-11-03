@@ -23,7 +23,6 @@ export const UpdateSubDomainDialog: FunctionComponent<{
                         variables: {token: store.token, id: domainName, index: index, name: dialogText}
                     }
                 ).then();
-                onClose();
             }}
             onChange={event => setDialogText(event.target.value || '')}
             dialogTitle='Edit Subdomain'

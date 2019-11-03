@@ -30,7 +30,6 @@ export const DeleteDomainDialog: FunctionComponent<{
                         update: updateDomainsCache('deleteDomain', store.token)
                     }
                 ).then();
-                onClose();
                 setValue(null);
             }}
             onChange={event => setValue(event.target.value)}

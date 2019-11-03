@@ -38,7 +38,6 @@ export const UpdateDomainDialog: FunctionComponent<{
                 ).then();
                 setValue(null);
                 setDialogText('');
-                onClose();
             }}
             onTextFieldChange={event => setDialogText(event.target.value || '')}
             onSelectChange={event => {

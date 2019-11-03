@@ -23,7 +23,10 @@ export const AbstractDialog: FunctionComponent<AbstractDialogProps> = (props) =>
                 <Button onClick={() => props.onClose()} color='primary'>
                     Cancel
                 </Button>
-                <Button onClick={props.okClicked} color='primary'>
+                <Button onClick={() => {
+                    props.okClicked();
+                    props.onClose();
+                }} color='primary'>
                     Ok
                 </Button>
             </DialogActions>

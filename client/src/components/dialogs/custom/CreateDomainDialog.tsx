@@ -24,7 +24,6 @@ export const CreateDomainDialog: FunctionComponent<{
                             update: updateDomainsCache('createDomain', store.token)
                         }
                     ).then();
-                    onClose();
                 }
             }
             onChange={event => setDialogText(event.target.value || '')}
