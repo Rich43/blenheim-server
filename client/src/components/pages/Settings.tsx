@@ -12,6 +12,9 @@ export const Settings: FunctionComponent = () => {
                         subheaderText='Default subdomains'
                         placeholderText='Enter a new default subdomain'
                         listItems={['Single-line item']}
+                        onCreate={() => {}}
+                        onUpdate={() => {}}
+                        onDelete={() => {}}
                     />
                 </Paper>
             </Container>
