@@ -29,7 +29,13 @@ export const SubDomainListItem: FunctionComponent<{
                     }).then()
                 }}><Remove/></IconButton>
             </ListItem>
-            <UpdateSubDomainDialog domainName={domain} index={count - 1} dialogOpen={dialogOpen} onClose={() => setDialogOpen(false)}/>
+            <UpdateSubDomainDialog
+                domainName={domain}
+                oldSubDomain={subdomain}
+                index={count - 1}
+                dialogOpen={dialogOpen}
+                onClose={() => setDialogOpen(false)}
+            />
         </>
     );
 };

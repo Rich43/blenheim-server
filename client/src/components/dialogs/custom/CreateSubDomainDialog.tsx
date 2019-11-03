@@ -28,6 +28,7 @@ export const CreateSubDomainDialog: FunctionComponent<{
                 dialogTitle='Add Subdomain'
                 dialogContentText={`Enter the subdomain name in the box below. For example: <subdomain>.${domainName}`}
                 textBoxLabel='Subdomain:'
+                textBoxValue={dialogText}
             />
         </>
     );

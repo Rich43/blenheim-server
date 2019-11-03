@@ -30,6 +30,7 @@ export const CreateDomainDialog: FunctionComponent<{
             dialogTitle='Add Domain'
             dialogContentText='Enter the domain name in the box below. For example: example.com'
             textBoxLabel='Domain:'
+            textBoxValue={dialogText}
         />
     );
 };

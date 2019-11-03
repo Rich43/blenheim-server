@@ -31,6 +31,7 @@ export const MutableList: FunctionComponent<{
     return <>
         <TextFieldDialog
             textBoxLabel=''
+            textBoxValue={editText}
             onChange={event => setEditText(event.target.value)}
             dialogOpen={dialogOpen}
             okClicked={() => setItems(items.map((v, i) => i === rowIndex ? editText: v))}
@@ -51,6 +52,7 @@ export const MutableList: FunctionComponent<{
                             <ListItemSecondaryAction>
                                 <IconButton onClick={() => {
                                     setRowIndex(index);
+                                    setEditText(item);
                                     setDialogOpen(true);
                                 }} edge='end' aria-label='delete'>
                                     <EditIcon />

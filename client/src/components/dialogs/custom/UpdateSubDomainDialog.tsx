@@ -5,13 +5,14 @@ import { useUpdateSubDomainMutation } from "../../queries/UpdateSubDomainMutatio
 
 export const UpdateSubDomainDialog: FunctionComponent<{
     domainName: string;
+    oldSubDomain: string;
     index: number;
     dialogOpen: boolean;
     onClose: () => void;
-}> = ({domainName, index, dialogOpen, onClose}) => {
+}> = ({domainName, oldSubDomain, index, dialogOpen, onClose}) => {
     const [updateSubDomain] = useUpdateSubDomainMutation();
     const store = useContext(StoreProvider);
-    const [dialogText, setDialogText] = React.useState<string>('');
+    const [dialogText, setDialogText] = React.useState<string>(oldSubDomain);
 
     return (
         <TextFieldDialog
@@ -28,6 +29,7 @@ export const UpdateSubDomainDialog: FunctionComponent<{
             dialogTitle='Edit Subdomain'
             dialogContentText={`Enter the subdomain name in the box below. For example: <subdomain>.${domainName}`}
             textBoxLabel='Subdomain:'
+            textBoxValue={dialogText}
         />
     );
 };

@@ -4,6 +4,7 @@ import { AbstractDialog, AbstractDialogProps } from "./AbstractDialog";
 
 interface TextFieldDialogProps extends AbstractDialogProps {
     textBoxLabel: string;
+    textBoxValue: string;
     onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
 }
 
@@ -20,6 +21,7 @@ export const TextFieldDialog: FunctionComponent<TextFieldDialogProps> = (props) 
                 margin='dense'
                 id={props.textBoxLabel}
                 label={props.textBoxLabel}
+                value={props.textBoxValue}
                 fullWidth
                 onChange={props.onChange}
                 onKeyPress={event => {
