@@ -12,6 +12,9 @@ export const Settings: FunctionComponent = () => {
                         subheaderText='Default subdomains'
                         placeholderText='Enter a new default subdomain'
                         listItems={['Single-line item']}
+                        dialogContentText='Edit the default subdomain in the text box below:'
+                        dialogTextBoxLabel='Enter a new default subdomain'
+                        dialogTitle='Editing %s'
                         onCreate={() => {}}
                         onUpdate={() => {}}
                         onDelete={() => {}}

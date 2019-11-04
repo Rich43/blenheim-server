@@ -28,6 +28,9 @@ const useStyles = makeStyles<Theme, {}>(() => {
 export const MutableList: FunctionComponent<{
     subheaderText: string;
     placeholderText: string;
+    dialogTitle: string;
+    dialogTextBoxLabel: string;
+    dialogContentText: string;
     listItems: string[];
     onCreate: (value: string) => void;
     onUpdate: (value: string, index: number) => void;
@@ -35,6 +38,9 @@ export const MutableList: FunctionComponent<{
 }> = ({
     subheaderText,
     placeholderText,
+    dialogTitle,
+    dialogTextBoxLabel,
+    dialogContentText,
     listItems,
     onCreate,
     onUpdate,
@@ -44,6 +50,7 @@ export const MutableList: FunctionComponent<{
     const [dialogOpen, setDialogOpen] = useState(false);
     const [scroll, setScroll] = useState(false);
     const [editText, setEditText] = useState('');
+    const [originalEditText, setOriginalEditText] = useState('');
     const [textFieldValue, setTextFieldValue] = useState('');
     const [rowIndex, setRowIndex] = useState(0);
     const listRef = React.createRef<HTMLUListElement>();
@@ -67,7 +74,7 @@ export const MutableList: FunctionComponent<{
 
     return <>
         <TextFieldDialog
-            textBoxLabel=''
+            textBoxLabel={dialogTextBoxLabel}
             textBoxValue={editText}
             onChange={event => setEditText(event.target.value)}
             dialogOpen={dialogOpen}
@@ -76,8 +83,8 @@ export const MutableList: FunctionComponent<{
                 onUpdate(editText, rowIndex);
             }}
             onClose={() => setDialogOpen(false)}
-            dialogTitle='Edit'
-            dialogContentText={placeholderText}
+            dialogTitle={dialogTitle.replace('%s', originalEditText)}
+            dialogContentText={dialogContentText}
         />
         <List
             subheader={(
@@ -97,6 +104,7 @@ export const MutableList: FunctionComponent<{
                                 <IconButton onClick={() => {
                                     setRowIndex(index);
                                     setEditText(item);
+                                    setOriginalEditText(item);
                                     setDialogOpen(true);
                                 }} edge='end' aria-label='edit'>
                                     <EditIcon />

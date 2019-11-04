@@ -27,6 +27,7 @@ export const TextFieldDialog: FunctionComponent<TextFieldDialogProps> = (props) 
                 onKeyPress={event => {
                     if (event.key === 'Enter') {
                         props.okClicked();
+                        props.onClose();
                     }
                 }}
             />
