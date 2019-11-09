@@ -13,7 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { TextFieldDialog } from './dialogs/generic/TextFieldDialog';
+import { TextFieldDialog } from '../../dialogs/generic/TextFieldDialog';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles<Theme, {}>(() => {

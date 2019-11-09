@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { MutableList } from '../MutableList';
+import { MutableList } from '../lists/generic/MutableList';
 
 export const Settings: FunctionComponent = () => {
     return (

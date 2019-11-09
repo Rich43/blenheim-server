@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import List from '@material-ui/core/List';
 import { useDomainsQuery } from '../queries/DomainsQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import { DomainsList } from './DomainsList';
+import { DomainsList } from '../lists/custom/DomainsList';
 import Fab from '@material-ui/core/Fab';
 import { MoreVert } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
