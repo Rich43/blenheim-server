@@ -1,14 +1,14 @@
 import gql from "graphql-tag";
 import { useMutation } from '@apollo/react-hooks';
-import { CreateIPv4, CreateIPv4Variables } from "../../types/CreateIPv4";
+import { CreateIPv6, CreateIPv6Variables } from "../../../../types/CreateIPv6";
 
 const MUTATION = gql`
-    mutation CreateIPv4($token: String!, $id: ID!) {
+    mutation CreateIPv6($token: String!, $id: ID!) {
         authentication {
             token(token: $token)
         }
         settings {
-            createIpv4(id: $id) {
+            createIpv6(id: $id) {
                 ipv4
                 ipv6
                 defaultSubdomains
@@ -17,4 +17,4 @@ const MUTATION = gql`
     }
 `;
 
-export const useCreateIPv4Mutation = () => useMutation<CreateIPv4, CreateIPv4Variables>(MUTATION);
+export const useCreateIPv6Mutation = () => useMutation<CreateIPv6, CreateIPv6Variables>(MUTATION);

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { TextFieldDialog } from '../generic/TextFieldDialog';
 import { StoreProvider } from '../../../StoreProvider';
-import { useUpdateSubDomainMutation } from "../../queries/UpdateSubDomainMutation";
+import { useUpdateSubDomainMutation } from "../../queries/mutations/update/UpdateSubDomainMutation";
 
 export const UpdateSubDomainDialog: FunctionComponent<{
     domainName: string;

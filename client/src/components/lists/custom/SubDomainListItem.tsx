@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from "react";
 import { IconButton, ListItem, ListItemText } from "@material-ui/core";
 import { Edit, Remove } from "@material-ui/icons";
 import { UpdateSubDomainDialog } from "../../dialogs/custom/UpdateSubDomainDialog";
-import { useDeleteSubDomainMutation } from "../../queries/DeleteSubDomainMutation";
+import { useDeleteSubDomainMutation } from "../../queries/mutations/delete/DeleteSubDomainMutation";
 import { StoreProvider } from "../../../StoreProvider";
 
 export const SubDomainListItem: FunctionComponent<{

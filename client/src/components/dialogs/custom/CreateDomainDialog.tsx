@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { TextFieldDialog } from '../generic/TextFieldDialog';
 import { StoreProvider } from '../../../StoreProvider';
-import { useCreateDomainMutation } from "../../queries/CreateDomainMutation";
+import { useCreateDomainMutation } from "../../queries/mutations/create/CreateDomainMutation";
 import { updateDomainsCache } from "../../queries/DomainsQuery";
 
 export const CreateDomainDialog: FunctionComponent<{

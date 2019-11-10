@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import { IconButton, } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import { TextFieldDialog } from '../generic/TextFieldDialog';
-import { useCreateSubDomainMutation } from '../../queries/CreateSubDomainMutation';
+import { useCreateSubDomainMutation } from '../../queries/mutations/create/CreateSubDomainMutation';
 import { StoreProvider } from '../../../StoreProvider';
 
 export const CreateSubDomainDialog: FunctionComponent<{
