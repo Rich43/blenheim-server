@@ -24,7 +24,7 @@ export const DefaultSubdomainsMutableList: FunctionComponent = () => {
         <MutableList
             subheaderText='Default subdomains'
             placeholderText='Enter a new default subdomain'
-            listItems={settings.data && settings.data.settings.defaultSubdomains || []}
+            listItems={(settings.data && settings.data.settings.defaultSubdomains) || []}
             dialogContentText='Edit the default subdomain in the text box below:'
             dialogTextBoxLabel='Enter a new default subdomain'
             dialogTitle='Editing %s'
