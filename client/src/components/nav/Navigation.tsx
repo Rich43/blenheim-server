@@ -5,6 +5,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import { UserButton } from './UserButton';
 import { SideDrawer } from './SideDrawer';
+import { ApplyChanges } from "./ApplyChanges";
 
 const useStyles = makeStyles({
     title: {
@@ -19,6 +20,7 @@ export const Navigation: FunctionComponent = () => {
             <Toolbar>
                 <SideDrawer />
                 <Typography variant='h6' className={classes.title}>Blenheim</Typography>
+                <ApplyChanges />
                 <UserButton />
             </Toolbar>
         </AppBar>

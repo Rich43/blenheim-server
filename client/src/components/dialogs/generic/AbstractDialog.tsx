@@ -32,4 +32,4 @@ export const AbstractDialog: FunctionComponent<AbstractDialogProps> = (props) =>
             </DialogActions>
         </Dialog>
     );
-}
+};
