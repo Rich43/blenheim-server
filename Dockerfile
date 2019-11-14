@@ -3,19 +3,32 @@ FROM python:latest
 RUN apt update
 RUN apt install -y bind9
 
-WORKDIR /app
+WORKDIR /app/server
 
-COPY . .
+COPY server .
 
 RUN python setup.py bdist_wheel
 
-WORKDIR /app/dist
+WORKDIR /app/server/dist
 
 RUN find -maxdepth 1 -type f -name '*.whl' -exec pip install {} \;
 
+WORKDIR /app/client
+
+COPY client .
+
+RUN apt install -y npm
+
+RUN npm i
+
 WORKDIR /app
 
+COPY docker.sh .
+
 EXPOSE 8000/tcp
+EXPOSE 3000/tcp
+EXPOSE 53/tcp
+EXPOSE 53/udp
 
 ENTRYPOINT [ "./docker.sh" ]
-CMD [ "--host", "0.0.0.0", "--workers", "8", "blenheim:app" ]
+CMD [ ]
