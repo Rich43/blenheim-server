@@ -16,8 +16,17 @@ if [ $status -ne 0 ]; then
   exit $status
 fi
 
-# Start blenheim client
 cd /app/client || exit
+
+# Substitute server uri
+if  [[ -v BLENHEIM_URI ]]; then
+cd src
+echo $BLENHEIM_URI | sed -e 's:\::\\\::g' > uri
+sed -e "s:\${window.location.protocol}//\${window.location.hostname}\:8000:`cat uri`:g" graphQL.ts > graphQL.ts
+cd ..
+fi
+
+# Start blenheim client
 npm start &
 status=$?
 if [ $status -ne 0 ]; then
