@@ -20,9 +20,10 @@ cd /app/client || exit
 
 # Substitute server uri
 if  [[ -v BLENHEIM_URI ]]; then
-cd src
-echo $BLENHEIM_URI | sed -e 's:\::\\\::g' > uri
-sed -e "s:\${window.location.protocol}//\${window.location.hostname}\:8000:`cat uri`:g" graphQL.ts > graphQL.ts
+cd src || exit
+echo "$BLENHEIM_URI" | sed -e 's:\::\\\::g' > uri
+sed -e "s:\${window.location.protocol}//\${window.location.hostname}\:8000:`cat uri`:g" graphQL.ts > graphQLtemp.ts
+mv graphQLtemp.ts graphQL.ts
 cd ..
 fi
 
