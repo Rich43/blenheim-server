@@ -17,7 +17,7 @@ const useStyles = makeStyles<Theme, {}>((theme) => {
     });
 });
 
-export const ApplyChanges: FunctionComponent = () => {
+export const Generate: FunctionComponent = () => {
     const store = useContext(StoreProvider);
     const classes = useStyles();
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -34,10 +34,10 @@ export const ApplyChanges: FunctionComponent = () => {
                     setError(false);
                     setResult('');
                 }}
-                dialogTitle='Apply Changes'
+                dialogTitle='Generate'
                 dialogContent={(
                     <>
-                        <Typography variant='subtitle1'>Applying Changes...</Typography>
+                        <Typography variant='subtitle1'>Generating configuration files...</Typography>
                         <Box p={1} />
                         {dialogOpen && (
                             <Query<Dns, DnsVariables>
@@ -46,12 +46,17 @@ export const ApplyChanges: FunctionComponent = () => {
                                 fetchPolicy='no-cache'
                             >
                                 {({ loading, error, data }): JSX.Element => {
+                                    if (error) {
+                                        setError(true);
+                                        setResult(error.message || '');
+                                        return (<></>);
+                                    }
                                     if (loading) {
                                         return (<></>);
                                     }
                                     if (data && data.dns.generate.success) {
                                         setError(false);
-                                        setResult('Applied changes.');
+                                        setResult('Generated.');
                                     } else {
                                         setError(true);
                                         setResult((data && data.dns.generate.error) || '');
@@ -74,7 +79,7 @@ export const ApplyChanges: FunctionComponent = () => {
                 buttonDisabled={result === ''}
             />
             <Box pr={2}>
-                <Button variant='contained' onClick={() => setDialogOpen(true)}>Apply changes</Button>
+                <Button variant='contained' onClick={() => setDialogOpen(true)}>Generate</Button>
             </Box>
         </>
     );
