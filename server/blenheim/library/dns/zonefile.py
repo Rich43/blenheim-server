@@ -13,7 +13,7 @@ class ZoneFile(LibraryBase):
         template = self.env.get_template('dns/zonefile.jinja2')
         ipv4 = self.config['settings']['ipv4']
         ipv6 = self.config['settings']['ipv6']
-        std_subdomains = self.config['settings']['subdomains']
+        std_subdomains = self.config['settings']['default_subdomains']
         if len(ipv4) < len(ipv6):
             ns_count = len(ipv6)
         else:
