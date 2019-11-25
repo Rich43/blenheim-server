@@ -1,6 +1,7 @@
 from hashlib import sha3_512
 from json import load, dump
-from os.path import exists
+from os import makedirs
+from os.path import exists, join
 
 default_config = {
     'users': {
@@ -32,7 +33,7 @@ default_config = {
     }
 }
 
-FILENAME = 'config.json'
+FILENAME = join('config', 'config.json')
 
 
 class Config(dict):
@@ -48,4 +49,5 @@ class Config(dict):
         self.save()
 
     def save(self):
+        makedirs('config', exist_ok=True)
         dump(self, open(FILENAME, 'w'), indent=4)

@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Restore bind backup
+cp -nv /app/bind_backup/* /etc/bind/
+
 # Start bind
 /etc/init.d/bind9 start
 status=$?
