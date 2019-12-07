@@ -6,12 +6,31 @@ from blenheim.config import Config
 
 
 def create_domain_list(config: Config):
-    return [Domain(id=k, subdomains=v) for k, v in config['domains'].items()]
+    return [
+        Domain(
+            id=domain_name,
+            subdomains=[
+                SubDomain(
+                    id=subdomain['subdomain'],
+                    ip_address_v4=subdomain.get('ip_address_v4'),
+                    ip_address_v6=subdomain.get('ip_address_v6')
+                )
+                for subdomain in subdomains
+            ]
+        )
+        for domain_name, subdomains in config['domains'].items()
+    ]
+
+
+class SubDomain(ObjectType):
+    id = NonNull(ID)
+    ip_address_v4 = String()
+    ip_address_v6 = String()
 
 
 class Domain(ObjectType):
     id = NonNull(ID)
-    subdomains = NonNull(List(NonNull(String)))
+    subdomains = NonNull(List(NonNull(SubDomain)))
 
 
 # noinspection PyMethodMayBeStatic
@@ -144,25 +163,27 @@ class CreateSubDomain(Mutation):
     def mutate(self, info, id: str, name: str):
         if info.context.get('current_user'):
             config = Config()
-            config['domains'][id].append(name)
+            config['domains'][id].append({'subdomain': name})
             config.save()
             return Domain(id=id, subdomains=config['domains'][id])
 
 
-# noinspection PyMethodMayBeStatic,PyUnusedLocal
-class UpdateSubDomain(Mutation):
-    class Arguments:
-        id = NonNull(ID)
-        name = NonNull(String)
-        index = NonNull(Int)
-    Output = Domain
+def update_sub_domain_setting(setting_id: str):
+    # noinspection PyMethodMayBeStatic,PyUnusedLocal
+    class UpdateSubDomainSetting(Mutation):
+        class Arguments:
+            id = NonNull(ID)
+            name = NonNull(String)
+            index = NonNull(Int)
+        Output = Domain
 
-    def mutate(self, info, id: str, name: str, index: int):
-        if info.context.get('current_user'):
-            config = Config()
-            config['domains'][id][index] = name
-            config.save()
-            return Domain(id=id, subdomains=config['domains'][id])
+        def mutate(self, info, id: str, name: str, index: int):
+            if info.context.get('current_user'):
+                config = Config()
+                config['domains'][id][index][setting_id] = name
+                config.save()
+                return Domain(id=id, subdomains=config['domains'][id])
+    return type('update_' + setting_id, (UpdateSubDomainSetting,), {})
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -180,6 +201,23 @@ class DeleteSubDomain(Mutation):
             return Domain(id=id, subdomains=config['domains'][id])
 
 
+def delete_sub_domain_setting(setting_id: str):
+    # noinspection PyMethodMayBeStatic,PyUnusedLocal
+    class DeleteSubDomainSetting(Mutation):
+        class Arguments:
+            id = NonNull(ID)
+            index = NonNull(Int)
+        Output = Domain
+
+        def mutate(self, info, id: str, index: int):
+            if info.context.get('current_user'):
+                config = Config()
+                del config['domains'][id][index][setting_id]
+                config.save()
+                return Domain(id=id, subdomains=config['domains'][id])
+    return type('delete_' + setting_id, (DeleteSubDomainSetting,), {})
+
+
 # noinspection PyUnresolvedReferences
 class SettingsMutations(ObjectType):
     create_default_sub_domain = create_setting('default_subdomains').Field()
@@ -195,5 +233,13 @@ class SettingsMutations(ObjectType):
     update_domain = UpdateDomain.Field()
     delete_domain = DeleteDomain.Field()
     create_sub_domain = CreateSubDomain.Field()
-    update_sub_domain = UpdateSubDomain.Field()
+    update_sub_domain = update_sub_domain_setting('subdomain').Field()
     delete_sub_domain = DeleteSubDomain.Field()
+    update_sub_domain_ip_address_v4 = \
+        update_sub_domain_setting('ip_address_v4').Field()
+    delete_sub_domain_ip_address_v4 = \
+        delete_sub_domain_setting('ip_address_v4').Field()
+    update_sub_domain_ip_address_v6 = \
+        update_sub_domain_setting('ip_address_v6').Field()
+    delete_sub_domain_ip_address_v6 = \
+        delete_sub_domain_setting('ip_address_v6').Field()
