@@ -37,7 +37,7 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                     {
                         props.row.subdomains && props.row.subdomains.map(subdomain => {
                             subDomainCount++;
-                            return (<SubDomainListItem count={subDomainCount} domain={name} subdomain={subdomain} />);
+                            return (<SubDomainListItem count={subDomainCount} domain={name} subdomain={subdomain.id} />);
                         })
                     }
                 </List>
