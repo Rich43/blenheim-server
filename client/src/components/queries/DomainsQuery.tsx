@@ -13,7 +13,11 @@ const QUERY = gql`
         settings {
             domains {
                 id
-                subdomains
+                subdomains {
+                    id
+                    ipAddressV4
+                    ipAddressV6
+                }
             }
             defaultSubdomains
         }
