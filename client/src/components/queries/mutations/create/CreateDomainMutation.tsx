@@ -10,7 +10,11 @@ const MUTATION = gql`
         settings {
             createDomain(id: $id, subdomains: []) {
                 id
-                subdomains
+                subdomains {
+                    id
+                    ipAddressV4
+                    ipAddressV6
+                }
             }
         }
     }

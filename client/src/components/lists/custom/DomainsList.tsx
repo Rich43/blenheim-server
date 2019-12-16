@@ -16,7 +16,7 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
             <ListItem key={`li${props.count}`}>
                 <ListItemText key={`lit${props.count}`}><Button
                     onClick={() => setOpen(!open)}>{name}</Button></ListItemText>
-                <CreateSubDomainDialog domainName={name} onClose={() => setOpen(false)}/>
+                <CreateSubDomainDialog domainName={name} />
                 <IconButton onClick={() => setOpen(!open)} key={`ib2${props.count}`}>{open ? <ExpandLess/> :
                     <ExpandMore/>}</IconButton>
             </ListItem>
@@ -37,7 +37,7 @@ export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
                     {
                         props.row.subdomains && props.row.subdomains.map(subdomain => {
                             subDomainCount++;
-                            return (<SubDomainListItem count={subDomainCount} domain={name} subdomain={subdomain} />);
+                            return (<SubDomainListItem count={subDomainCount} domain={name} subdomain={subdomain.id} />);
                         })
                     }
                 </List>

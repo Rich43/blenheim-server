@@ -39,18 +39,30 @@ mail.{{ domain }}.   IN    MX    1 {{ domain }}.
 
 {# Add some subdomains #}
 {% for sub_domain in sub_domains %}
-    {{ sub_domain }}.{{ domain }}.   IN    A     {{ ipv4[0] }}
-    {{ sub_domain }}.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}
+    {% set ipv4_value, ipv6_value, sub_domain_name = (None, None, sub_domain['subdomain']) %}
+    {% if sub_domain.get('ip_address_v4') %}
+        {% set ipv4_value = sub_domain['ip_address_v4'] %}
+    {% else %}
+        {% set ipv4_value = ipv4[0] %}
+    {% endif %}
+    {% if sub_domain.get('ip_address_v6') %}
+        {% set ipv6_value = sub_domain['ip_address_v6'] %}
+    {% else %}
+        {% set ipv6_value = ipv6[0] %}
+    {% endif %}
+
+    {{ sub_domain_name }}.{{ domain }}.   IN    A     {{ ipv4_value }}
+    {{ sub_domain_name }}.{{ domain }}.   IN    AAAA     {{ ipv6_value }}
 
     {# Add the mail Records #}
-    mail.{{ sub_domain }}.{{ domain }}.   IN    A     {{ ipv4[0] }}
-    mail.{{ sub_domain }}.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}
-    mail.{{ sub_domain }}.{{ domain }}.   IN    MX    1 {{ domain }}.
-    {{ sub_domain }}.{{ domain }}.        IN    MX    1 {{ domain }}.
+    mail.{{ sub_domain_name }}.{{ domain }}.   IN    A     {{ ipv4_value }}
+    mail.{{ sub_domain_name }}.{{ domain }}.   IN    AAAA     {{ ipv6_value }}
+    mail.{{ sub_domain_name }}.{{ domain }}.   IN    MX    1 {{ domain }}.
+    {{ sub_domain_name }}.{{ domain }}.        IN    MX    1 {{ domain }}.
 
     {# Add the Standard Subdomain Records #}
     {% for std_subdomain in std_subdomains %}
-        {{ std_subdomain }}.{{ sub_domain }}.{{ domain }}.   IN    A     {{ ipv4[0] }}
-        {{ std_subdomain }}.{{ sub_domain }}.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}
+        {{ std_subdomain }}.{{ sub_domain_name }}.{{ domain }}.   IN    A     {{ ipv4_value }}
+        {{ std_subdomain }}.{{ sub_domain_name }}.{{ domain }}.   IN    AAAA     {{ ipv6_value }}
     {% endfor %}
 {% endfor %}

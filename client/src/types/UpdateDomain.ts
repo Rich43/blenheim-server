@@ -11,10 +11,17 @@ export interface UpdateDomain_authentication {
   token: string | null;
 }
 
+export interface UpdateDomain_settings_updateDomain_subdomains {
+  __typename: "SubDomain";
+  id: string;
+  ipAddressV4: string | null;
+  ipAddressV6: string | null;
+}
+
 export interface UpdateDomain_settings_updateDomain {
   __typename: "Domain";
   id: string;
-  subdomains: string[];
+  subdomains: UpdateDomain_settings_updateDomain_subdomains[];
 }
 
 export interface UpdateDomain_settings {

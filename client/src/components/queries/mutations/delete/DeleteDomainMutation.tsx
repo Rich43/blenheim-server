@@ -10,7 +10,11 @@ const MUTATION = gql`
         settings {
             deleteDomain(id: $id) {
                 id
-                subdomains
+                subdomains {
+                    id
+                    ipAddressV4
+                    ipAddressV6
+                }
             }
         }
     }

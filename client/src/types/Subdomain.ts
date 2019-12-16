@@ -11,10 +11,17 @@ export interface Subdomain_authentication {
   token: string | null;
 }
 
+export interface Subdomain_settings_createSubDomain_subdomains {
+  __typename: "SubDomain";
+  id: string;
+  ipAddressV4: string | null;
+  ipAddressV6: string | null;
+}
+
 export interface Subdomain_settings_createSubDomain {
   __typename: "Domain";
   id: string;
-  subdomains: string[];
+  subdomains: Subdomain_settings_createSubDomain_subdomains[];
 }
 
 export interface Subdomain_settings {

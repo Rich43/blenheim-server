@@ -11,10 +11,17 @@ export interface DeleteSubDomain_authentication {
   token: string | null;
 }
 
+export interface DeleteSubDomain_settings_deleteSubDomain_subdomains {
+  __typename: "SubDomain";
+  id: string;
+  ipAddressV4: string | null;
+  ipAddressV6: string | null;
+}
+
 export interface DeleteSubDomain_settings_deleteSubDomain {
   __typename: "Domain";
   id: string;
-  subdomains: string[];
+  subdomains: DeleteSubDomain_settings_deleteSubDomain_subdomains[];
 }
 
 export interface DeleteSubDomain_settings {
