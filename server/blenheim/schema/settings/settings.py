@@ -1,22 +1,26 @@
 from graphene import ObjectType, List, String, Field, Mutation, Int, ID, NonNull
 # noinspection PyPackageRequirements
 from graphql import ResolveInfo
-
+from typing import List as TypingList
 from blenheim.config import Config
+
+
+def create_subdomain_list(subdomains: TypingList[dict]):
+    return [
+        SubDomain(
+            id=subdomain['subdomain'],
+            ip_address_v4=subdomain.get('ip_address_v4'),
+            ip_address_v6=subdomain.get('ip_address_v6')
+        )
+        for subdomain in subdomains
+    ]
 
 
 def create_domain_list(config: Config):
     return [
         Domain(
             id=domain_name,
-            subdomains=[
-                SubDomain(
-                    id=subdomain['subdomain'],
-                    ip_address_v4=subdomain.get('ip_address_v4'),
-                    ip_address_v6=subdomain.get('ip_address_v6')
-                )
-                for subdomain in subdomains
-            ]
+            subdomains=create_subdomain_list(subdomains)
         )
         for domain_name, subdomains in config['domains'].items()
     ]
@@ -165,7 +169,10 @@ class CreateSubDomain(Mutation):
             config = Config()
             config['domains'][id].append({'subdomain': name})
             config.save()
-            return Domain(id=id, subdomains=config['domains'][id])
+            return Domain(
+                id=id,
+                subdomains=create_subdomain_list(config['domains'][id])
+            )
 
 
 def update_sub_domain_setting(setting_id: str):
@@ -182,7 +189,10 @@ def update_sub_domain_setting(setting_id: str):
                 config = Config()
                 config['domains'][id][index][setting_id] = name
                 config.save()
-                return Domain(id=id, subdomains=config['domains'][id])
+                return Domain(
+                    id=id,
+                    subdomains=create_subdomain_list(config['domains'][id])
+                )
     return type('update_' + setting_id, (UpdateSubDomainSetting,), {})
 
 
@@ -198,7 +208,10 @@ class DeleteSubDomain(Mutation):
             config = Config()
             del config['domains'][id][index]
             config.save()
-            return Domain(id=id, subdomains=config['domains'][id])
+            return Domain(
+                id=id,
+                subdomains=create_subdomain_list(config['domains'][id])
+            )
 
 
 def delete_sub_domain_setting(setting_id: str):
@@ -214,7 +227,10 @@ def delete_sub_domain_setting(setting_id: str):
                 config = Config()
                 del config['domains'][id][index][setting_id]
                 config.save()
-                return Domain(id=id, subdomains=config['domains'][id])
+                return Domain(
+                    id=id,
+                    subdomains=create_subdomain_list(config['domains'][id])
+                )
     return type('delete_' + setting_id, (DeleteSubDomainSetting,), {})
 
 
