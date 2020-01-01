@@ -47,10 +47,13 @@ export const DomainsList: FunctionComponent<DomainsListProps> =
                             domainsSettingsDomain.subdomains && domainsSettingsDomain.subdomains.map(subdomain => {
                                 const subDomainListItem = (
                                     <>
-                                        <SubDomainListItem count={subDomainCount}
-                                                           domain={name}
-                                                           subdomain={subdomain.id}
-                                                           domainsSettings={domainsSettings}/>
+                                        <SubDomainListItem
+                                            count={subDomainCount}
+                                            domain={name}
+                                            subdomain={subdomain.id}
+                                            domainsSettings={domainsSettings}
+                                            domainIndex={domainIndex}
+                                        />
                                     </>
                                 );
                                 subDomainCount++;

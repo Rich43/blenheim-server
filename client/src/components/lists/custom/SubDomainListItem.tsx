@@ -14,8 +14,9 @@ export const SubDomainListItem: FunctionComponent<{
     count: number,
     domain: string,
     subdomain: string,
-    domainsSettings: Domains_settings
-}> = ({count, domain, subdomain, domainsSettings}) => {
+    domainsSettings: Domains_settings,
+    domainIndex: number
+}> = ({count, domain, subdomain, domainsSettings, domainIndex}) => {
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
     const [IPv4DialogOpen, setIPv4DialogOpen] = React.useState<boolean>(false);
     const [IPv6DialogOpen, setIPv6DialogOpen] = React.useState<boolean>(false);
@@ -23,8 +24,9 @@ export const SubDomainListItem: FunctionComponent<{
     const editMenuId = editMenuEl ? 'edit-menu' : undefined;
     const [deleteMenuEl, setDeleteMenuEl] = React.useState<null | HTMLElement>(null);
     const deleteMenuId = deleteMenuEl ? 'delete-menu' : undefined;
-    const [IPv4Address, setIPv4Address] = React.useState<string>('');
-    const [IPv6Address, setIPv6Address] = React.useState<string>('');
+    const domainsSubdomain = domainsSettings.domains[domainIndex].subdomains[count];
+    const [IPv4Address, setIPv4Address] = React.useState<string>(domainsSubdomain.ipAddressV4 || '');
+    const [IPv6Address, setIPv6Address] = React.useState<string>(domainsSubdomain.ipAddressV6 || '');
     const [deleteSubDomain] = useDeleteSubDomainMutation();
     const store = useContext(StoreProvider);
 
