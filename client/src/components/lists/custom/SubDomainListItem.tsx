@@ -4,12 +4,15 @@ import { Edit, Remove } from "@material-ui/icons";
 import { UpdateSubDomainDialog } from "../../dialogs/custom/UpdateSubDomainDialog";
 import { useDeleteSubDomainMutation } from "../../queries/mutations/delete/DeleteSubDomainMutation";
 import { StoreProvider } from "../../../StoreProvider";
+import { Domains_settings } from "../../../types/Domains";
+import { IPInfo } from "./IPInfo";
 
 export const SubDomainListItem: FunctionComponent<{
     count: number,
     domain: string,
-    subdomain: string
-}> = ({count, domain, subdomain}) => {
+    subdomain: string,
+    domainsSettings: Domains_settings
+}> = ({count, domain, subdomain, domainsSettings}) => {
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
     const [deleteSubDomain] = useDeleteSubDomainMutation();
     const store = useContext(StoreProvider);
@@ -18,6 +21,7 @@ export const SubDomainListItem: FunctionComponent<{
         <>
             <ListItem key={`innerLi${count}`}>
                 <ListItemText key={`innerLit${count}`}>{subdomain}</ListItemText>
+                <IPInfo domainsSettings={domainsSettings}/>
                 <IconButton onClick={() => setDialogOpen(true)}><Edit/></IconButton>
                 <IconButton onClick={() => {
                     deleteSubDomain({

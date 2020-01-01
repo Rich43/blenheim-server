@@ -36,7 +36,7 @@ export const Domains: FunctionComponent = () => {
     if (domains.loading) {
         return (<span>Loading...</span>);
     }
-    let count = 1;
+    let count = 0;
     return (
         <>
             <List subheader={
@@ -45,9 +45,10 @@ export const Domains: FunctionComponent = () => {
                 </ListSubheader>
             }>
                 {domainsSettings && domainsSettingsDomains && domainsSettingsDomains.map(domain => {
+                    const domainsList = (<><DomainsList domainsSettings={domainsSettings} domainIndex={count}/></>);
                     if (domain) {
                         count += 1;
-                        return (<DomainsList row={domain} defaultSubdomains={domainsSettings.defaultSubdomains} count={count}/>);
+                        return domainsList;
                     } else {
                         return (<></>);
                     }

@@ -1,9 +1,8 @@
-import { Domains_settings_domains } from "../types/Domains";
+import { Domains_settings, Domains_settings_domains } from "../types/Domains";
 
 export interface DomainsListProps {
-    row: Domains_settings_domains,
-    defaultSubdomains: (string | null)[] | null,
-    count: number
+    domainsSettings: Domains_settings;
+    domainIndex: number;
 }
 
 export type DomainsArray = Domains_settings_domains[] | null;

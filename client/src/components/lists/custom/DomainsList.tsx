@@ -1,47 +1,64 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Button, Collapse, IconButton, List, ListItem, ListItemText, } from '@material-ui/core';
+import { Button, Collapse, IconButton, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import { DomainsListProps } from '../../common';
 import { CreateSubDomainDialog } from "../../dialogs/custom/CreateSubDomainDialog";
 import { SubDomainListItem } from "./SubDomainListItem";
+import { IPInfo } from "./IPInfo";
 
-export const DomainsList: FunctionComponent<DomainsListProps> = (props) => {
-    let defaultSubDomainCount = 0;
-    let subDomainCount = 0;
-    const name = props.row ? props.row.id ? props.row.id : '' : '';
-    const [open, setOpen] = useState<boolean>(false);
+export const DomainsList: FunctionComponent<DomainsListProps> =
+    ({
+         domainsSettings,
+         domainIndex
+     }) => {
+        let defaultSubDomainCount = 0;
+        let subDomainCount = 0;
+        const domainsSettingsDomain = domainsSettings.domains[domainIndex];
+        const name = domainsSettingsDomain ? domainsSettingsDomain.id ? domainsSettingsDomain.id : '' : '';
+        const [open, setOpen] = useState<boolean>(false);
 
-    return (
-        <>
-            <ListItem key={`li${props.count}`}>
-                <ListItemText key={`lit${props.count}`}><Button
-                    onClick={() => setOpen(!open)}>{name}</Button></ListItemText>
-                <CreateSubDomainDialog domainName={name} />
-                <IconButton onClick={() => setOpen(!open)} key={`ib2${props.count}`}>{open ? <ExpandLess/> :
-                    <ExpandMore/>}</IconButton>
-            </ListItem>
+        return (
+            <>
+                <ListItem key={`li${domainIndex}`}>
+                    <ListItemText key={`lit${domainIndex}`}>
+                        <Button onClick={() => setOpen(!open)}>{name}</Button>
+                    </ListItemText>
+                    <CreateSubDomainDialog domainName={name}/>
+                    <IconButton onClick={() => setOpen(!open)} key={`ib2${domainIndex}`}>
+                        {open ? <ExpandLess/> : <ExpandMore/>}
+                    </IconButton>
+                </ListItem>
 
-            <Collapse in={open} timeout='auto' key={`col${props.count}`} unmountOnExit>
-                <List component='div' disablePadding key={`lst${props.count}`}>
-                    {
-                        props.defaultSubdomains && props.defaultSubdomains.map(subdomain => {
-                            defaultSubDomainCount++;
-                            return (
-                                <ListItem key={`innerLi${defaultSubDomainCount}`}>
-                                    <ListItemText key={`innerLit${defaultSubDomainCount}`}>{subdomain}</ListItemText>
-                                    Default Subdomain
-                                </ListItem>
-                            );
-                        })
-                    }
-                    {
-                        props.row.subdomains && props.row.subdomains.map(subdomain => {
-                            subDomainCount++;
-                            return (<SubDomainListItem count={subDomainCount} domain={name} subdomain={subdomain.id} />);
-                        })
-                    }
-                </List>
-            </Collapse>
-        </>
-    );
-};
+                <Collapse in={open} timeout='auto' key={`col${domainIndex}`} unmountOnExit>
+                    <List component='div' disablePadding key={`lst${domainIndex}`}>
+                        {
+                            domainsSettings.defaultSubdomains && domainsSettings.defaultSubdomains.map(subdomain => {
+                                const listItem = <><ListItem key={`innerLi${defaultSubDomainCount}`}>
+                                    <ListItemText
+                                        key={`innerLit${defaultSubDomainCount}`}>{subdomain}</ListItemText>
+                                    <IPInfo domainsSettings={domainsSettings}/>
+                                    <Typography>Default Subdomain</Typography>
+                                </ListItem></>;
+                                defaultSubDomainCount++;
+                                return listItem;
+                            })
+                        }
+                        {
+                            domainsSettingsDomain.subdomains && domainsSettingsDomain.subdomains.map(subdomain => {
+                                const subDomainListItem = (
+                                    <>
+                                        <SubDomainListItem count={subDomainCount}
+                                                           domain={name}
+                                                           subdomain={subdomain.id}
+                                                           domainsSettings={domainsSettings}/>
+                                    </>
+                                );
+                                subDomainCount++;
+                                return subDomainListItem;
+                            })
+                        }
+                    </List>
+                </Collapse>
+            </>
+        );
+    };

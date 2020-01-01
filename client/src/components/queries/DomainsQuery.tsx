@@ -20,6 +20,8 @@ const QUERY = gql`
                 }
             }
             defaultSubdomains
+            ipv4
+            ipv6
         }
     }
 `;
