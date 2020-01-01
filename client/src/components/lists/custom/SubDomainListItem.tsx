@@ -8,6 +8,7 @@ import { Domains_settings } from "../../../types/Domains";
 import { IPInfo } from "./IPInfo";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { TextFieldDialog } from "../../dialogs/generic/TextFieldDialog";
 
 export const SubDomainListItem: FunctionComponent<{
     count: number,
@@ -16,10 +17,14 @@ export const SubDomainListItem: FunctionComponent<{
     domainsSettings: Domains_settings
 }> = ({count, domain, subdomain, domainsSettings}) => {
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
+    const [IPv4DialogOpen, setIPv4DialogOpen] = React.useState<boolean>(false);
+    const [IPv6DialogOpen, setIPv6DialogOpen] = React.useState<boolean>(false);
     const [editMenuEl, setEditMenuEl] = React.useState<null | HTMLElement>(null);
     const editMenuId = editMenuEl ? 'edit-menu' : undefined;
     const [deleteMenuEl, setDeleteMenuEl] = React.useState<null | HTMLElement>(null);
     const deleteMenuId = deleteMenuEl ? 'delete-menu' : undefined;
+    const [IPv4Address, setIPv4Address] = React.useState<string>('');
+    const [IPv6Address, setIPv6Address] = React.useState<string>('');
     const [deleteSubDomain] = useDeleteSubDomainMutation();
     const store = useContext(StoreProvider);
 
@@ -37,6 +42,32 @@ export const SubDomainListItem: FunctionComponent<{
                 index={count}
                 dialogOpen={dialogOpen}
                 onClose={() => setDialogOpen(false)}
+            />
+            <TextFieldDialog
+                textBoxLabel="IPv4 Address"
+                textBoxValue={IPv4Address}
+                onChange={event => setIPv4Address(event.target.value || '')}
+                dialogOpen={IPv4DialogOpen}
+                okClicked={() => {}}
+                onClose={() => {
+                    setIPv4DialogOpen(false);
+                    setIPv4Address('');
+                }}
+                dialogTitle="Custom IPv4 Address"
+                dialogContentText="Enter custom IPv4 Address"
+            />
+            <TextFieldDialog
+                textBoxLabel="IPv6 Address"
+                textBoxValue={IPv6Address}
+                onChange={event => setIPv6Address(event.target.value || '')}
+                dialogOpen={IPv6DialogOpen}
+                okClicked={() => {}}
+                onClose={() => {
+                    setIPv6DialogOpen(false);
+                    setIPv6Address('');
+                }}
+                dialogTitle="Custom IPv6 Address"
+                dialogContentText="Enter custom IPv6 Address"
             />
             <Menu
                 id={editMenuId}
@@ -59,9 +90,11 @@ export const SubDomainListItem: FunctionComponent<{
                 }}>Edit Subdomain Name</MenuItem>
                 <MenuItem onClick={() => {
                     setEditMenuEl(null);
+                    setIPv4DialogOpen(true);
                 }}>Edit Custom IPv4 Address</MenuItem>
                 <MenuItem onClick={() => {
                     setEditMenuEl(null);
+                    setIPv6DialogOpen(true);
                 }}>Edit Custom IPv6 Address</MenuItem>
             </Menu>
             <Menu
