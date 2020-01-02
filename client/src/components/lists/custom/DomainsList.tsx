@@ -48,11 +48,11 @@ export const DomainsList: FunctionComponent<DomainsListProps> =
                                 const subDomainListItem = (
                                     <>
                                         <SubDomainListItem
-                                            count={subDomainCount}
                                             domain={name}
                                             subdomain={subdomain.id}
                                             domainsSettings={domainsSettings}
                                             domainIndex={domainIndex}
+                                            subdomainIndex={subDomainCount}
                                         />
                                     </>
                                 );

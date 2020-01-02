@@ -15,12 +15,12 @@ import { useDeleteSubDomainIPv4Mutation } from "../../queries/mutations/delete/D
 import { useDeleteSubDomainIPv6Mutation } from "../../queries/mutations/delete/DeleteSubDomainIPv6Mutation";
 
 export const SubDomainListItem: FunctionComponent<{
-    count: number,
     domain: string,
     subdomain: string,
     domainsSettings: Domains_settings,
     domainIndex: number
-}> = ({count, domain, subdomain, domainsSettings, domainIndex}) => {
+    subdomainIndex: number,
+}> = ({subdomainIndex, domain, subdomain, domainsSettings, domainIndex}) => {
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
     const [IPv4DialogOpen, setIPv4DialogOpen] = React.useState<boolean>(false);
     const [IPv6DialogOpen, setIPv6DialogOpen] = React.useState<boolean>(false);
@@ -28,7 +28,7 @@ export const SubDomainListItem: FunctionComponent<{
     const editMenuId = editMenuEl ? 'edit-menu' : undefined;
     const [deleteMenuEl, setDeleteMenuEl] = React.useState<null | HTMLElement>(null);
     const deleteMenuId = deleteMenuEl ? 'delete-menu' : undefined;
-    const domainsSubdomain = domainsSettings.domains[domainIndex].subdomains[count];
+    const domainsSubdomain = domainsSettings.domains[domainIndex].subdomains[subdomainIndex];
     const [IPv4Address, setIPv4Address] = React.useState<string>(domainsSubdomain.ipAddressV4 || '');
     const [IPv6Address, setIPv6Address] = React.useState<string>(domainsSubdomain.ipAddressV6 || '');
     const [deleteSubDomain] = useDeleteSubDomainMutation();
@@ -40,16 +40,16 @@ export const SubDomainListItem: FunctionComponent<{
 
     return (
         <>
-            <ListItem key={`innerLi${count}`}>
-                <ListItemText key={`innerLit${count}`}>{subdomain}</ListItemText>
-                <IPInfo domainsSettings={domainsSettings}/>
+            <ListItem key={`innerLi${subdomainIndex}`}>
+                <ListItemText key={`innerLit${subdomainIndex}`}>{subdomain}</ListItemText>
+                <IPInfo domainsSettings={domainsSettings} domainIndex={domainIndex} subdomainIndex={subdomainIndex}/>
                 <IconButton onClick={event => setEditMenuEl(event.currentTarget)}><Edit/></IconButton>
                 <IconButton onClick={event => setDeleteMenuEl(event.currentTarget)}><Remove/></IconButton>
             </ListItem>
             <UpdateSubDomainDialog
                 domainName={domain}
                 oldSubDomain={subdomain}
-                index={count}
+                index={subdomainIndex}
                 dialogOpen={dialogOpen}
                 onClose={() => setDialogOpen(false)}
             />
@@ -63,7 +63,7 @@ export const SubDomainListItem: FunctionComponent<{
                         variables: {
                             token: store.token,
                             id: domain,
-                            index: count,
+                            index: subdomainIndex,
                             name: IPv4Address
                         }
                     }).then();
@@ -85,7 +85,7 @@ export const SubDomainListItem: FunctionComponent<{
                         variables: {
                             token: store.token,
                             id: domain,
-                            index: count,
+                            index: subdomainIndex,
                             name: IPv6Address
                         }
                     }).then();
@@ -146,7 +146,7 @@ export const SubDomainListItem: FunctionComponent<{
                         variables: {
                             token: store.token,
                             id: domain,
-                            index: count
+                            index: subdomainIndex
                         }
                     }).then();
                 }}>Delete Subdomain</MenuItem>
@@ -156,7 +156,7 @@ export const SubDomainListItem: FunctionComponent<{
                         variables: {
                             token: store.token,
                             id: domain,
-                            index: count
+                            index: subdomainIndex
                         }
                     }).then();
                 }}>Delete Custom IPv4 Address</MenuItem>
@@ -166,7 +166,7 @@ export const SubDomainListItem: FunctionComponent<{
                         variables: {
                             token: store.token,
                             id: domain,
-                            index: count
+                            index: subdomainIndex
                         }
                     }).then();
                 }}>Delete Custom IPv6 Address</MenuItem>
