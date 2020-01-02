@@ -14,17 +14,24 @@ export const Domains: FunctionComponent = () => {
         return (<span>Loading...</span>);
     }
 
+    let rowCount = 0;
     return (
         <DashboardCard
             title='Domains (First 5)'
             linkText='Configure domains'
             redirectURL={DOMAINS}
-            renderListItem={(domain, count) => (
-                <DomainsList
-                    row={{__typename: 'Domain', id: domain, subdomains: []}}
-                    defaultSubdomains={domainsSettings.defaultSubdomains}
-                    count={count}/>
-            )}
+            renderListItem={(domain, count) => {
+                const domainsList = (
+                    <>
+                        <DomainsList
+                            domainsSettings={domainsSettings}
+                            domainIndex={rowCount}
+                        />
+                    </>
+                );
+                rowCount += 1;
+                return domainsList;
+            }}
             list={domainsSettings.domains.map(item => item.id)}
         />
     );

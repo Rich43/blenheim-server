@@ -28,6 +28,8 @@ export interface Domains_settings {
   __typename: "Settings";
   domains: Domains_settings_domains[];
   defaultSubdomains: string[];
+  ipv4: string[];
+  ipv6: string[];
 }
 
 export interface Domains {
