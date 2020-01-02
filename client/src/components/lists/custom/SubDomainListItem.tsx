@@ -9,6 +9,10 @@ import { IPInfo } from "./IPInfo";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { TextFieldDialog } from "../../dialogs/generic/TextFieldDialog";
+import { useUpdateSubDomainIPv4Mutation } from "../../queries/mutations/update/UpdateSubDomainIPv4Mutation";
+import { useUpdateSubDomainIPv6Mutation } from "../../queries/mutations/update/UpdateSubDomainIPv6Mutation";
+import { useDeleteSubDomainIPv4Mutation } from "../../queries/mutations/delete/DeleteSubDomainIPv4Mutation";
+import { useDeleteSubDomainIPv6Mutation } from "../../queries/mutations/delete/DeleteSubDomainIPv6Mutation";
 
 export const SubDomainListItem: FunctionComponent<{
     count: number,
@@ -28,6 +32,10 @@ export const SubDomainListItem: FunctionComponent<{
     const [IPv4Address, setIPv4Address] = React.useState<string>(domainsSubdomain.ipAddressV4 || '');
     const [IPv6Address, setIPv6Address] = React.useState<string>(domainsSubdomain.ipAddressV6 || '');
     const [deleteSubDomain] = useDeleteSubDomainMutation();
+    const [updateIPv4SubDomain] = useUpdateSubDomainIPv4Mutation();
+    const [updateIPv6SubDomain] = useUpdateSubDomainIPv6Mutation();
+    const [deleteIPv4SubDomain] = useDeleteSubDomainIPv4Mutation();
+    const [deleteIPv6SubDomain] = useDeleteSubDomainIPv6Mutation();
     const store = useContext(StoreProvider);
 
     return (
@@ -50,7 +58,16 @@ export const SubDomainListItem: FunctionComponent<{
                 textBoxValue={IPv4Address}
                 onChange={event => setIPv4Address(event.target.value || '')}
                 dialogOpen={IPv4DialogOpen}
-                okClicked={() => {}}
+                okClicked={() => {
+                    updateIPv4SubDomain({
+                        variables: {
+                            token: store.token,
+                            id: domain,
+                            index: count,
+                            name: IPv4Address
+                        }
+                    }).then();
+                }}
                 onClose={() => {
                     setIPv4DialogOpen(false);
                     setIPv4Address('');
@@ -63,7 +80,16 @@ export const SubDomainListItem: FunctionComponent<{
                 textBoxValue={IPv6Address}
                 onChange={event => setIPv6Address(event.target.value || '')}
                 dialogOpen={IPv6DialogOpen}
-                okClicked={() => {}}
+                okClicked={() => {
+                    updateIPv6SubDomain({
+                        variables: {
+                            token: store.token,
+                            id: domain,
+                            index: count,
+                            name: IPv6Address
+                        }
+                    }).then();
+                }}
                 onClose={() => {
                     setIPv6DialogOpen(false);
                     setIPv6Address('');
@@ -126,9 +152,23 @@ export const SubDomainListItem: FunctionComponent<{
                 }}>Delete Subdomain</MenuItem>
                 <MenuItem onClick={() => {
                     setDeleteMenuEl(null);
+                    deleteIPv4SubDomain({
+                        variables: {
+                            token: store.token,
+                            id: domain,
+                            index: count
+                        }
+                    }).then();
                 }}>Delete Custom IPv4 Address</MenuItem>
                 <MenuItem onClick={() => {
                     setDeleteMenuEl(null);
+                    deleteIPv6SubDomain({
+                        variables: {
+                            token: store.token,
+                            id: domain,
+                            index: count
+                        }
+                    }).then();
                 }}>Delete Custom IPv6 Address</MenuItem>
             </Menu>
         </>
