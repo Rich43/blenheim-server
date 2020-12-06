@@ -69,7 +69,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: Rich43
           password: ${{ secrets.GHCR_TOKEN }}
       - name: Login to Docker Hub
         id: login_docker_hub
