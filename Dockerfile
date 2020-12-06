@@ -9,7 +9,7 @@ RUN cp -rfv /etc/bind/* .
 
 WORKDIR /app/server
 
-COPY ./dist/* .
+COPY blenheim.whl .
 
 RUN pip install blenheim.whl
 
