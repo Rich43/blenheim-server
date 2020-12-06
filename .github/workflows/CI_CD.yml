@@ -59,10 +59,7 @@ jobs:
           asset_content_type: application/java-archive
       - name: Rename wheel
         id: rename_wheel
-        run: mv -v dist/*.whl dist/blenheim.whl
-      - name: Copy wheel
-        id: copy_wheel
-        run: cp -v dist/blenheim.whl blenheim.whl
+        run: mv -v dist/*.whl blenheim_server-0.1-py3-none-any.whl
       - name: ls
         run: ls
       - name: Set up Docker Buildx

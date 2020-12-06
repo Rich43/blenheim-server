@@ -9,11 +9,9 @@ RUN cp -rfv /etc/bind/* .
 
 WORKDIR /app/server
 
-COPY blenheim.whl .
+COPY blenheim_server-0.1-py3-none-any.whl .
 
-RUN ls
-
-RUN pip install ./blenheim.whl
+RUN pip install blenheim_server-0.1-py3-none-any.whl
 
 WORKDIR /app
 
