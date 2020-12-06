@@ -11,7 +11,9 @@ WORKDIR /app/server
 
 COPY blenheim.whl .
 
-RUN pip install blenheim.whl
+RUN ls
+
+RUN pip install ./blenheim.whl
 
 WORKDIR /app
 
