@@ -7,8 +7,8 @@ def read(file_name):
 
 
 setup(
-    name='blenheim',
-    version='0.1',
+    name='blenheim-server',
+    version= '0.0.' + (os.getenv('GITHUB_RUN_ID') or '1') + '-SNAPSHOT',
     author='Richard Ward',
     author_email='richies@gmail.com',
     description='A dns server managed through a simple web interface',

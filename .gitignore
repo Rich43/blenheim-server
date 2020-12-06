@@ -22,3 +22,13 @@ blenheim/schema/dns/__pycache__/dns.cpython-37.pyc
 blenheim/schema/settings/__pycache__/__init__.cpython-37.pyc
 blenheim/schema/settings/__pycache__/settings.cpython-37.pyc
 .vscode/settings.json
+/blenheim.egg-info/dependency_links.txt
+/blenheim_server.egg-info/dependency_links.txt
+/blenheim.egg-info/PKG-INFO
+/blenheim_server.egg-info/PKG-INFO
+/blenheim.egg-info/requires.txt
+/blenheim_server.egg-info/requires.txt
+/blenheim.egg-info/SOURCES.txt
+/blenheim_server.egg-info/SOURCES.txt
+/blenheim.egg-info/top_level.txt
+/blenheim_server.egg-info/top_level.txt
