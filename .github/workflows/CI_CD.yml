@@ -60,6 +60,9 @@ jobs:
           asset_path: dist/blenheim_server-0.0.${{ github.run_id }}_SNAPSHOT-py3-none-any.whl
           asset_name: blenheim_server-0.0.${{ github.run_id }}_SNAPSHOT-py3-none-any.whl
           asset_content_type: application/java-archive
+      - name: Rename wheel
+        id: rename_wheel
+        run: mv dist/*.whl dist/blenheim.whl
       - name: Build and Publish Docker image
         id: build_publish_docker_versioned
         uses: VaultVulp/gp-docker-action@1.1.6

@@ -13,9 +13,7 @@ COPY dist .
 
 WORKDIR /app/server/dist
 
-RUN pip install starlette uvicorn jinja2 graphene
-
-RUN find -maxdepth 1 -type f -name '*.whl' -exec pip install {} \;
+RUN pip install blenheim.whl
 
 WORKDIR /app
 
