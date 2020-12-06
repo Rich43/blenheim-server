@@ -34,9 +34,9 @@ jobs:
 #          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 #      - name: Save DigitalOcean kubeconfig
 #        run: doctl kubernetes cluster kubeconfig save archesky-cluster
-      - name: Install setuptools
-        id: setuptools
-        run: pip3 install setuptools
+      - name: Install setuptools and wheel
+        id: setuptools_wheel
+        run: pip3 install setuptools wheel
       - name: Build
         id: build
         run: python3 setup.py bdist_wheel
