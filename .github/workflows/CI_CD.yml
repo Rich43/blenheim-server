@@ -90,8 +90,8 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
-            ghcr.io/Rich43/${{ github.event.repository.name }}:latest
-            ghcr.io/Rich43/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
+            ghcr.io/rich43/${{ github.event.repository.name }}:latest
+            ghcr.io/rich43/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
 #      - name: Delete old deployment
 #        id: delete_deploy
 #        run: kubectl delete -n default deployment auth-server
