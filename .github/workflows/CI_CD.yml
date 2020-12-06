@@ -59,7 +59,7 @@ jobs:
           asset_content_type: application/java-archive
       - name: Rename wheel
         id: rename_wheel
-        run: mv dist/*.whl dist/blenheim.whl
+        run: mv -v dist/*.whl dist/blenheim.whl
       - name: Set up Docker Buildx
         id: setup_build_x
         uses: docker/setup-buildx-action@v1
