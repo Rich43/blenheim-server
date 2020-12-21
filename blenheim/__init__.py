@@ -12,7 +12,7 @@ app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['*'],
                    allow_methods=["POST"])
 # noinspection PyTypeChecker
 app.add_route(
-    '/',
+    '/graphql',
     GraphQLApp(
         schema=graphene.Schema(
             query=Query,
