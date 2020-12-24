@@ -90,6 +90,7 @@ jobs:
             ghcr.io/rich43/${{ github.event.repository.name }}:latest
             ghcr.io/rich43/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
       - name: Delete old deployment
+        continue-on-error: true
         id: delete_deploy
         run: kubectl delete -n default deployment blenheim-server
       - name: Deploy
