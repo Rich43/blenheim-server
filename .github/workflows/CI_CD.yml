@@ -25,12 +25,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-#      - name: Install doctl
-#        uses: digitalocean/action-doctl@v2
-#        with:
-#          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-#      - name: Save DigitalOcean kubeconfig
-#        run: doctl kubernetes cluster kubeconfig save archesky-cluster
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save archesky-cluster
       - name: Install setuptools and wheel
         id: setuptools_wheel
         run: pip3 install setuptools wheel
@@ -89,9 +89,9 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
             ghcr.io/rich43/${{ github.event.repository.name }}:latest
             ghcr.io/rich43/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
-#      - name: Delete old deployment
-#        id: delete_deploy
-#        run: kubectl delete -n default deployment auth-server
-#      - name: Deploy
-#        id: deploy
-#        run: kubectl apply -f ./auth-server-deployment.yaml
+      - name: Delete old deployment
+        id: delete_deploy
+        run: kubectl delete -n default deployment blenheim-server
+      - name: Deploy
+        id: deploy
+        run: kubectl apply -f ./blenheim-server-deployment.yaml
