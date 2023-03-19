@@ -1,6 +1,5 @@
-from graphene import ObjectType, List, String, Field, Mutation, Int, ID, NonNull
+from graphene import ResolveInfo, ObjectType, List, String, Field, Mutation, Int, ID, NonNull
 # noinspection PyPackageRequirements
-from graphql import ResolveInfo
 from typing import List as TypingList
 from blenheim.config import Config
 
