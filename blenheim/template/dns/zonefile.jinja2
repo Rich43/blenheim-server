@@ -27,13 +27,13 @@ $TTL 30M
 
 {# Add the Standard Subdomain Records #}
 {% for std_subdomain in std_subdomains %}
-    {{ std_subdomain }}.{{ domain }}.   IN    A     {{ ipv4[0] }}
-    {{ std_subdomain }}.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}
+    {% if ipv4[0] %}{{ std_subdomain }}.{{ domain }}.   IN    A     {{ ipv4[0] }}{% endif %}
+    {% if ipv6[0] %}{{ std_subdomain }}.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}{% endif %}
 {% endfor %}
 
 {# Add the mail Records #}
-mail.{{ domain }}.   IN    A     {{ ipv4[0] }}
-mail.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}
+{% if ipv4[0] %}mail.{{ domain }}.   IN    A     {{ ipv4[0] }}{% endif %}
+{% if ipv6[0] %}mail.{{ domain }}.   IN    AAAA     {{ ipv6[0] }}{% endif %}
 mail.{{ domain }}.   IN    MX    1 {{ domain }}.
 {{ domain }}.        IN    MX    1 {{ domain }}.
 
