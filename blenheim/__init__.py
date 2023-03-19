@@ -1,7 +1,6 @@
-import graphene
-from graphql.execution.executors.asyncio import AsyncioExecutor
+from graphene import Schema
 from starlette.applications import Starlette
-from starlette.graphql import GraphQLApp
+from starlette_graphene3 import GraphQLApp, make_graphiql_handler
 from starlette.middleware.cors import CORSMiddleware
 
 from blenheim.schema.schema import Query, Mutations
@@ -11,13 +10,13 @@ app = Starlette()
 app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['*'],
                    allow_methods=["POST"])
 # noinspection PyTypeChecker
-app.add_route(
+app.mount(
     '/graphql',
     GraphQLApp(
-        schema=graphene.Schema(
+        schema=Schema(
             query=Query,
             mutation=Mutations
         ),
-        executor_class=AsyncioExecutor
+        on_get=make_graphiql_handler()
     )
 )

@@ -17,7 +17,7 @@ setup(
     url='http://pynguins.com',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['starlette', 'uvicorn', 'jinja2', 'graphene', 'docker'],
+    install_requires=['starlette', 'starlette-graphene3', 'uvicorn', 'jinja2', 'graphene', 'docker'],
     long_description=read('README.md'),
     classifiers=[
         'Development Status :: 3 - Alpha',
