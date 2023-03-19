@@ -75,16 +75,3 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            cd
-            git clone https://github.com/Rich43/blenheim-docker
-            cd blenheim-docker
-            ./run.sh
-            cd
-            rm -rfv blenheim-docker
