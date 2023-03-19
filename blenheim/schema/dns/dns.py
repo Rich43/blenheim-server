@@ -1,12 +1,15 @@
+from os import environ
 from os.path import join, sep, abspath
-from subprocess import run
 
+from docker import from_env
 from graphene import ObjectType, Field, ResolveInfo, NonNull
 
 from blenheim.library.deploy import check_docker_container, check_root
 from blenheim.library.dns.named_conf_local import NamedConfLocal
 from blenheim.library.dns.zonefile import ZoneFile
 from blenheim.schema.result import Result
+
+BIND_NAME = environ.get('BIND_NAME')
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
@@ -48,7 +51,14 @@ class Dns(ObjectType):
                 return Result('cannot write to ', extra=path)
 
             # Restart bind
-            run([join(abspath(sep), 'etc', 'init.d', 'bind9'), 'restart'])
+            client = from_env()
+            bind_containers = client.containers.list(
+                filters={'name': 'bind9' if BIND_NAME is None else BIND_NAME}
+            )
+            if len(bind_containers) == 0:
+                return Result('Could not find bind9 docker container.')
+            for bind_container in bind_containers:
+                bind_container.restart()
             return Result()
         else:
             return Result('not logged in')
