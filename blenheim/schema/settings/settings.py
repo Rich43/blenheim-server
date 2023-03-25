@@ -2,6 +2,7 @@ from graphene import ResolveInfo, ObjectType, List, String, Field, Mutation, Int
 # noinspection PyPackageRequirements
 from typing import List as TypingList
 from blenheim.config import Config
+from blenheim.schema.authentication.authentication import authenticate
 
 
 def create_subdomain_list(subdomains: TypingList[dict]):
@@ -43,18 +44,22 @@ class Settings(ObjectType):
     ipv6 = Field(NonNull(List(NonNull(String))))
     domains = Field(NonNull(List(NonNull(Domain))))
 
+    @authenticate
     async def resolve_default_subdomains(self, info: ResolveInfo):
         if info.context.get('current_user'):
             return Config()['settings']['default_subdomains']
 
+    @authenticate
     async def resolve_ipv4(self, info: ResolveInfo):
         if info.context.get('current_user'):
             return Config()['settings']['ipv4']
 
+    @authenticate
     async def resolve_ipv6(self, info: ResolveInfo):
         if info.context.get('current_user'):
             return Config()['settings']['ipv6']
 
+    @authenticate
     async def resolve_domains(self, info: ResolveInfo):
         if info.context.get('current_user'):
             return create_domain_list(Config())
@@ -67,7 +72,8 @@ def create_setting(setting_id: str):
             id = NonNull(ID)
         Output = Settings
 
-        def mutate(self, info, id: str):
+        @authenticate
+        def mutate(self, info: ResolveInfo, id: str):
             if info.context.get('current_user'):
                 config = Config()
                 setting = config['settings'][setting_id]
@@ -85,7 +91,8 @@ def update_setting(setting_id: str):
             index = NonNull(Int)
         Output = NonNull(Settings)
 
-        def mutate(self, info, id: str, index: int):
+        @authenticate
+        def mutate(self, info: ResolveInfo, id: str, index: int):
             if info.context.get('current_user'):
                 config = Config()
                 setting = config['settings'][setting_id]
@@ -102,7 +109,8 @@ def delete_setting(setting_id: str):
             index = NonNull(Int)
         Output = Settings
 
-        def mutate(self, info, index: int):
+        @authenticate
+        def mutate(self, info: ResolveInfo, index: int):
             if info.context.get('current_user'):
                 config = Config()
                 setting = config['settings'][setting_id]
@@ -119,7 +127,8 @@ class CreateDomain(Mutation):
         subdomains = NonNull(List(NonNull(String)))
     Output = List(NonNull(Domain))
 
-    def mutate(self, info, id: str, subdomains: list):
+    @authenticate
+    def mutate(self, info: ResolveInfo, id: str, subdomains: list):
         if info.context.get('current_user'):
             config = Config()
             config['domains'][id] = subdomains
@@ -134,7 +143,8 @@ class UpdateDomain(Mutation):
         new_name = NonNull(String)
     Output = List(NonNull(Domain))
 
-    def mutate(self, info, id: str, new_name: str):
+    @authenticate
+    def mutate(self, info: ResolveInfo, id: str, new_name: str):
         if info.context.get('current_user'):
             config = Config()
             config['domains'][new_name] = config['domains'].pop(id)
@@ -148,7 +158,8 @@ class DeleteDomain(Mutation):
         id = NonNull(ID)
     Output = List(NonNull(Domain))
 
-    def mutate(self, info, id: str):
+    @authenticate
+    def mutate(self, info: ResolveInfo, id: str):
         if info.context.get('current_user'):
             config = Config()
             del config['domains'][id]
@@ -163,6 +174,7 @@ class CreateSubDomain(Mutation):
         name = NonNull(String)
     Output = Domain
 
+    @authenticate
     def mutate(self, info, id: str, name: str):
         if info.context.get('current_user'):
             config = Config()
@@ -183,7 +195,8 @@ def update_sub_domain_setting(setting_id: str):
             index = NonNull(Int)
         Output = Domain
 
-        def mutate(self, info, id: str, name: str, index: int):
+        @authenticate
+        def mutate(self, info: ResolveInfo, id: str, name: str, index: int):
             if info.context.get('current_user'):
                 config = Config()
                 config['domains'][id][index][setting_id] = name
@@ -202,7 +215,8 @@ class DeleteSubDomain(Mutation):
         index = NonNull(Int)
     Output = Domain
 
-    def mutate(self, info, id: str, index: int):
+    @authenticate
+    def mutate(self, info: ResolveInfo, id: str, index: int):
         if info.context.get('current_user'):
             config = Config()
             del config['domains'][id][index]
@@ -221,7 +235,8 @@ def delete_sub_domain_setting(setting_id: str):
             index = NonNull(Int)
         Output = Domain
 
-        def mutate(self, info, id: str, index: int):
+        @authenticate
+        def mutate(self, info: ResolveInfo, id: str, index: int):
             if info.context.get('current_user'):
                 config = Config()
                 del config['domains'][id][index][setting_id]

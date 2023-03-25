@@ -14,6 +14,22 @@ TOKENS = 'tokens'
 USERS = 'users'
 
 
+def authenticate(func):
+    def wrapper(*args, **kwargs):
+        info = args[0]
+        token = info.context['request'].headers['token']
+        await Authentication.expire_tokens()
+        config = Config()
+        token_data = config[TOKENS].get(token)
+        if token_data:
+            user = config[USERS][token_data['user']]
+            info.context['current_user'] = user
+            info.context['current_token'] = token
+            return func(*args, **kwargs)
+        return None
+    return wrapper
+
+
 class UserType(graphene.ObjectType):
     name = graphene.String()
 
@@ -26,7 +42,6 @@ class Authentication(ObjectType):
     change_password = Field(
         Boolean, password=NonNull(String)
     )
-    token = graphene.Field(String, token=NonNull(String))
 
     @staticmethod
     async def get_user_type_without_password(user):
@@ -50,16 +65,6 @@ class Authentication(ObjectType):
             del config[TOKENS][key]
         config.save()
 
-    async def resolve_token(self, info: ResolveInfo, token: str):
-        await Authentication.expire_tokens()
-        config = Config()
-        token_data = config[TOKENS].get(token)
-        if token_data:
-            user = config[USERS][token_data['user']]
-            info.context['current_user'] = user
-            info.context['current_token'] = token
-            return token
-
     async def resolve_login(self, info: ResolveInfo, details: UserInput):
         await Authentication.expire_tokens()
         config = Config()
@@ -75,11 +80,15 @@ class Authentication(ObjectType):
             config.save()
             return token
 
+    @authenticate
     async def resolve_logout(self, info: ResolveInfo):
         current_user = info.context.get('current_user')
         if current_user:
-            del info.context[TOKENS][info.context['current_token']]
+            config = Config()
+            del config[TOKENS][info.context['current_token']]
+            config.save()
 
+    @authenticate
     async def resolve_current_user(self, info: ResolveInfo):
         current_user = info.context.get('current_user')
         if current_user:
@@ -87,6 +96,7 @@ class Authentication(ObjectType):
                 current_user
             )
 
+    @authenticate
     async def resolve_change_password(self, info: ResolveInfo,
                                       password: str):
         current_user = info.context.get('current_user')

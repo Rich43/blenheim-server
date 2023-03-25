@@ -7,6 +7,7 @@ from graphene import ObjectType, Field, ResolveInfo, NonNull
 from blenheim.library.deploy import check_docker_container, check_root
 from blenheim.library.dns.named_conf_local import NamedConfLocal
 from blenheim.library.dns.zonefile import ZoneFile
+from blenheim.schema.authentication.authentication import authenticate
 from blenheim.schema.result import Result
 
 BIND_NAME = environ.get('BIND_NAME')
@@ -19,6 +20,7 @@ class Dns(ObjectType):
     def strip(self, text):
         return '\n'.join([x.lstrip() for x in text.split('\n')])
 
+    @authenticate
     async def resolve_generate(self, info: ResolveInfo):
         if info.context.get('current_user'):
             # Check environment
