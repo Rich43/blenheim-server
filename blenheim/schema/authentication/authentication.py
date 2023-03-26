@@ -17,7 +17,7 @@ USERS = 'users'
 def authenticate(func):
     def wrapper(*args, **kwargs):
         info = args[0]
-        token = info.context['request'].headers['token']
+        token = info.context['request'].headers['Authorization']
         await Authentication.expire_tokens()
         config = Config()
         token_data = config[TOKENS].get(token)
