@@ -48,8 +48,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/blenheim_server-0.0.${{ github.run_id }}_SNAPSHOT-py3-none-any.whl
-          asset_name: blenheim_server-0.0.${{ github.run_id }}_SNAPSHOT-py3-none-any.whl
+          asset_path: dist/blenheim_server-0.0.${{ github.run_id }}-py3-none-any.whl
+          asset_name: blenheim_server-0.0.${{ github.run_id }}-py3-none-any.whl
           asset_content_type: application/java-archive
       - name: Rename wheel
         id: rename_wheel
@@ -76,4 +76,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
-            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:0.0.${{ github.run_id }}
