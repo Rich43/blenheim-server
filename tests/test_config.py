@@ -96,7 +96,7 @@ async def test_authentication_expire(tmp_path):
         cfg = Config()
         cfg[TOKENS]['t'] = {'user': 'admin', 'created': (datetime.now() - timedelta(hours=2)).isoformat()}
         cfg.save()
-        await Authentication.expire_tokens()
+        Authentication.expire_tokens()
         assert 't' not in Config()[TOKENS]
 
 

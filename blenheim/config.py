@@ -38,9 +38,10 @@ FILENAME = join('config', 'config.json')
 
 class Config(dict):
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
         if exists(FILENAME):
-            self.update(load(open(FILENAME)))
+            with open(FILENAME) as f:
+                self.update(load(f))
         else:
             self.update(default_config)
 
@@ -50,4 +51,5 @@ class Config(dict):
 
     def save(self):
         makedirs('config', exist_ok=True)
-        dump(self, open(FILENAME, 'w'), indent=4)
+        with open(FILENAME, 'w') as f:
+            dump(self, f, indent=4)

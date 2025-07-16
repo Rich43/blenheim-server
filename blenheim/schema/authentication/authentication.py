@@ -17,7 +17,7 @@ USERS = 'users'
 def authenticate(func):
     def wrapper(*args, **kwargs):
         info = args[1]
-        token = info.context['request'].headers['Authorization']
+        token = info.context['request'].headers.get('Authorization')
         Authentication.expire_tokens()
         config = Config()
         token_data = config[TOKENS].get(token)
@@ -54,19 +54,19 @@ class Authentication(ObjectType):
         return sha3_512(str(password).encode()).hexdigest()
 
     @staticmethod
-    async def expire_tokens():
+    def expire_tokens():
         config = Config()
         to_delete = []
         for key, value in config[TOKENS].items():
             elapsed = datetime.now() - datetime.fromisoformat(value['created'])
-            if elapsed.seconds > 60 * 60:
+            if elapsed.total_seconds() > 60 * 60:
                 to_delete.append(key)
         for key in to_delete:
             del config[TOKENS][key]
         config.save()
 
     async def resolve_login(self, info: ResolveInfo, details: UserInput):
-        await Authentication.expire_tokens()
+        Authentication.expire_tokens()
         config = Config()
         user = config[USERS].get(str(details.name))
         if (user and
