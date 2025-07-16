@@ -1,4 +1,4 @@
-from os.path import dirname, join, exists
+from os.path import dirname, join
 
 
 def get_zonefile():
