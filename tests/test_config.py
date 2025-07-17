@@ -12,7 +12,7 @@ from blenheim.library.deploy import check_docker_container, check_root
 from blenheim.library.dns.named_conf_local import NamedConfLocal
 from blenheim.library.dns.zonefile import ZoneFile
 from blenheim.schema.result import Result
-from blenheim.schema.authentication.authentication import Authentication, TOKENS, USERS
+from blenheim.schema.authentication.authentication import Authentication, authenticate, TOKENS, USERS
 from blenheim.schema.settings import settings as setmod
 
 
@@ -265,3 +265,103 @@ async def test_dns_generate_errors(tmp_path):
                      patch('blenheim.schema.dns.dns.from_env', return_value=SimpleNamespace(containers=SimpleNamespace(list=lambda filters: []))):
                     res = await dnsmod.Dns().resolve_generate(info)
                     assert res.error == 'Could not find bind9 docker container.'
+
+
+def test_authenticate_decorator_no_header(tmp_path):
+    cfg_file = tmp_path / 'config.json'
+    with patch('blenheim.config.FILENAME', cfg_file):
+        Config()  # initialize default config
+        @authenticate
+        def dummy(self, info):
+            return True
+        info = SimpleNamespace(context={'request': SimpleNamespace(headers={})})
+        assert dummy(None, info) is None
+
+
+@pytest.mark.asyncio
+async def test_change_password_without_user(tmp_path):
+    cfg_file = tmp_path / 'config.json'
+    with patch('blenheim.config.FILENAME', cfg_file):
+        Config()  # create config
+        auth = Authentication()
+        info = SimpleNamespace(context={})
+        orig = Authentication.resolve_change_password.__closure__[0].cell_contents
+        result = await orig(auth, info, password='new')
+        assert result is False
+        assert Config() == default_config
+
+
+from os import path, sep
+from os.path import abspath
+
+
+@patch('blenheim.schema.dns.dns.check_docker_container', return_value=None)
+@patch('blenheim.schema.dns.dns.check_root', return_value=None)
+@patch('blenheim.library.dns.zonefile.ZoneFile.generate_zones', return_value=[('ex.com', 'data')])
+@patch('blenheim.library.dns.named_conf_local.NamedConfLocal.generate_named_conf_local', return_value='conf')
+@pytest.mark.asyncio
+async def test_dns_zonefile_write_error(mock_conf, mock_zone, mock_root, mock_docker, tmp_path):
+    cfg_file = tmp_path / 'config.json'
+    with patch('blenheim.config.FILENAME', cfg_file):
+        cfg = Config()
+        cfg['domains'] = {'ex.com': []}
+        token = 'tok'
+        cfg[TOKENS][token] = {'user': 'admin', 'created': datetime.now().isoformat()}
+        cfg.save()
+        zone_path = path.join(abspath(sep), 'etc', 'bind', 'ex.com.zone')
+        orig_open = builtins.open
+        def side_effect(p, *a, **k):
+            if str(p) == str(cfg_file):
+                return orig_open(p, *a, **k)
+            if str(p) == zone_path:
+                raise IOError
+            return mock_open()(p, *a, **k)
+        dns = dnsmod.Dns()
+        info = SimpleNamespace(context={'request': SimpleNamespace(headers={'Authorization': token}), 'current_user': cfg[USERS]['admin']})
+        with patch.object(Authentication, 'expire_tokens', lambda: None), \
+             patch('builtins.open', side_effect=side_effect):
+            res = await dns.resolve_generate(info)
+        assert res.error.startswith('cannot write to ')
+
+
+@patch('blenheim.schema.dns.dns.check_docker_container', return_value=None)
+@patch('blenheim.schema.dns.dns.check_root', return_value=None)
+@patch('blenheim.library.dns.zonefile.ZoneFile.generate_zones', return_value=[('ex.com', 'data')])
+@patch('blenheim.library.dns.named_conf_local.NamedConfLocal.generate_named_conf_local', return_value='conf')
+@pytest.mark.asyncio
+async def test_dns_namedconf_write_error(mock_conf, mock_zone, mock_root, mock_docker, tmp_path):
+    cfg_file = tmp_path / 'config.json'
+    with patch('blenheim.config.FILENAME', cfg_file):
+        cfg = Config()
+        cfg['domains'] = {'ex.com': []}
+        token = 'tok'
+        cfg[TOKENS][token] = {'user': 'admin', 'created': datetime.now().isoformat()}
+        cfg.save()
+        conf_path = path.join(abspath(sep), 'etc', 'bind', 'named.conf.local')
+        orig_open = builtins.open
+        def side_effect(p, *a, **k):
+            if str(p) == str(cfg_file):
+                return orig_open(p, *a, **k)
+            if str(p) == conf_path:
+                raise IOError
+            return mock_open()(p, *a, **k)
+        dns = dnsmod.Dns()
+        info = SimpleNamespace(context={'request': SimpleNamespace(headers={'Authorization': token}), 'current_user': cfg[USERS]['admin']})
+        with patch.object(Authentication, 'expire_tokens', lambda: None), \
+             patch('builtins.open', side_effect=side_effect):
+            res = await dns.resolve_generate(info)
+        assert res.error.startswith('cannot write to ')
+
+
+@pytest.mark.asyncio
+async def test_dns_generate_not_logged_in(tmp_path):
+    cfg_file = tmp_path / 'config.json'
+    with patch('blenheim.config.FILENAME', cfg_file):
+        Config()
+        dns = dnsmod.Dns()
+        orig = dnsmod.Dns.resolve_generate.__closure__[0].cell_contents
+        info = SimpleNamespace(context={'request': SimpleNamespace(headers={})})
+        res = await orig(dns, info)
+        assert isinstance(res, Result)
+        assert res.error == 'not logged in'
+
