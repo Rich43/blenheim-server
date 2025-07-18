@@ -1,4 +1,3 @@
-import graphene
 from graphene import InputObjectType, String, NonNull
 
 

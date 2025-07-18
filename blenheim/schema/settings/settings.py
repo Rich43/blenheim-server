@@ -1,4 +1,14 @@
-from graphene import ResolveInfo, ObjectType, List, String, Field, Mutation, Int, ID, NonNull
+from graphene import (
+    ResolveInfo,
+    ObjectType,
+    List,
+    String,
+    Field,
+    Mutation,
+    Int,
+    ID,
+    NonNull,
+)
 # noinspection PyPackageRequirements
 from typing import List as TypingList
 from blenheim.config import Config

@@ -4,7 +4,6 @@ from starlette_graphene3 import GraphQLApp, make_graphiql_handler
 from starlette.middleware.cors import CORSMiddleware
 
 from blenheim.schema.schema import Query, Mutations
-from blenheim.schema.settings.settings import SettingsMutations
 
 app = Starlette()
 app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['*'],
