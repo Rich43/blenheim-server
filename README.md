@@ -62,3 +62,14 @@ The `settings` mutation type allows creating, updating and deleting items in the
 
 Runtime configuration is stored in `config/config.json`. If the file does not exist, it will be created with default values on first run.
 
+
+## Testing
+
+Install the test dependencies and run the suite with:
+
+```bash
+pip install -r requirements-test.txt
+pytest
+```
+
+The requirements file pins `httpx<0.25` and includes the `pytest-asyncio` plugin used by the async tests.
