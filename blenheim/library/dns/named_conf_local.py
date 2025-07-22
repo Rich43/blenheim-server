@@ -10,5 +10,5 @@ class NamedConfLocal(LibraryBase):
         """
         Generate a named.conf.local file
         """
-        template = self.env.get_template('dns/named.conf.local.jinja2')
-        return template.render(domains=self.config['domains'].keys())
+        template = self.env.get_template("dns/named.conf.local.jinja2")
+        return template.render(domains=self.config["domains"].keys())

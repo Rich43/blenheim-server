@@ -10,12 +10,8 @@ class Query(ObjectType):
     authentication = Field(
         NonNull(Authentication), resolver=lambda x, y: Authentication()
     )
-    dns = Field(
-        NonNull(Dns), resolver=lambda x, y: Dns()
-    )
-    settings = Field(
-        NonNull(Settings), resolver=lambda x, y: Settings()
-    )
+    dns = Field(NonNull(Dns), resolver=lambda x, y: Dns())
+    settings = Field(NonNull(Settings), resolver=lambda x, y: Settings())
 
 
 class Mutations(ObjectType):

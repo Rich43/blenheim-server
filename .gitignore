@@ -32,3 +32,9 @@ blenheim/schema/settings/__pycache__/settings.cpython-37.pyc
 /blenheim_server.egg-info/SOURCES.txt
 /blenheim.egg-info/top_level.txt
 /blenheim_server.egg-info/top_level.txt
+
+# Virtual environment
+.venv/
+
+# Python cache
+**/__pycache__/
