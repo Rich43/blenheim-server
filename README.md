@@ -73,3 +73,29 @@ pytest
 ```
 
 The requirements file pins `httpx<0.25` and includes the `pytest-asyncio` plugin used by the async tests.
+
+## 🖥 Setup Instructions
+
+Run the setup script for your operating system:
+
+**Linux:**
+```bash
+chmod +x setup_linux.sh
+./setup_linux.sh
+```
+
+**macOS:**
+```bash
+chmod +x setup_mac.sh
+./setup_mac.sh
+```
+
+**Windows (PowerShell):**
+```powershell
+.\setup_windows.ps1
+```
+
+After installation:
+```bash
+poetry shell
+```

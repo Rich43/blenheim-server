@@ -6,16 +6,13 @@ from starlette.middleware.cors import CORSMiddleware
 from blenheim.schema.schema import Query, Mutations
 
 app = Starlette()
-app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['*'],
-                   allow_methods=["POST"])
+app.add_middleware(
+    CORSMiddleware, allow_origins=["*"], allow_headers=["*"], allow_methods=["POST"]
+)
 # noinspection PyTypeChecker
 app.add_route(
-    '/graphql',
+    "/graphql",
     GraphQLApp(
-        schema=Schema(
-            query=Query,
-            mutation=Mutations
-        ),
-        on_get=make_graphiql_handler()
-    )
+        schema=Schema(query=Query, mutation=Mutations), on_get=make_graphiql_handler()
+    ),
 )
