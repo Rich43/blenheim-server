@@ -310,6 +310,8 @@ async def test_dns_generate_errors(tmp_path):
                 return mock_open()(path, *args, **kwargs)
 
             with patch("blenheim.schema.dns.dns.check_root", return_value=None), patch(
+                "blenheim.schema.dns.dns.check_docker_container", return_value=None
+            ), patch(
                 "builtins.open", side_effect=open_side_effect
             ), patch(
                 "blenheim.library.dns.zonefile.ZoneFile.generate_zones",
